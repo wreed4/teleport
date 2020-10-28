@@ -100,6 +100,21 @@ type Role interface {
 	GetAccessRequestConditions(RoleConditionType) AccessRequestConditions
 	// SetAccessRequestConditions sets allow/deny conditions for access requests.
 	SetAccessRequestConditions(RoleConditionType, AccessRequestConditions)
+
+	// GetDatabaseLabels gets the map of db labels this role is allowed or denied access to.
+	GetDatabaseLabels(RoleConditionType) Labels
+	// SetDatabaseLabels sets the map of db labels this role is allowed or denied access to.
+	SetDatabaseLabels(RoleConditionType, Labels)
+
+	// GetDatabaseNames gets a list of database names this role is allowed or denied access to.
+	GetDatabaseNames(RoleConditionType) []string
+	// SetDatabasenames sets a list of database names this role is allowed or denied access to.
+	SetDatabaseNames(RoleConditionType, []string)
+
+	// GetDatabaseUsers gets a list of database users this role is allowed or denied access to.
+	GetDatabaseUsers(RoleConditionType) []string
+	// SetDatabaseUsers sets a list of database users this role is allowed or denied access to.
+	SetDatabaseUsers(RoleConditionType, []string)
 }
 
 // NewRole constructs new standard role
@@ -148,6 +163,9 @@ func (r *RoleV3) Equals(other Role) bool {
 			return false
 		}
 		if !r.GetAppLabels(condition).Equals(other.GetAppLabels(condition)) {
+			return false
+		}
+		if !r.GetDatabaseLabels(condition).Equals(other.GetDatabaseLabels(condition)) {
 			return false
 		}
 		if !RuleSlicesEqual(r.GetRules(condition), other.GetRules(condition)) {
@@ -399,6 +417,57 @@ func (r *RoleV3) SetKubernetesLabels(rct RoleConditionType, labels Labels) {
 	}
 }
 
+// GetDatabaseLabels gets the map of db labels this role is allowed or denied access to.
+func (r *RoleV3) GetDatabaseLabels(rct RoleConditionType) Labels {
+	if rct == Allow {
+		return r.Spec.Allow.DatabaseLabels
+	}
+	return r.Spec.Deny.DatabaseLabels
+}
+
+// SetDatabaseLabels sets the map of db labels this role is allowed or denied access to.
+func (r *RoleV3) SetDatabaseLabels(rct RoleConditionType, labels Labels) {
+	if rct == Allow {
+		r.Spec.Allow.DatabaseLabels = labels.Clone()
+	} else {
+		r.Spec.Deny.DatabaseLabels = labels.Clone()
+	}
+}
+
+// GetDatabaseNames gets a list of database names this role is allowed or denied access to.
+func (r *RoleV3) GetDatabaseNames(rct RoleConditionType) []string {
+	if rct == Allow {
+		return r.Spec.Allow.DatabaseNames
+	}
+	return r.Spec.Deny.DatabaseNames
+}
+
+// SetDatabaseNames sets a list of database names this role is allowed or denied access to.
+func (r *RoleV3) SetDatabaseNames(rct RoleConditionType, values []string) {
+	if rct == Allow {
+		r.Spec.Allow.DatabaseNames = values
+	} else {
+		r.Spec.Deny.DatabaseNames = values
+	}
+}
+
+// GetDatabaseUsers gets a list of database users this role is allowed or denied access to.
+func (r *RoleV3) GetDatabaseUsers(rct RoleConditionType) []string {
+	if rct == Allow {
+		return r.Spec.Allow.DatabaseUsers
+	}
+	return r.Spec.Deny.DatabaseUsers
+}
+
+// SetDatabaseUsers sets a list of database users this role is allowed or denied access to.
+func (r *RoleV3) SetDatabaseUsers(rct RoleConditionType, values []string) {
+	if rct == Allow {
+		r.Spec.Allow.DatabaseUsers = values
+	} else {
+		r.Spec.Deny.DatabaseUsers = values
+	}
+}
+
 // GetRules gets all allow or deny rules.
 func (r *RoleV3) GetRules(rct RoleConditionType) []Rule {
 	if rct == Allow {
@@ -458,6 +527,10 @@ func (r *RoleV3) CheckAndSetDefaults() error {
 		r.Spec.Allow.KubernetesLabels = Labels{Wildcard: []string{Wildcard}}
 	}
 
+	if r.Spec.Allow.DatabaseLabels == nil {
+		r.Spec.Allow.DatabaseLabels = Labels{Wildcard: []string{Wildcard}}
+	}
+
 	if r.Spec.Deny.Namespaces == nil {
 		r.Spec.Deny.Namespaces = []string{defaults.Namespace}
 	}
@@ -506,6 +579,11 @@ func (r *RoleV3) CheckAndSetDefaults() error {
 		}
 	}
 	for key, val := range r.Spec.Allow.KubernetesLabels {
+		if key == Wildcard && !(len(val) == 1 && val[0] == Wildcard) {
+			return trace.BadParameter("selector *:<val> is not supported")
+		}
+	}
+	for key, val := range r.Spec.Allow.DatabaseLabels {
 		if key == Wildcard && !(len(val) == 1 && val[0] == Wildcard) {
 			return trace.BadParameter("selector *:<val> is not supported")
 		}
@@ -559,6 +637,9 @@ func (r *RoleConditions) Equals(o RoleConditions) bool {
 		return false
 	}
 	if !r.KubernetesLabels.Equals(o.KubernetesLabels) {
+		return false
+	}
+	if !r.DatabaseLabels.Equals(o.DatabaseLabels) {
 		return false
 	}
 	if len(r.Rules) != len(o.Rules) {
@@ -1059,6 +1140,14 @@ const RoleSpecV3SchemaDefinitions = `
 		  "type": "array",
 		  "items": { "type": "string" }
 		},
+		"db_names": {
+			"type": "array",
+			"items": { "type": "string" }
+		  },
+		  "db_users": {
+			"type": "array",
+			"items": { "type": "string" }
+	    },		
 		"request": {
 		  "type": "object",
 		  "additionalProperties": false,

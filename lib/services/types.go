@@ -97,6 +97,9 @@ type (
 	RemoteClusterV3                    = types.RemoteClusterV3
 	RemoteClusterStatusV3              = types.RemoteClusterStatusV3
 	KubernetesCluster                  = types.KubernetesCluster
+	DatabaseServer                     = types.DatabaseServer
+	DatabaseServerV2                   = types.DatabaseServerV2
+	DatabaseServerSpecV2               = types.DatabaseServerSpecV2
 	CertAuthoritySpecV2_SigningAlgType = types.CertAuthoritySpecV2_SigningAlgType //nolint
 )
 
@@ -530,10 +533,11 @@ var (
 	SetReverseTunnelMarshaler = types.SetReverseTunnelMarshaler
 	GetReverseTunnelMarshaler = types.GetReverseTunnelMarshaler
 
-	NodeTunnel  = types.NodeTunnel
-	ProxyTunnel = types.ProxyTunnel
-	AppTunnel   = types.AppTunnel
-	KubeTunnel  = types.KubeTunnel
+	NodeTunnel     = types.NodeTunnel
+	ProxyTunnel    = types.ProxyTunnel
+	AppTunnel      = types.AppTunnel
+	KubeTunnel     = types.KubeTunnel
+	DatabaseTunnel = types.DatabaseTunnel
 )
 
 // tunnelconn.go
@@ -587,6 +591,7 @@ const (
 	KindProxy                     = types.KindProxy
 	KindNode                      = types.KindNode
 	KindAppServer                 = types.KindAppServer
+	KindDatabaseServer            = types.KindDatabaseServer
 	KindToken                     = types.KindToken
 	KindCertAuthority             = types.KindCertAuthority
 	KindReverseTunnel             = types.KindReverseTunnel

@@ -63,7 +63,11 @@ func (x Operation) String() string {
 	return proto.EnumName(Operation_name, int32(x))
 }
 func (Operation) EnumDescriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{0}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{0}
+>>>>>>> d227402b9 (Database access)
 }
 
 // Event returns cluster event
@@ -88,6 +92,7 @@ type Event struct {
 	//	*Event_AccessRequest
 	//	*Event_AppSession
 	//	*Event_RemoteCluster
+	//	*Event_DatabaseServer
 	Resource             isEvent_Resource `protobuf_oneof:"Resource"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
 	XXX_unrecognized     []byte           `json:"-"`
@@ -98,7 +103,11 @@ func (m *Event) Reset()         { *m = Event{} }
 func (m *Event) String() string { return proto.CompactTextString(m) }
 func (*Event) ProtoMessage()    {}
 func (*Event) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{0}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{0}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *Event) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -178,6 +187,9 @@ type Event_AppSession struct {
 type Event_RemoteCluster struct {
 	RemoteCluster *types.RemoteClusterV3 `protobuf:"bytes,16,opt,name=RemoteCluster,oneof"`
 }
+type Event_DatabaseServer struct {
+	DatabaseServer *services.DatabaseServerV2 `protobuf:"bytes,17,opt,name=DatabaseServer,oneof"`
+}
 
 func (*Event_ResourceHeader) isEvent_Resource()   {}
 func (*Event_CertAuthority) isEvent_Resource()    {}
@@ -194,6 +206,7 @@ func (*Event_TunnelConnection) isEvent_Resource() {}
 func (*Event_AccessRequest) isEvent_Resource()    {}
 func (*Event_AppSession) isEvent_Resource()       {}
 func (*Event_RemoteCluster) isEvent_Resource()    {}
+func (*Event_DatabaseServer) isEvent_Resource()   {}
 
 func (m *Event) GetResource() isEvent_Resource {
 	if m != nil {
@@ -314,6 +327,13 @@ func (m *Event) GetRemoteCluster() *types.RemoteClusterV3 {
 	return nil
 }
 
+func (m *Event) GetDatabaseServer() *services.DatabaseServerV2 {
+	if x, ok := m.GetResource().(*Event_DatabaseServer); ok {
+		return x.DatabaseServer
+	}
+	return nil
+}
+
 // XXX_OneofFuncs is for the internal use of the proto package.
 func (*Event) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
 	return _Event_OneofMarshaler, _Event_OneofUnmarshaler, _Event_OneofSizer, []interface{}{
@@ -332,6 +352,7 @@ func (*Event) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, 
 		(*Event_AccessRequest)(nil),
 		(*Event_AppSession)(nil),
 		(*Event_RemoteCluster)(nil),
+		(*Event_DatabaseServer)(nil),
 	}
 }
 
@@ -412,6 +433,11 @@ func _Event_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 	case *Event_RemoteCluster:
 		_ = b.EncodeVarint(16<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.RemoteCluster); err != nil {
+			return err
+		}
+	case *Event_DatabaseServer:
+		_ = b.EncodeVarint(17<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.DatabaseServer); err != nil {
 			return err
 		}
 	case nil:
@@ -544,6 +570,14 @@ func _Event_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) 
 		err := b.DecodeMessage(msg)
 		m.Resource = &Event_RemoteCluster{msg}
 		return true, err
+	case 17: // Resource.DatabaseServer
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(services.DatabaseServerV2)
+		err := b.DecodeMessage(msg)
+		m.Resource = &Event_DatabaseServer{msg}
+		return true, err
 	default:
 		return false, nil
 	}
@@ -628,6 +662,11 @@ func _Event_OneofSizer(msg proto.Message) (n int) {
 		n += 2 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
+	case *Event_DatabaseServer:
+		s := proto.Size(x.DatabaseServer)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
 	case nil:
 	default:
 		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
@@ -648,7 +687,11 @@ func (m *Watch) Reset()         { *m = Watch{} }
 func (m *Watch) String() string { return proto.CompactTextString(m) }
 func (*Watch) ProtoMessage()    {}
 func (*Watch) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{1}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{1}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *Watch) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -706,7 +749,11 @@ func (m *WatchKind) Reset()         { *m = WatchKind{} }
 func (m *WatchKind) String() string { return proto.CompactTextString(m) }
 func (*WatchKind) ProtoMessage()    {}
 func (*WatchKind) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{2}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{2}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *WatchKind) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -778,7 +825,11 @@ func (m *Certs) Reset()         { *m = Certs{} }
 func (m *Certs) String() string { return proto.CompactTextString(m) }
 func (*Certs) ProtoMessage()    {}
 func (*Certs) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{3}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{3}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *Certs) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -845,17 +896,24 @@ type UserCertsRequest struct {
 	AccessRequests []string `protobuf:"bytes,6,rep,name=AccessRequests" json:"access_requests,omitempty"`
 	// KubernetesCluster specifies the target kubernetes cluster for TLS
 	// identities. This can be empty on older Teleport clients.
-	KubernetesCluster    string   `protobuf:"bytes,7,opt,name=KubernetesCluster,proto3" json:"kubernetes_cluster,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	KubernetesCluster string `protobuf:"bytes,7,opt,name=KubernetesCluster,proto3" json:"kubernetes_cluster,omitempty"`
+	// RouteToDatabase specifies the target database proxy name to encode into
+	// certificate so database client requests are routed appropriately.
+	RouteToDatabase      RouteToDatabase `protobuf:"bytes,8,opt,name=RouteToDatabase" json:"route_to_database,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
 func (m *UserCertsRequest) Reset()         { *m = UserCertsRequest{} }
 func (m *UserCertsRequest) String() string { return proto.CompactTextString(m) }
 func (*UserCertsRequest) ProtoMessage()    {}
 func (*UserCertsRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{4}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{4}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *UserCertsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -933,6 +991,89 @@ func (m *UserCertsRequest) GetKubernetesCluster() string {
 	return ""
 }
 
+func (m *UserCertsRequest) GetRouteToDatabase() RouteToDatabase {
+	if m != nil {
+		return m.RouteToDatabase
+	}
+	return RouteToDatabase{}
+}
+
+// RouteToDatabase combines parameters for database service routing information.
+type RouteToDatabase struct {
+	// ServiceName is the Teleport database proxy service name the cert is for.
+	ServiceName string `protobuf:"bytes,1,opt,name=ServiceName,proto3" json:"service_name"`
+	// Protocol is the type of the database the cert is for.
+	Protocol string `protobuf:"bytes,2,opt,name=Protocol,proto3" json:"protocol"`
+	// Username is an optional database username to embed.
+	Username string `protobuf:"bytes,3,opt,name=Username,proto3" json:"username,omitempty"`
+	// Database is an optional database name to embed.
+	Database             string   `protobuf:"bytes,4,opt,name=Database,proto3" json:"database,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RouteToDatabase) Reset()         { *m = RouteToDatabase{} }
+func (m *RouteToDatabase) String() string { return proto.CompactTextString(m) }
+func (*RouteToDatabase) ProtoMessage()    {}
+func (*RouteToDatabase) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{5}
+}
+func (m *RouteToDatabase) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RouteToDatabase) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RouteToDatabase.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (dst *RouteToDatabase) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RouteToDatabase.Merge(dst, src)
+}
+func (m *RouteToDatabase) XXX_Size() int {
+	return m.Size()
+}
+func (m *RouteToDatabase) XXX_DiscardUnknown() {
+	xxx_messageInfo_RouteToDatabase.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RouteToDatabase proto.InternalMessageInfo
+
+func (m *RouteToDatabase) GetServiceName() string {
+	if m != nil {
+		return m.ServiceName
+	}
+	return ""
+}
+
+func (m *RouteToDatabase) GetProtocol() string {
+	if m != nil {
+		return m.Protocol
+	}
+	return ""
+}
+
+func (m *RouteToDatabase) GetUsername() string {
+	if m != nil {
+		return m.Username
+	}
+	return ""
+}
+
+func (m *RouteToDatabase) GetDatabase() string {
+	if m != nil {
+		return m.Database
+	}
+	return ""
+}
+
 // GetUserRequest specifies parameters for the GetUser method.
 type GetUserRequest struct {
 	// Name is the name of the desired user.
@@ -948,7 +1089,11 @@ func (m *GetUserRequest) Reset()         { *m = GetUserRequest{} }
 func (m *GetUserRequest) String() string { return proto.CompactTextString(m) }
 func (*GetUserRequest) ProtoMessage()    {}
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{5}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{6}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetUserRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1004,7 +1149,11 @@ func (m *GetUsersRequest) Reset()         { *m = GetUsersRequest{} }
 func (m *GetUsersRequest) String() string { return proto.CompactTextString(m) }
 func (*GetUsersRequest) ProtoMessage()    {}
 func (*GetUsersRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{6}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{7}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetUsersRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1052,7 +1201,11 @@ func (m *AccessRequests) Reset()         { *m = AccessRequests{} }
 func (m *AccessRequests) String() string { return proto.CompactTextString(m) }
 func (*AccessRequests) ProtoMessage()    {}
 func (*AccessRequests) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{7}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{8}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *AccessRequests) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1100,7 +1253,11 @@ func (m *PluginDataSeq) Reset()         { *m = PluginDataSeq{} }
 func (m *PluginDataSeq) String() string { return proto.CompactTextString(m) }
 func (*PluginDataSeq) ProtoMessage()    {}
 func (*PluginDataSeq) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{8}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{9}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *PluginDataSeq) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1166,7 +1323,11 @@ func (m *RequestStateSetter) Reset()         { *m = RequestStateSetter{} }
 func (m *RequestStateSetter) String() string { return proto.CompactTextString(m) }
 func (*RequestStateSetter) ProtoMessage()    {}
 func (*RequestStateSetter) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{9}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{10}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *RequestStateSetter) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1242,7 +1403,11 @@ func (m *RequestID) Reset()         { *m = RequestID{} }
 func (m *RequestID) String() string { return proto.CompactTextString(m) }
 func (*RequestID) ProtoMessage()    {}
 func (*RequestID) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{10}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{11}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *RequestID) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1292,7 +1457,11 @@ func (m *RotateResetPasswordTokenSecretsRequest) Reset() {
 func (m *RotateResetPasswordTokenSecretsRequest) String() string { return proto.CompactTextString(m) }
 func (*RotateResetPasswordTokenSecretsRequest) ProtoMessage()    {}
 func (*RotateResetPasswordTokenSecretsRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{11}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{12}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *RotateResetPasswordTokenSecretsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1340,7 +1509,11 @@ func (m *GetResetPasswordTokenRequest) Reset()         { *m = GetResetPasswordTo
 func (m *GetResetPasswordTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*GetResetPasswordTokenRequest) ProtoMessage()    {}
 func (*GetResetPasswordTokenRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{12}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{13}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetResetPasswordTokenRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1394,7 +1567,11 @@ func (m *CreateResetPasswordTokenRequest) Reset()         { *m = CreateResetPass
 func (m *CreateResetPasswordTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateResetPasswordTokenRequest) ProtoMessage()    {}
 func (*CreateResetPasswordTokenRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{13}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{14}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *CreateResetPasswordTokenRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1455,7 +1632,11 @@ func (m *PingRequest) Reset()         { *m = PingRequest{} }
 func (m *PingRequest) String() string { return proto.CompactTextString(m) }
 func (*PingRequest) ProtoMessage()    {}
 func (*PingRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{14}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{15}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *PingRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1499,7 +1680,11 @@ func (m *PingResponse) Reset()         { *m = PingResponse{} }
 func (m *PingResponse) String() string { return proto.CompactTextString(m) }
 func (*PingResponse) ProtoMessage()    {}
 func (*PingResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{15}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{16}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *PingResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1555,7 +1740,11 @@ func (m *DeleteUserRequest) Reset()         { *m = DeleteUserRequest{} }
 func (m *DeleteUserRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteUserRequest) ProtoMessage()    {}
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{16}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{17}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteUserRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1603,7 +1792,11 @@ func (m *Semaphores) Reset()         { *m = Semaphores{} }
 func (m *Semaphores) String() string { return proto.CompactTextString(m) }
 func (*Semaphores) ProtoMessage()    {}
 func (*Semaphores) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{17}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{18}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *Semaphores) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1660,7 +1853,11 @@ func (m *AuditStreamRequest) Reset()         { *m = AuditStreamRequest{} }
 func (m *AuditStreamRequest) String() string { return proto.CompactTextString(m) }
 func (*AuditStreamRequest) ProtoMessage()    {}
 func (*AuditStreamRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{18}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{19}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *AuditStreamRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1905,7 +2102,11 @@ func (m *AuditStreamStatus) Reset()         { *m = AuditStreamStatus{} }
 func (m *AuditStreamStatus) String() string { return proto.CompactTextString(m) }
 func (*AuditStreamStatus) ProtoMessage()    {}
 func (*AuditStreamStatus) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{19}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{20}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *AuditStreamStatus) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1953,7 +2154,11 @@ func (m *CreateStream) Reset()         { *m = CreateStream{} }
 func (m *CreateStream) String() string { return proto.CompactTextString(m) }
 func (*CreateStream) ProtoMessage()    {}
 func (*CreateStream) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{20}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{21}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *CreateStream) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2004,7 +2209,11 @@ func (m *ResumeStream) Reset()         { *m = ResumeStream{} }
 func (m *ResumeStream) String() string { return proto.CompactTextString(m) }
 func (*ResumeStream) ProtoMessage()    {}
 func (*ResumeStream) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{21}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{22}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *ResumeStream) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2059,7 +2268,11 @@ func (m *CompleteStream) Reset()         { *m = CompleteStream{} }
 func (m *CompleteStream) String() string { return proto.CompactTextString(m) }
 func (*CompleteStream) ProtoMessage()    {}
 func (*CompleteStream) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{22}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{23}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *CompleteStream) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2099,7 +2312,11 @@ func (m *FlushAndCloseStream) Reset()         { *m = FlushAndCloseStream{} }
 func (m *FlushAndCloseStream) String() string { return proto.CompactTextString(m) }
 func (*FlushAndCloseStream) ProtoMessage()    {}
 func (*FlushAndCloseStream) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{23}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{24}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *FlushAndCloseStream) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2143,7 +2360,11 @@ func (m *GetAppServersRequest) Reset()         { *m = GetAppServersRequest{} }
 func (m *GetAppServersRequest) String() string { return proto.CompactTextString(m) }
 func (*GetAppServersRequest) ProtoMessage()    {}
 func (*GetAppServersRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{24}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{25}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetAppServersRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2199,7 +2420,11 @@ func (m *GetAppServersResponse) Reset()         { *m = GetAppServersResponse{} }
 func (m *GetAppServersResponse) String() string { return proto.CompactTextString(m) }
 func (*GetAppServersResponse) ProtoMessage()    {}
 func (*GetAppServersResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{25}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{26}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetAppServersResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2247,7 +2472,11 @@ func (m *UpsertAppServerRequest) Reset()         { *m = UpsertAppServerRequest{}
 func (m *UpsertAppServerRequest) String() string { return proto.CompactTextString(m) }
 func (*UpsertAppServerRequest) ProtoMessage()    {}
 func (*UpsertAppServerRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{26}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{27}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *UpsertAppServerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2298,7 +2527,11 @@ func (m *DeleteAppServerRequest) Reset()         { *m = DeleteAppServerRequest{}
 func (m *DeleteAppServerRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteAppServerRequest) ProtoMessage()    {}
 func (*DeleteAppServerRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{27}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{28}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteAppServerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2354,7 +2587,11 @@ func (m *DeleteAllAppServersRequest) Reset()         { *m = DeleteAllAppServersR
 func (m *DeleteAllAppServersRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteAllAppServersRequest) ProtoMessage()    {}
 func (*DeleteAllAppServersRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{28}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{29}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteAllAppServersRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2410,7 +2647,11 @@ func (m *GenerateAppTokenRequest) Reset()         { *m = GenerateAppTokenRequest
 func (m *GenerateAppTokenRequest) String() string { return proto.CompactTextString(m) }
 func (*GenerateAppTokenRequest) ProtoMessage()    {}
 func (*GenerateAppTokenRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{29}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{30}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GenerateAppTokenRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2479,7 +2720,11 @@ func (m *GenerateAppTokenResponse) Reset()         { *m = GenerateAppTokenRespon
 func (m *GenerateAppTokenResponse) String() string { return proto.CompactTextString(m) }
 func (*GenerateAppTokenResponse) ProtoMessage()    {}
 func (*GenerateAppTokenResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{30}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{31}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GenerateAppTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2528,7 +2773,11 @@ func (m *GetAppSessionRequest) Reset()         { *m = GetAppSessionRequest{} }
 func (m *GetAppSessionRequest) String() string { return proto.CompactTextString(m) }
 func (*GetAppSessionRequest) ProtoMessage()    {}
 func (*GetAppSessionRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{31}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{32}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetAppSessionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2577,7 +2826,11 @@ func (m *GetAppSessionResponse) Reset()         { *m = GetAppSessionResponse{} }
 func (m *GetAppSessionResponse) String() string { return proto.CompactTextString(m) }
 func (*GetAppSessionResponse) ProtoMessage()    {}
 func (*GetAppSessionResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{32}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{33}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetAppSessionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2626,7 +2879,11 @@ func (m *GetAppSessionsResponse) Reset()         { *m = GetAppSessionsResponse{}
 func (m *GetAppSessionsResponse) String() string { return proto.CompactTextString(m) }
 func (*GetAppSessionsResponse) ProtoMessage()    {}
 func (*GetAppSessionsResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{33}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{34}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetAppSessionsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2681,7 +2938,11 @@ func (m *CreateAppSessionRequest) Reset()         { *m = CreateAppSessionRequest
 func (m *CreateAppSessionRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateAppSessionRequest) ProtoMessage()    {}
 func (*CreateAppSessionRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{34}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{35}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *CreateAppSessionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2751,7 +3012,11 @@ func (m *CreateAppSessionResponse) Reset()         { *m = CreateAppSessionRespon
 func (m *CreateAppSessionResponse) String() string { return proto.CompactTextString(m) }
 func (*CreateAppSessionResponse) ProtoMessage()    {}
 func (*CreateAppSessionResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{35}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{36}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *CreateAppSessionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2799,7 +3064,11 @@ func (m *DeleteAppSessionRequest) Reset()         { *m = DeleteAppSessionRequest
 func (m *DeleteAppSessionRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteAppSessionRequest) ProtoMessage()    {}
 func (*DeleteAppSessionRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{36}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{37}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteAppSessionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2846,7 +3115,11 @@ func (m *GetKubeServicesRequest) Reset()         { *m = GetKubeServicesRequest{}
 func (m *GetKubeServicesRequest) String() string { return proto.CompactTextString(m) }
 func (*GetKubeServicesRequest) ProtoMessage()    {}
 func (*GetKubeServicesRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{37}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{38}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetKubeServicesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2889,7 +3162,11 @@ func (m *GetKubeServicesResponse) Reset()         { *m = GetKubeServicesResponse
 func (m *GetKubeServicesResponse) String() string { return proto.CompactTextString(m) }
 func (*GetKubeServicesResponse) ProtoMessage()    {}
 func (*GetKubeServicesResponse) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{38}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{39}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *GetKubeServicesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2938,7 +3215,11 @@ func (m *UpsertKubeServiceRequest) Reset()         { *m = UpsertKubeServiceReque
 func (m *UpsertKubeServiceRequest) String() string { return proto.CompactTextString(m) }
 func (*UpsertKubeServiceRequest) ProtoMessage()    {}
 func (*UpsertKubeServiceRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{39}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{40}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *UpsertKubeServiceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -2987,7 +3268,11 @@ func (m *DeleteKubeServiceRequest) Reset()         { *m = DeleteKubeServiceReque
 func (m *DeleteKubeServiceRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteKubeServiceRequest) ProtoMessage()    {}
 func (*DeleteKubeServiceRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{40}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{41}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteKubeServiceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -3034,7 +3319,11 @@ func (m *DeleteAllKubeServicesRequest) Reset()         { *m = DeleteAllKubeServi
 func (m *DeleteAllKubeServicesRequest) String() string { return proto.CompactTextString(m) }
 func (*DeleteAllKubeServicesRequest) ProtoMessage()    {}
 func (*DeleteAllKubeServicesRequest) Descriptor() ([]byte, []int) {
+<<<<<<< HEAD
 	return fileDescriptor_authservice_6c8980d4b35c01c1, []int{41}
+=======
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{42}
+>>>>>>> d227402b9 (Database access)
 }
 func (m *DeleteAllKubeServicesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -3063,6 +3352,7 @@ func (m *DeleteAllKubeServicesRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DeleteAllKubeServicesRequest proto.InternalMessageInfo
 
+<<<<<<< HEAD
 func init() {
 	proto.RegisterType((*Event)(nil), "proto.Event")
 	proto.RegisterType((*Watch)(nil), "proto.Watch")
@@ -3209,6 +3499,944 @@ type AuthServiceClient interface {
 	DeleteKubeService(ctx context.Context, in *DeleteKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	// DeleteAllKubeServices removes all kubernetes services.
 	DeleteAllKubeServices(ctx context.Context, in *DeleteAllKubeServicesRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+=======
+// GetDatabaseServersRequest is a request to return all registered database servers.
+type GetDatabaseServersRequest struct {
+	// Namespace is the database server namespace.
+	Namespace string `protobuf:"bytes,1,opt,name=Namespace,proto3" json:"namespace"`
+	// SkipValidation allows to turn off JSON schema validation.
+	SkipValidation       bool     `protobuf:"varint,2,opt,name=SkipValidation,proto3" json:"skip_validation"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+>>>>>>> d227402b9 (Database access)
+}
+
+func (m *GetDatabaseServersRequest) Reset()         { *m = GetDatabaseServersRequest{} }
+func (m *GetDatabaseServersRequest) String() string { return proto.CompactTextString(m) }
+func (*GetDatabaseServersRequest) ProtoMessage()    {}
+func (*GetDatabaseServersRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{43}
+}
+func (m *GetDatabaseServersRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetDatabaseServersRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetDatabaseServersRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+<<<<<<< HEAD
+
+type AuthService_SendKeepAlivesClient interface {
+	Send(*types.KeepAlive) error
+	CloseAndRecv() (*empty.Empty, error)
+	grpc.ClientStream
+=======
+func (dst *GetDatabaseServersRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetDatabaseServersRequest.Merge(dst, src)
+>>>>>>> d227402b9 (Database access)
+}
+func (m *GetDatabaseServersRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetDatabaseServersRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetDatabaseServersRequest.DiscardUnknown(m)
+}
+
+<<<<<<< HEAD
+func (x *authServiceSendKeepAlivesClient) Send(m *types.KeepAlive) error {
+	return x.ClientStream.SendMsg(m)
+=======
+var xxx_messageInfo_GetDatabaseServersRequest proto.InternalMessageInfo
+
+func (m *GetDatabaseServersRequest) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+>>>>>>> d227402b9 (Database access)
+}
+
+func (m *GetDatabaseServersRequest) GetSkipValidation() bool {
+	if m != nil {
+		return m.SkipValidation
+	}
+	return false
+}
+
+// GetDatabaseServersResponse contains all registered database servers.
+type GetDatabaseServersResponse struct {
+	// Servers is a list of database proxy servers.
+	Servers              []*services.DatabaseServerV2 `protobuf:"bytes,1,rep,name=Servers" json:"servers"`
+	XXX_NoUnkeyedLiteral struct{}                     `json:"-"`
+	XXX_unrecognized     []byte                       `json:"-"`
+	XXX_sizecache        int32                        `json:"-"`
+}
+
+func (m *GetDatabaseServersResponse) Reset()         { *m = GetDatabaseServersResponse{} }
+func (m *GetDatabaseServersResponse) String() string { return proto.CompactTextString(m) }
+func (*GetDatabaseServersResponse) ProtoMessage()    {}
+func (*GetDatabaseServersResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{44}
+}
+func (m *GetDatabaseServersResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetDatabaseServersResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetDatabaseServersResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (dst *GetDatabaseServersResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetDatabaseServersResponse.Merge(dst, src)
+}
+func (m *GetDatabaseServersResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetDatabaseServersResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetDatabaseServersResponse.DiscardUnknown(m)
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) UpsertNode(ctx context.Context, in *types.ServerV2, opts ...grpc.CallOption) (*types.KeepAlive, error) {
+	out := new(types.KeepAlive)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertNode", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+var xxx_messageInfo_GetDatabaseServersResponse proto.InternalMessageInfo
+
+func (m *GetDatabaseServersResponse) GetServers() []*services.DatabaseServerV2 {
+	if m != nil {
+		return m.Servers
+>>>>>>> d227402b9 (Database access)
+	}
+	return nil
+}
+
+// UpsertDatabaseServerRequest is a request to register database server.
+type UpsertDatabaseServerRequest struct {
+	// Server is the database proxy server to register.
+	Server               *services.DatabaseServerV2 `protobuf:"bytes,1,opt,name=Server" json:"server"`
+	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
+	XXX_unrecognized     []byte                     `json:"-"`
+	XXX_sizecache        int32                      `json:"-"`
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*types.UserV2, error) {
+	out := new(types.UserV2)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *UpsertDatabaseServerRequest) Reset()         { *m = UpsertDatabaseServerRequest{} }
+func (m *UpsertDatabaseServerRequest) String() string { return proto.CompactTextString(m) }
+func (*UpsertDatabaseServerRequest) ProtoMessage()    {}
+func (*UpsertDatabaseServerRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{45}
+}
+func (m *UpsertDatabaseServerRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *UpsertDatabaseServerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpsertDatabaseServerRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+>>>>>>> d227402b9 (Database access)
+	}
+}
+func (dst *UpsertDatabaseServerRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpsertDatabaseServerRequest.Merge(dst, src)
+}
+func (m *UpsertDatabaseServerRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpsertDatabaseServerRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpsertDatabaseServerRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpsertDatabaseServerRequest proto.InternalMessageInfo
+
+func (m *UpsertDatabaseServerRequest) GetServer() *services.DatabaseServerV2 {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+<<<<<<< HEAD
+type AuthService_GetUsersClient interface {
+	Recv() (*types.UserV2, error)
+	grpc.ClientStream
+=======
+// DeleteDatabaseServerRequest is a request to delete a database server.
+type DeleteDatabaseServerRequest struct {
+	// Namespace is the database server namespace.
+	Namespace string `protobuf:"bytes,1,opt,name=Namespace,proto3" json:"namespace"`
+	// HostID is the ID of the host database server is running on.
+	HostID string `protobuf:"bytes,2,opt,name=HostID,proto3" json:"host_id"`
+	// Name is the database server name.
+	Name                 string   `protobuf:"bytes,3,opt,name=Name,proto3" json:"name"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+>>>>>>> d227402b9 (Database access)
+}
+
+func (m *DeleteDatabaseServerRequest) Reset()         { *m = DeleteDatabaseServerRequest{} }
+func (m *DeleteDatabaseServerRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteDatabaseServerRequest) ProtoMessage()    {}
+func (*DeleteDatabaseServerRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{46}
+}
+<<<<<<< HEAD
+
+func (x *authServiceGetUsersClient) Recv() (*types.UserV2, error) {
+	m := new(types.UserV2)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+=======
+func (m *DeleteDatabaseServerRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteDatabaseServerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteDatabaseServerRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+>>>>>>> d227402b9 (Database access)
+	}
+}
+func (dst *DeleteDatabaseServerRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteDatabaseServerRequest.Merge(dst, src)
+}
+func (m *DeleteDatabaseServerRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteDatabaseServerRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteDatabaseServerRequest.DiscardUnknown(m)
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) GetAccessRequests(ctx context.Context, in *types.AccessRequestFilter, opts ...grpc.CallOption) (*AccessRequests, error) {
+	out := new(AccessRequests)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessRequests", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+var xxx_messageInfo_DeleteDatabaseServerRequest proto.InternalMessageInfo
+
+func (m *DeleteDatabaseServerRequest) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+>>>>>>> d227402b9 (Database access)
+	}
+	return ""
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) CreateAccessRequest(ctx context.Context, in *types.AccessRequestV3, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateAccessRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *DeleteDatabaseServerRequest) GetHostID() string {
+	if m != nil {
+		return m.HostID
+>>>>>>> d227402b9 (Database access)
+	}
+	return ""
+}
+
+func (m *DeleteDatabaseServerRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+// DeleteAllDatabaseServersRequest is a request to delete all database servers.
+type DeleteAllDatabaseServersRequest struct {
+	// Namespace is the database servers namespace.
+	Namespace            string   `protobuf:"bytes,1,opt,name=Namespace,proto3" json:"namespace"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) GetAccessCapabilities(ctx context.Context, in *types.AccessCapabilitiesRequest, opts ...grpc.CallOption) (*types.AccessCapabilities, error) {
+	out := new(types.AccessCapabilities)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessCapabilities", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *DeleteAllDatabaseServersRequest) Reset()         { *m = DeleteAllDatabaseServersRequest{} }
+func (m *DeleteAllDatabaseServersRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteAllDatabaseServersRequest) ProtoMessage()    {}
+func (*DeleteAllDatabaseServersRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{47}
+}
+func (m *DeleteAllDatabaseServersRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DeleteAllDatabaseServersRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DeleteAllDatabaseServersRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+>>>>>>> d227402b9 (Database access)
+	}
+}
+func (dst *DeleteAllDatabaseServersRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteAllDatabaseServersRequest.Merge(dst, src)
+}
+func (m *DeleteAllDatabaseServersRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DeleteAllDatabaseServersRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteAllDatabaseServersRequest.DiscardUnknown(m)
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) GetPluginData(ctx context.Context, in *types.PluginDataFilter, opts ...grpc.CallOption) (*PluginDataSeq, error) {
+	out := new(PluginDataSeq)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetPluginData", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+var xxx_messageInfo_DeleteAllDatabaseServersRequest proto.InternalMessageInfo
+
+func (m *DeleteAllDatabaseServersRequest) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+>>>>>>> d227402b9 (Database access)
+	}
+	return ""
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) UpdatePluginData(ctx context.Context, in *types.PluginDataUpdateParams, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdatePluginData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+=======
+// DatabaseCSRRequest is a request to generate a client certificate used
+// by the proxy to authenticate with a remote database service.
+type DatabaseCSRRequest struct {
+	// CSR is the request to sign.
+	CSR []byte `protobuf:"bytes,1,opt,name=CSR,proto3" json:"csr"`
+	// ClusterName is the name of the cluster the request is for.
+	ClusterName          string   `protobuf:"bytes,2,opt,name=ClusterName,proto3" json:"cluster_name"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+>>>>>>> d227402b9 (Database access)
+}
+
+func (m *DatabaseCSRRequest) Reset()         { *m = DatabaseCSRRequest{} }
+func (m *DatabaseCSRRequest) String() string { return proto.CompactTextString(m) }
+func (*DatabaseCSRRequest) ProtoMessage()    {}
+func (*DatabaseCSRRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{48}
+}
+func (m *DatabaseCSRRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DatabaseCSRRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DatabaseCSRRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (dst *DatabaseCSRRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabaseCSRRequest.Merge(dst, src)
+}
+func (m *DatabaseCSRRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *DatabaseCSRRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabaseCSRRequest.DiscardUnknown(m)
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) RotateResetPasswordTokenSecrets(ctx context.Context, in *RotateResetPasswordTokenSecretsRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenSecretsV3, error) {
+	out := new(types.ResetPasswordTokenSecretsV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/RotateResetPasswordTokenSecrets", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+var xxx_messageInfo_DatabaseCSRRequest proto.InternalMessageInfo
+
+func (m *DatabaseCSRRequest) GetCSR() []byte {
+	if m != nil {
+		return m.CSR
+>>>>>>> d227402b9 (Database access)
+	}
+	return nil
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) GetResetPasswordToken(ctx context.Context, in *GetResetPasswordTokenRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenV3, error) {
+	out := new(types.ResetPasswordTokenV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetResetPasswordToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *DatabaseCSRRequest) GetClusterName() string {
+	if m != nil {
+		return m.ClusterName
+>>>>>>> d227402b9 (Database access)
+	}
+	return ""
+}
+
+<<<<<<< HEAD
+func (c *authServiceClient) CreateResetPasswordToken(ctx context.Context, in *CreateResetPasswordTokenRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenV3, error) {
+	out := new(types.ResetPasswordTokenV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateResetPasswordToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CreateUser(ctx context.Context, in *types.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) UpdateUser(ctx context.Context, in *types.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+=======
+// DatabaseCSRResponse contains the signed database certificate.
+type DatabaseCSRResponse struct {
+	// Cert is the signed certificate.
+	Cert []byte `protobuf:"bytes,1,opt,name=Cert,proto3" json:"cert"`
+	// CACerts is a list of certificate authorities.
+	CACerts              [][]byte `protobuf:"bytes,2,rep,name=CACerts" json:"ca_certs"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DatabaseCSRResponse) Reset()         { *m = DatabaseCSRResponse{} }
+func (m *DatabaseCSRResponse) String() string { return proto.CompactTextString(m) }
+func (*DatabaseCSRResponse) ProtoMessage()    {}
+func (*DatabaseCSRResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{49}
+>>>>>>> d227402b9 (Database access)
+}
+func (m *DatabaseCSRResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+<<<<<<< HEAD
+
+func (c *authServiceClient) AcquireSemaphore(ctx context.Context, in *types.AcquireSemaphoreRequest, opts ...grpc.CallOption) (*types.SemaphoreLease, error) {
+	out := new(types.SemaphoreLease)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/AcquireSemaphore", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *DatabaseCSRResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DatabaseCSRResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+>>>>>>> d227402b9 (Database access)
+	}
+}
+<<<<<<< HEAD
+
+func (c *authServiceClient) KeepAliveSemaphoreLease(ctx context.Context, in *types.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/KeepAliveSemaphoreLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CancelSemaphoreLease(ctx context.Context, in *types.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CancelSemaphoreLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetSemaphores(ctx context.Context, in *types.SemaphoreFilter, opts ...grpc.CallOption) (*Semaphores, error) {
+	out := new(Semaphores)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetSemaphores", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteSemaphore(ctx context.Context, in *types.SemaphoreFilter, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteSemaphore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+=======
+func (dst *DatabaseCSRResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabaseCSRResponse.Merge(dst, src)
+}
+func (m *DatabaseCSRResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *DatabaseCSRResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabaseCSRResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabaseCSRResponse proto.InternalMessageInfo
+>>>>>>> d227402b9 (Database access)
+
+func (m *DatabaseCSRResponse) GetCert() []byte {
+	if m != nil {
+		return m.Cert
+	}
+	return nil
+}
+
+func (m *DatabaseCSRResponse) GetCACerts() [][]byte {
+	if m != nil {
+		return m.CACerts
+	}
+	return nil
+}
+
+// DatabaseCertRequest is a request to generate a client certificate used
+// by a database service to authenticate with a database instance.
+type DatabaseCertRequest struct {
+	// CSR is the request to sign.
+	CSR []byte `protobuf:"bytes,1,opt,name=CSR,proto3" json:"csr"`
+	// ServerName is the SAN to include in the certificate.
+	ServerName string `protobuf:"bytes,2,opt,name=ServerName,proto3" json:"server_name"`
+	// TTL is the certificate validity period.
+	TTL                  Duration `protobuf:"varint,3,opt,name=TTL,proto3,casttype=Duration" json:"ttl"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DatabaseCertRequest) Reset()         { *m = DatabaseCertRequest{} }
+func (m *DatabaseCertRequest) String() string { return proto.CompactTextString(m) }
+func (*DatabaseCertRequest) ProtoMessage()    {}
+func (*DatabaseCertRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{50}
+}
+func (m *DatabaseCertRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DatabaseCertRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DatabaseCertRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (dst *DatabaseCertRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabaseCertRequest.Merge(dst, src)
+}
+<<<<<<< HEAD
+
+func (c *authServiceClient) UpsertAppServer(ctx context.Context, in *UpsertAppServerRequest, opts ...grpc.CallOption) (*types.KeepAlive, error) {
+	out := new(types.KeepAlive)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertAppServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+=======
+func (m *DatabaseCertRequest) XXX_Size() int {
+	return m.Size()
+>>>>>>> d227402b9 (Database access)
+}
+func (m *DatabaseCertRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabaseCertRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabaseCertRequest proto.InternalMessageInfo
+
+func (m *DatabaseCertRequest) GetCSR() []byte {
+	if m != nil {
+		return m.CSR
+	}
+	return nil
+}
+
+func (m *DatabaseCertRequest) GetServerName() string {
+	if m != nil {
+		return m.ServerName
+	}
+	return ""
+}
+
+func (m *DatabaseCertRequest) GetTTL() Duration {
+	if m != nil {
+		return m.TTL
+	}
+	return 0
+}
+
+// DatabaseCertResponse contains the signed certificate.
+type DatabaseCertResponse struct {
+	// Cert is the signed certificate.
+	Cert []byte `protobuf:"bytes,1,opt,name=Cert,proto3" json:"cert"`
+	// CACerts is a list of certificate authorities.
+	CACerts              [][]byte `protobuf:"bytes,2,rep,name=CACerts" json:"ca_certs"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DatabaseCertResponse) Reset()         { *m = DatabaseCertResponse{} }
+func (m *DatabaseCertResponse) String() string { return proto.CompactTextString(m) }
+func (*DatabaseCertResponse) ProtoMessage()    {}
+func (*DatabaseCertResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_authservice_efe5d119e73e6fed, []int{51}
+}
+func (m *DatabaseCertResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+<<<<<<< HEAD
+
+func (c *authServiceClient) UpdateRemoteCluster(ctx context.Context, in *types.RemoteClusterV3, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateRemoteCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+=======
+func (m *DatabaseCertResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DatabaseCertResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+>>>>>>> d227402b9 (Database access)
+	}
+}
+func (dst *DatabaseCertResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabaseCertResponse.Merge(dst, src)
+}
+func (m *DatabaseCertResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *DatabaseCertResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabaseCertResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabaseCertResponse proto.InternalMessageInfo
+
+func (m *DatabaseCertResponse) GetCert() []byte {
+	if m != nil {
+		return m.Cert
+	}
+	return nil
+}
+
+func (m *DatabaseCertResponse) GetCACerts() [][]byte {
+	if m != nil {
+		return m.CACerts
+	}
+	return nil
+}
+
+func init() {
+	proto.RegisterType((*Event)(nil), "proto.Event")
+	proto.RegisterType((*Watch)(nil), "proto.Watch")
+	proto.RegisterType((*WatchKind)(nil), "proto.WatchKind")
+	proto.RegisterMapType((map[string]string)(nil), "proto.WatchKind.FilterEntry")
+	proto.RegisterType((*Certs)(nil), "proto.Certs")
+	proto.RegisterType((*UserCertsRequest)(nil), "proto.UserCertsRequest")
+	proto.RegisterType((*RouteToDatabase)(nil), "proto.RouteToDatabase")
+	proto.RegisterType((*GetUserRequest)(nil), "proto.GetUserRequest")
+	proto.RegisterType((*GetUsersRequest)(nil), "proto.GetUsersRequest")
+	proto.RegisterType((*AccessRequests)(nil), "proto.AccessRequests")
+	proto.RegisterType((*PluginDataSeq)(nil), "proto.PluginDataSeq")
+	proto.RegisterType((*RequestStateSetter)(nil), "proto.RequestStateSetter")
+	proto.RegisterType((*RequestID)(nil), "proto.RequestID")
+	proto.RegisterType((*RotateResetPasswordTokenSecretsRequest)(nil), "proto.RotateResetPasswordTokenSecretsRequest")
+	proto.RegisterType((*GetResetPasswordTokenRequest)(nil), "proto.GetResetPasswordTokenRequest")
+	proto.RegisterType((*CreateResetPasswordTokenRequest)(nil), "proto.CreateResetPasswordTokenRequest")
+	proto.RegisterType((*PingRequest)(nil), "proto.PingRequest")
+	proto.RegisterType((*PingResponse)(nil), "proto.PingResponse")
+	proto.RegisterType((*DeleteUserRequest)(nil), "proto.DeleteUserRequest")
+	proto.RegisterType((*Semaphores)(nil), "proto.Semaphores")
+	proto.RegisterType((*AuditStreamRequest)(nil), "proto.AuditStreamRequest")
+	proto.RegisterType((*AuditStreamStatus)(nil), "proto.AuditStreamStatus")
+	proto.RegisterType((*CreateStream)(nil), "proto.CreateStream")
+	proto.RegisterType((*ResumeStream)(nil), "proto.ResumeStream")
+	proto.RegisterType((*CompleteStream)(nil), "proto.CompleteStream")
+	proto.RegisterType((*FlushAndCloseStream)(nil), "proto.FlushAndCloseStream")
+	proto.RegisterType((*GetAppServersRequest)(nil), "proto.GetAppServersRequest")
+	proto.RegisterType((*GetAppServersResponse)(nil), "proto.GetAppServersResponse")
+	proto.RegisterType((*UpsertAppServerRequest)(nil), "proto.UpsertAppServerRequest")
+	proto.RegisterType((*DeleteAppServerRequest)(nil), "proto.DeleteAppServerRequest")
+	proto.RegisterType((*DeleteAllAppServersRequest)(nil), "proto.DeleteAllAppServersRequest")
+	proto.RegisterType((*GenerateAppTokenRequest)(nil), "proto.GenerateAppTokenRequest")
+	proto.RegisterType((*GenerateAppTokenResponse)(nil), "proto.GenerateAppTokenResponse")
+	proto.RegisterType((*GetAppSessionRequest)(nil), "proto.GetAppSessionRequest")
+	proto.RegisterType((*GetAppSessionResponse)(nil), "proto.GetAppSessionResponse")
+	proto.RegisterType((*GetAppSessionsResponse)(nil), "proto.GetAppSessionsResponse")
+	proto.RegisterType((*CreateAppSessionRequest)(nil), "proto.CreateAppSessionRequest")
+	proto.RegisterType((*CreateAppSessionResponse)(nil), "proto.CreateAppSessionResponse")
+	proto.RegisterType((*DeleteAppSessionRequest)(nil), "proto.DeleteAppSessionRequest")
+	proto.RegisterType((*GetKubeServicesRequest)(nil), "proto.GetKubeServicesRequest")
+	proto.RegisterType((*GetKubeServicesResponse)(nil), "proto.GetKubeServicesResponse")
+	proto.RegisterType((*UpsertKubeServiceRequest)(nil), "proto.UpsertKubeServiceRequest")
+	proto.RegisterType((*DeleteKubeServiceRequest)(nil), "proto.DeleteKubeServiceRequest")
+	proto.RegisterType((*DeleteAllKubeServicesRequest)(nil), "proto.DeleteAllKubeServicesRequest")
+	proto.RegisterType((*GetDatabaseServersRequest)(nil), "proto.GetDatabaseServersRequest")
+	proto.RegisterType((*GetDatabaseServersResponse)(nil), "proto.GetDatabaseServersResponse")
+	proto.RegisterType((*UpsertDatabaseServerRequest)(nil), "proto.UpsertDatabaseServerRequest")
+	proto.RegisterType((*DeleteDatabaseServerRequest)(nil), "proto.DeleteDatabaseServerRequest")
+	proto.RegisterType((*DeleteAllDatabaseServersRequest)(nil), "proto.DeleteAllDatabaseServersRequest")
+	proto.RegisterType((*DatabaseCSRRequest)(nil), "proto.DatabaseCSRRequest")
+	proto.RegisterType((*DatabaseCSRResponse)(nil), "proto.DatabaseCSRResponse")
+	proto.RegisterType((*DatabaseCertRequest)(nil), "proto.DatabaseCertRequest")
+	proto.RegisterType((*DatabaseCertResponse)(nil), "proto.DatabaseCertResponse")
+	proto.RegisterEnum("proto.Operation", Operation_name, Operation_value)
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for AuthService service
+
+type AuthServiceClient interface {
+	// SendKeepAlives allows node to send a stream of keep alive requests
+	SendKeepAlives(ctx context.Context, opts ...grpc.CallOption) (AuthService_SendKeepAlivesClient, error)
+	// WatchEvents returns a new stream of cluster events
+	WatchEvents(ctx context.Context, in *Watch, opts ...grpc.CallOption) (AuthService_WatchEventsClient, error)
+	// UpsertNode upserts node
+<<<<<<< HEAD
+	UpsertNode(context.Context, *types.ServerV2) (*types.KeepAlive, error)
+=======
+	UpsertNode(ctx context.Context, in *services.ServerV2, opts ...grpc.CallOption) (*services.KeepAlive, error)
+>>>>>>> d227402b9 (Database access)
+	// GenerateUserCerts generates a set of user certificates for use by `tctl
+	// auth sign`.
+	GenerateUserCerts(ctx context.Context, in *UserCertsRequest, opts ...grpc.CallOption) (*Certs, error)
+	// GetUser gets a user resource by name.
+<<<<<<< HEAD
+	GetUser(context.Context, *GetUserRequest) (*types.UserV2, error)
+=======
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*services.UserV2, error)
+>>>>>>> d227402b9 (Database access)
+	// GetUsers gets all current user resources.
+	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (AuthService_GetUsersClient, error)
+	// GetAccessRequests gets all pending access requests.
+<<<<<<< HEAD
+	GetAccessRequests(context.Context, *types.AccessRequestFilter) (*AccessRequests, error)
+	// CreateAccessRequest creates a new access request.
+	CreateAccessRequest(context.Context, *types.AccessRequestV3) (*empty.Empty, error)
+=======
+	GetAccessRequests(ctx context.Context, in *services.AccessRequestFilter, opts ...grpc.CallOption) (*AccessRequests, error)
+	// CreateAccessRequest creates a new access request.
+	CreateAccessRequest(ctx context.Context, in *services.AccessRequestV3, opts ...grpc.CallOption) (*empty.Empty, error)
+>>>>>>> d227402b9 (Database access)
+	// DeleteAccessRequest deletes an access request.
+	DeleteAccessRequest(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*empty.Empty, error)
+	// SetAccessRequestState sets the state of an access request.
+	SetAccessRequestState(ctx context.Context, in *RequestStateSetter, opts ...grpc.CallOption) (*empty.Empty, error)
+	// GetAccessCapabilities requests the access capabilites of a user.
+<<<<<<< HEAD
+	GetAccessCapabilities(context.Context, *types.AccessCapabilitiesRequest) (*types.AccessCapabilities, error)
+	// GetPluginData gets all plugin data matching the supplied filter.
+	GetPluginData(context.Context, *types.PluginDataFilter) (*PluginDataSeq, error)
+	// UpdatePluginData updates a plugin's resource-specific datastore.
+	UpdatePluginData(context.Context, *types.PluginDataUpdateParams) (*empty.Empty, error)
+=======
+	GetAccessCapabilities(ctx context.Context, in *services.AccessCapabilitiesRequest, opts ...grpc.CallOption) (*services.AccessCapabilities, error)
+	// GetPluginData gets all plugin data matching the supplied filter.
+	GetPluginData(ctx context.Context, in *services.PluginDataFilter, opts ...grpc.CallOption) (*PluginDataSeq, error)
+	// UpdatePluginData updates a plugin's resource-specific datastore.
+	UpdatePluginData(ctx context.Context, in *services.PluginDataUpdateParams, opts ...grpc.CallOption) (*empty.Empty, error)
+>>>>>>> d227402b9 (Database access)
+	// Ping gets basic info about the auth server. This method is intended
+	// to mimic the behavior of the proxy's Ping method, and may be used by
+	// clients for verification or configuration on startup.
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	// RotateResetPasswordTokenSecrets rotates token secrets for a given tokenID.
+<<<<<<< HEAD
+	RotateResetPasswordTokenSecrets(context.Context, *RotateResetPasswordTokenSecretsRequest) (*types.ResetPasswordTokenSecretsV3, error)
+	// GetResetPasswordToken returns a token.
+	GetResetPasswordToken(context.Context, *GetResetPasswordTokenRequest) (*types.ResetPasswordTokenV3, error)
+	// CreateResetPasswordToken creates ResetPasswordToken.
+	CreateResetPasswordToken(context.Context, *CreateResetPasswordTokenRequest) (*types.ResetPasswordTokenV3, error)
+	// CreateUser inserts a new user entry to a backend.
+	CreateUser(context.Context, *types.UserV2) (*empty.Empty, error)
+	// UpdateUser updates an existing user in a backend.
+	UpdateUser(context.Context, *types.UserV2) (*empty.Empty, error)
+=======
+	RotateResetPasswordTokenSecrets(ctx context.Context, in *RotateResetPasswordTokenSecretsRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenSecretsV3, error)
+	// GetResetPasswordToken returns a token.
+	GetResetPasswordToken(ctx context.Context, in *GetResetPasswordTokenRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenV3, error)
+	// CreateResetPasswordToken creates ResetPasswordToken.
+	CreateResetPasswordToken(ctx context.Context, in *CreateResetPasswordTokenRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenV3, error)
+	// CreateUser inserts a new user entry to a backend.
+	CreateUser(ctx context.Context, in *services.UserV2, opts ...grpc.CallOption) (*empty.Empty, error)
+	// UpdateUser updates an existing user in a backend.
+	UpdateUser(ctx context.Context, in *services.UserV2, opts ...grpc.CallOption) (*empty.Empty, error)
+>>>>>>> d227402b9 (Database access)
+	// DeleteUser deletes an existing user in a backend by username.
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// AcquireSemaphore acquires lease with requested resources from semaphore.
+<<<<<<< HEAD
+	AcquireSemaphore(context.Context, *types.AcquireSemaphoreRequest) (*types.SemaphoreLease, error)
+	// KeepAliveSemaphoreLease updates semaphore lease.
+	KeepAliveSemaphoreLease(context.Context, *types.SemaphoreLease) (*empty.Empty, error)
+	// CancelSemaphoreLease cancels semaphore lease early.
+	CancelSemaphoreLease(context.Context, *types.SemaphoreLease) (*empty.Empty, error)
+	// GetSemaphores returns a list of all semaphores matching the supplied filter.
+	GetSemaphores(context.Context, *types.SemaphoreFilter) (*Semaphores, error)
+	// DeleteSemaphore deletes a semaphore matching the supplied filter.
+	DeleteSemaphore(context.Context, *types.SemaphoreFilter) (*empty.Empty, error)
+=======
+	AcquireSemaphore(ctx context.Context, in *services.AcquireSemaphoreRequest, opts ...grpc.CallOption) (*services.SemaphoreLease, error)
+	// KeepAliveSemaphoreLease updates semaphore lease.
+	KeepAliveSemaphoreLease(ctx context.Context, in *services.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error)
+	// CancelSemaphoreLease cancels semaphore lease early.
+	CancelSemaphoreLease(ctx context.Context, in *services.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error)
+	// GetSemaphores returns a list of all semaphores matching the supplied filter.
+	GetSemaphores(ctx context.Context, in *services.SemaphoreFilter, opts ...grpc.CallOption) (*Semaphores, error)
+	// DeleteSemaphore deletes a semaphore matching the supplied filter.
+	DeleteSemaphore(ctx context.Context, in *services.SemaphoreFilter, opts ...grpc.CallOption) (*empty.Empty, error)
+>>>>>>> d227402b9 (Database access)
+	// EmitAuditEvent emits audit event
+	EmitAuditEvent(ctx context.Context, in *events.OneOf, opts ...grpc.CallOption) (*empty.Empty, error)
+	// CreateAuditStream creates or resumes audit events streams
+	CreateAuditStream(ctx context.Context, opts ...grpc.CallOption) (AuthService_CreateAuditStreamClient, error)
+	// GetAppServers gets all application servers.
+	GetAppServers(ctx context.Context, in *GetAppServersRequest, opts ...grpc.CallOption) (*GetAppServersResponse, error)
+	// UpsertAppServer adds an application server.
+<<<<<<< HEAD
+	UpsertAppServer(context.Context, *UpsertAppServerRequest) (*types.KeepAlive, error)
+=======
+	UpsertAppServer(ctx context.Context, in *UpsertAppServerRequest, opts ...grpc.CallOption) (*services.KeepAlive, error)
+>>>>>>> d227402b9 (Database access)
+	// DeleteAppServer removes an application server.
+	DeleteAppServer(ctx context.Context, in *DeleteAppServerRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// DeleteAllAppServers removes all application servers.
+	DeleteAllAppServers(ctx context.Context, in *DeleteAllAppServersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// GenerateAppToken will generate a JWT token for application access.
+	GenerateAppToken(ctx context.Context, in *GenerateAppTokenRequest, opts ...grpc.CallOption) (*GenerateAppTokenResponse, error)
+	// GetAppSession gets an application web session.
+	GetAppSession(ctx context.Context, in *GetAppSessionRequest, opts ...grpc.CallOption) (*GetAppSessionResponse, error)
+	// GetAppSessions gets all application web sessions.
+	GetAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetAppSessionsResponse, error)
+	// CreateAppSession creates an application web session. Application web
+	// sessions represent a browser session the client holds.
+	CreateAppSession(ctx context.Context, in *CreateAppSessionRequest, opts ...grpc.CallOption) (*CreateAppSessionResponse, error)
+	// DeleteAppSession removes an application web session.
+	DeleteAppSession(ctx context.Context, in *DeleteAppSessionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// DeleteAllAppSessions removes all application web sessions.
+	DeleteAllAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
+	// UpdateRemoteCluster updates remote cluster
+<<<<<<< HEAD
+	UpdateRemoteCluster(context.Context, *types.RemoteClusterV3) (*empty.Empty, error)
+=======
+	UpdateRemoteCluster(ctx context.Context, in *services.RemoteClusterV3, opts ...grpc.CallOption) (*empty.Empty, error)
+>>>>>>> d227402b9 (Database access)
+	// GetKubeServices gets all kubernetes services.
+	GetKubeServices(ctx context.Context, in *GetKubeServicesRequest, opts ...grpc.CallOption) (*GetKubeServicesResponse, error)
+	// UpsertKubeService adds or updates a kubernetes service.
+	UpsertKubeService(ctx context.Context, in *UpsertKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// DeleteKubeService removes a kubernetes service.
+	DeleteKubeService(ctx context.Context, in *DeleteKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// DeleteAllKubeServices removes all kubernetes services.
+	DeleteAllKubeServices(ctx context.Context, in *DeleteAllKubeServicesRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// GetDatabaseServers returns all registered database proxy servers.
+	GetDatabaseServers(ctx context.Context, in *GetDatabaseServersRequest, opts ...grpc.CallOption) (*GetDatabaseServersResponse, error)
+	// UpsertDatabaseServer registers a new database proxy server.
+	UpsertDatabaseServer(ctx context.Context, in *UpsertDatabaseServerRequest, opts ...grpc.CallOption) (*services.KeepAlive, error)
+	// DeleteDatabaseServer removes the specified database proxy server.
+	DeleteDatabaseServer(ctx context.Context, in *DeleteDatabaseServerRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// DeleteAllDatabaseServers removes all registered database proxy servers.
+	DeleteAllDatabaseServers(ctx context.Context, in *DeleteAllDatabaseServersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// SignDatabaseCSR generates client certificate used by proxy to
+	// authenticate with a remote database service.
+	SignDatabaseCSR(ctx context.Context, in *DatabaseCSRRequest, opts ...grpc.CallOption) (*DatabaseCSRResponse, error)
+	// GenerateDatabaseCert generates client certificate used by a database
+	// service to authenticate with the database instance.
+	GenerateDatabaseCert(ctx context.Context, in *DatabaseCertRequest, opts ...grpc.CallOption) (*DatabaseCertResponse, error)
 }
 
 type authServiceClient struct {
@@ -3219,6 +4447,12 @@ func NewAuthServiceClient(cc *grpc.ClientConn) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
+<<<<<<< HEAD
+type AuthService_SendKeepAlivesServer interface {
+	SendAndClose(*empty.Empty) error
+	Recv() (*types.KeepAlive, error)
+	grpc.ServerStream
+=======
 func (c *authServiceClient) SendKeepAlives(ctx context.Context, opts ...grpc.CallOption) (AuthService_SendKeepAlivesClient, error) {
 	stream, err := c.cc.NewStream(ctx, &_AuthService_serviceDesc.Streams[0], "/proto.AuthService/SendKeepAlives", opts...)
 	if err != nil {
@@ -3226,10 +4460,11 @@ func (c *authServiceClient) SendKeepAlives(ctx context.Context, opts ...grpc.Cal
 	}
 	x := &authServiceSendKeepAlivesClient{stream}
 	return x, nil
+>>>>>>> d227402b9 (Database access)
 }
 
 type AuthService_SendKeepAlivesClient interface {
-	Send(*types.KeepAlive) error
+	Send(*services.KeepAlive) error
 	CloseAndRecv() (*empty.Empty, error)
 	grpc.ClientStream
 }
@@ -3238,7 +4473,12 @@ type authServiceSendKeepAlivesClient struct {
 	grpc.ClientStream
 }
 
-func (x *authServiceSendKeepAlivesClient) Send(m *types.KeepAlive) error {
+<<<<<<< HEAD
+func (x *authServiceSendKeepAlivesServer) Recv() (*types.KeepAlive, error) {
+	m := new(types.KeepAlive)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+=======
+func (x *authServiceSendKeepAlivesClient) Send(m *services.KeepAlive) error {
 	return x.ClientStream.SendMsg(m)
 }
 
@@ -3248,6 +4488,7 @@ func (x *authServiceSendKeepAlivesClient) CloseAndRecv() (*empty.Empty, error) {
 	}
 	m := new(empty.Empty)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
+>>>>>>> d227402b9 (Database access)
 		return nil, err
 	}
 	return m, nil
@@ -3285,13 +4526,32 @@ func (x *authServiceWatchEventsClient) Recv() (*Event, error) {
 	return m, nil
 }
 
-func (c *authServiceClient) UpsertNode(ctx context.Context, in *types.ServerV2, opts ...grpc.CallOption) (*types.KeepAlive, error) {
-	out := new(types.KeepAlive)
+<<<<<<< HEAD
+func _AuthService_UpsertNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(types.ServerV2)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpsertNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpsertNode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpsertNode(ctx, req.(*types.ServerV2))
+	}
+	return interceptor(ctx, in, info, handler)
+=======
+func (c *authServiceClient) UpsertNode(ctx context.Context, in *services.ServerV2, opts ...grpc.CallOption) (*services.KeepAlive, error) {
+	out := new(services.KeepAlive)
 	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertNode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
+>>>>>>> d227402b9 (Database access)
 }
 
 func (c *authServiceClient) GenerateUserCerts(ctx context.Context, in *UserCertsRequest, opts ...grpc.CallOption) (*Certs, error) {
@@ -3303,8 +4563,8 @@ func (c *authServiceClient) GenerateUserCerts(ctx context.Context, in *UserCerts
 	return out, nil
 }
 
-func (c *authServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*types.UserV2, error) {
-	out := new(types.UserV2)
+func (c *authServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*services.UserV2, error) {
+	out := new(services.UserV2)
 	err := c.cc.Invoke(ctx, "/proto.AuthService/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -3327,584 +4587,22 @@ func (c *authServiceClient) GetUsers(ctx context.Context, in *GetUsersRequest, o
 	return x, nil
 }
 
+<<<<<<< HEAD
+type AuthService_GetUsersServer interface {
+	Send(*types.UserV2) error
+	grpc.ServerStream
+=======
 type AuthService_GetUsersClient interface {
-	Recv() (*types.UserV2, error)
+	Recv() (*services.UserV2, error)
 	grpc.ClientStream
+>>>>>>> d227402b9 (Database access)
 }
 
 type authServiceGetUsersClient struct {
 	grpc.ClientStream
 }
 
-func (x *authServiceGetUsersClient) Recv() (*types.UserV2, error) {
-	m := new(types.UserV2)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *authServiceClient) GetAccessRequests(ctx context.Context, in *types.AccessRequestFilter, opts ...grpc.CallOption) (*AccessRequests, error) {
-	out := new(AccessRequests)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessRequests", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CreateAccessRequest(ctx context.Context, in *types.AccessRequestV3, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateAccessRequest", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAccessRequest(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAccessRequest", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) SetAccessRequestState(ctx context.Context, in *RequestStateSetter, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/SetAccessRequestState", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetAccessCapabilities(ctx context.Context, in *types.AccessCapabilitiesRequest, opts ...grpc.CallOption) (*types.AccessCapabilities, error) {
-	out := new(types.AccessCapabilities)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessCapabilities", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetPluginData(ctx context.Context, in *types.PluginDataFilter, opts ...grpc.CallOption) (*PluginDataSeq, error) {
-	out := new(PluginDataSeq)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetPluginData", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) UpdatePluginData(ctx context.Context, in *types.PluginDataUpdateParams, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdatePluginData", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
-	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/Ping", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) RotateResetPasswordTokenSecrets(ctx context.Context, in *RotateResetPasswordTokenSecretsRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenSecretsV3, error) {
-	out := new(types.ResetPasswordTokenSecretsV3)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/RotateResetPasswordTokenSecrets", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetResetPasswordToken(ctx context.Context, in *GetResetPasswordTokenRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenV3, error) {
-	out := new(types.ResetPasswordTokenV3)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetResetPasswordToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CreateResetPasswordToken(ctx context.Context, in *CreateResetPasswordTokenRequest, opts ...grpc.CallOption) (*types.ResetPasswordTokenV3, error) {
-	out := new(types.ResetPasswordTokenV3)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateResetPasswordToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CreateUser(ctx context.Context, in *types.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateUser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) UpdateUser(ctx context.Context, in *types.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateUser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteUser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) AcquireSemaphore(ctx context.Context, in *types.AcquireSemaphoreRequest, opts ...grpc.CallOption) (*types.SemaphoreLease, error) {
-	out := new(types.SemaphoreLease)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/AcquireSemaphore", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) KeepAliveSemaphoreLease(ctx context.Context, in *types.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/KeepAliveSemaphoreLease", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CancelSemaphoreLease(ctx context.Context, in *types.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/CancelSemaphoreLease", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetSemaphores(ctx context.Context, in *types.SemaphoreFilter, opts ...grpc.CallOption) (*Semaphores, error) {
-	out := new(Semaphores)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetSemaphores", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteSemaphore(ctx context.Context, in *types.SemaphoreFilter, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteSemaphore", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) EmitAuditEvent(ctx context.Context, in *events.OneOf, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/EmitAuditEvent", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CreateAuditStream(ctx context.Context, opts ...grpc.CallOption) (AuthService_CreateAuditStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_AuthService_serviceDesc.Streams[3], "/proto.AuthService/CreateAuditStream", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &authServiceCreateAuditStreamClient{stream}
-	return x, nil
-}
-
-type AuthService_CreateAuditStreamClient interface {
-	Send(*AuditStreamRequest) error
-	Recv() (*events.StreamStatus, error)
-	grpc.ClientStream
-}
-
-type authServiceCreateAuditStreamClient struct {
-	grpc.ClientStream
-}
-
-func (x *authServiceCreateAuditStreamClient) Send(m *AuditStreamRequest) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *authServiceCreateAuditStreamClient) Recv() (*events.StreamStatus, error) {
-	m := new(events.StreamStatus)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *authServiceClient) GetAppServers(ctx context.Context, in *GetAppServersRequest, opts ...grpc.CallOption) (*GetAppServersResponse, error) {
-	out := new(GetAppServersResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppServers", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) UpsertAppServer(ctx context.Context, in *UpsertAppServerRequest, opts ...grpc.CallOption) (*types.KeepAlive, error) {
-	out := new(types.KeepAlive)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertAppServer", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAppServer(ctx context.Context, in *DeleteAppServerRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAppServer", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAllAppServers(ctx context.Context, in *DeleteAllAppServersRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllAppServers", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GenerateAppToken(ctx context.Context, in *GenerateAppTokenRequest, opts ...grpc.CallOption) (*GenerateAppTokenResponse, error) {
-	out := new(GenerateAppTokenResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GenerateAppToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetAppSession(ctx context.Context, in *GetAppSessionRequest, opts ...grpc.CallOption) (*GetAppSessionResponse, error) {
-	out := new(GetAppSessionResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppSession", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetAppSessionsResponse, error) {
-	out := new(GetAppSessionsResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppSessions", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) CreateAppSession(ctx context.Context, in *CreateAppSessionRequest, opts ...grpc.CallOption) (*CreateAppSessionResponse, error) {
-	out := new(CreateAppSessionResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateAppSession", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAppSession(ctx context.Context, in *DeleteAppSessionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAppSession", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAllAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllAppSessions", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) UpdateRemoteCluster(ctx context.Context, in *types.RemoteClusterV3, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateRemoteCluster", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetKubeServices(ctx context.Context, in *GetKubeServicesRequest, opts ...grpc.CallOption) (*GetKubeServicesResponse, error) {
-	out := new(GetKubeServicesResponse)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/GetKubeServices", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) UpsertKubeService(ctx context.Context, in *UpsertKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertKubeService", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteKubeService(ctx context.Context, in *DeleteKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteKubeService", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeleteAllKubeServices(ctx context.Context, in *DeleteAllKubeServicesRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllKubeServices", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for AuthService service
-
-type AuthServiceServer interface {
-	// SendKeepAlives allows node to send a stream of keep alive requests
-	SendKeepAlives(AuthService_SendKeepAlivesServer) error
-	// WatchEvents returns a new stream of cluster events
-	WatchEvents(*Watch, AuthService_WatchEventsServer) error
-	// UpsertNode upserts node
-	UpsertNode(context.Context, *types.ServerV2) (*types.KeepAlive, error)
-	// GenerateUserCerts generates a set of user certificates for use by `tctl
-	// auth sign`.
-	GenerateUserCerts(context.Context, *UserCertsRequest) (*Certs, error)
-	// GetUser gets a user resource by name.
-	GetUser(context.Context, *GetUserRequest) (*types.UserV2, error)
-	// GetUsers gets all current user resources.
-	GetUsers(*GetUsersRequest, AuthService_GetUsersServer) error
-	// GetAccessRequests gets all pending access requests.
-	GetAccessRequests(context.Context, *types.AccessRequestFilter) (*AccessRequests, error)
-	// CreateAccessRequest creates a new access request.
-	CreateAccessRequest(context.Context, *types.AccessRequestV3) (*empty.Empty, error)
-	// DeleteAccessRequest deletes an access request.
-	DeleteAccessRequest(context.Context, *RequestID) (*empty.Empty, error)
-	// SetAccessRequestState sets the state of an access request.
-	SetAccessRequestState(context.Context, *RequestStateSetter) (*empty.Empty, error)
-	// GetAccessCapabilities requests the access capabilites of a user.
-	GetAccessCapabilities(context.Context, *types.AccessCapabilitiesRequest) (*types.AccessCapabilities, error)
-	// GetPluginData gets all plugin data matching the supplied filter.
-	GetPluginData(context.Context, *types.PluginDataFilter) (*PluginDataSeq, error)
-	// UpdatePluginData updates a plugin's resource-specific datastore.
-	UpdatePluginData(context.Context, *types.PluginDataUpdateParams) (*empty.Empty, error)
-	// Ping gets basic info about the auth server. This method is intended
-	// to mimic the behavior of the proxy's Ping method, and may be used by
-	// clients for verification or configuration on startup.
-	Ping(context.Context, *PingRequest) (*PingResponse, error)
-	// RotateResetPasswordTokenSecrets rotates token secrets for a given tokenID.
-	RotateResetPasswordTokenSecrets(context.Context, *RotateResetPasswordTokenSecretsRequest) (*types.ResetPasswordTokenSecretsV3, error)
-	// GetResetPasswordToken returns a token.
-	GetResetPasswordToken(context.Context, *GetResetPasswordTokenRequest) (*types.ResetPasswordTokenV3, error)
-	// CreateResetPasswordToken creates ResetPasswordToken.
-	CreateResetPasswordToken(context.Context, *CreateResetPasswordTokenRequest) (*types.ResetPasswordTokenV3, error)
-	// CreateUser inserts a new user entry to a backend.
-	CreateUser(context.Context, *types.UserV2) (*empty.Empty, error)
-	// UpdateUser updates an existing user in a backend.
-	UpdateUser(context.Context, *types.UserV2) (*empty.Empty, error)
-	// DeleteUser deletes an existing user in a backend by username.
-	DeleteUser(context.Context, *DeleteUserRequest) (*empty.Empty, error)
-	// AcquireSemaphore acquires lease with requested resources from semaphore.
-	AcquireSemaphore(context.Context, *types.AcquireSemaphoreRequest) (*types.SemaphoreLease, error)
-	// KeepAliveSemaphoreLease updates semaphore lease.
-	KeepAliveSemaphoreLease(context.Context, *types.SemaphoreLease) (*empty.Empty, error)
-	// CancelSemaphoreLease cancels semaphore lease early.
-	CancelSemaphoreLease(context.Context, *types.SemaphoreLease) (*empty.Empty, error)
-	// GetSemaphores returns a list of all semaphores matching the supplied filter.
-	GetSemaphores(context.Context, *types.SemaphoreFilter) (*Semaphores, error)
-	// DeleteSemaphore deletes a semaphore matching the supplied filter.
-	DeleteSemaphore(context.Context, *types.SemaphoreFilter) (*empty.Empty, error)
-	// EmitAuditEvent emits audit event
-	EmitAuditEvent(context.Context, *events.OneOf) (*empty.Empty, error)
-	// CreateAuditStream creates or resumes audit events streams
-	CreateAuditStream(AuthService_CreateAuditStreamServer) error
-	// GetAppServers gets all application servers.
-	GetAppServers(context.Context, *GetAppServersRequest) (*GetAppServersResponse, error)
-	// UpsertAppServer adds an application server.
-	UpsertAppServer(context.Context, *UpsertAppServerRequest) (*types.KeepAlive, error)
-	// DeleteAppServer removes an application server.
-	DeleteAppServer(context.Context, *DeleteAppServerRequest) (*empty.Empty, error)
-	// DeleteAllAppServers removes all application servers.
-	DeleteAllAppServers(context.Context, *DeleteAllAppServersRequest) (*empty.Empty, error)
-	// GenerateAppToken will generate a JWT token for application access.
-	GenerateAppToken(context.Context, *GenerateAppTokenRequest) (*GenerateAppTokenResponse, error)
-	// GetAppSession gets an application web session.
-	GetAppSession(context.Context, *GetAppSessionRequest) (*GetAppSessionResponse, error)
-	// GetAppSessions gets all application web sessions.
-	GetAppSessions(context.Context, *empty.Empty) (*GetAppSessionsResponse, error)
-	// CreateAppSession creates an application web session. Application web
-	// sessions represent a browser session the client holds.
-	CreateAppSession(context.Context, *CreateAppSessionRequest) (*CreateAppSessionResponse, error)
-	// DeleteAppSession removes an application web session.
-	DeleteAppSession(context.Context, *DeleteAppSessionRequest) (*empty.Empty, error)
-	// DeleteAllAppSessions removes all application web sessions.
-	DeleteAllAppSessions(context.Context, *empty.Empty) (*empty.Empty, error)
-	// UpdateRemoteCluster updates remote cluster
-	UpdateRemoteCluster(context.Context, *types.RemoteClusterV3) (*empty.Empty, error)
-	// GetKubeServices gets all kubernetes services.
-	GetKubeServices(context.Context, *GetKubeServicesRequest) (*GetKubeServicesResponse, error)
-	// UpsertKubeService adds or updates a kubernetes service.
-	UpsertKubeService(context.Context, *UpsertKubeServiceRequest) (*empty.Empty, error)
-	// DeleteKubeService removes a kubernetes service.
-	DeleteKubeService(context.Context, *DeleteKubeServiceRequest) (*empty.Empty, error)
-	// DeleteAllKubeServices removes all kubernetes services.
-	DeleteAllKubeServices(context.Context, *DeleteAllKubeServicesRequest) (*empty.Empty, error)
-}
-
-func RegisterAuthServiceServer(s *grpc.Server, srv AuthServiceServer) {
-	s.RegisterService(&_AuthService_serviceDesc, srv)
-}
-
-func _AuthService_SendKeepAlives_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(AuthServiceServer).SendKeepAlives(&authServiceSendKeepAlivesServer{stream})
-}
-
-type AuthService_SendKeepAlivesServer interface {
-	SendAndClose(*empty.Empty) error
-	Recv() (*types.KeepAlive, error)
-	grpc.ServerStream
-}
-
-type authServiceSendKeepAlivesServer struct {
-	grpc.ServerStream
-}
-
-func (x *authServiceSendKeepAlivesServer) SendAndClose(m *empty.Empty) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *authServiceSendKeepAlivesServer) Recv() (*types.KeepAlive, error) {
-	m := new(types.KeepAlive)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _AuthService_WatchEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(Watch)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(AuthServiceServer).WatchEvents(m, &authServiceWatchEventsServer{stream})
-}
-
-type AuthService_WatchEventsServer interface {
-	Send(*Event) error
-	grpc.ServerStream
-}
-
-type authServiceWatchEventsServer struct {
-	grpc.ServerStream
-}
-
-func (x *authServiceWatchEventsServer) Send(m *Event) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func _AuthService_UpsertNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(types.ServerV2)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).UpsertNode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/UpsertNode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).UpsertNode(ctx, req.(*types.ServerV2))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_GenerateUserCerts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserCertsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).GenerateUserCerts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/GenerateUserCerts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).GenerateUserCerts(ctx, req.(*UserCertsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).GetUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/GetUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).GetUser(ctx, req.(*GetUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_GetUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(GetUsersRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(AuthServiceServer).GetUsers(m, &authServiceGetUsersServer{stream})
-}
-
-type AuthService_GetUsersServer interface {
-	Send(*types.UserV2) error
-	grpc.ServerStream
-}
-
-type authServiceGetUsersServer struct {
-	grpc.ServerStream
-}
-
+<<<<<<< HEAD
 func (x *authServiceGetUsersServer) Send(m *types.UserV2) error {
 	return x.ServerStream.SendMsg(m)
 }
@@ -3943,44 +4641,53 @@ func _AuthService_CreateAccessRequest_Handler(srv interface{}, ctx context.Conte
 		return srv.(AuthServiceServer).CreateAccessRequest(ctx, req.(*types.AccessRequestV3))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_DeleteAccessRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestID)
-	if err := dec(in); err != nil {
+=======
+func (x *authServiceGetUsersClient) Recv() (*services.UserV2, error) {
+	m := new(services.UserV2)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).DeleteAccessRequest(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/DeleteAccessRequest",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).DeleteAccessRequest(ctx, req.(*RequestID))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
-func _AuthService_SetAccessRequestState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestStateSetter)
-	if err := dec(in); err != nil {
+func (c *authServiceClient) GetAccessRequests(ctx context.Context, in *services.AccessRequestFilter, opts ...grpc.CallOption) (*AccessRequests, error) {
+	out := new(AccessRequests)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessRequests", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).SetAccessRequestState(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/SetAccessRequestState",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).SetAccessRequestState(ctx, req.(*RequestStateSetter))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
+func (c *authServiceClient) CreateAccessRequest(ctx context.Context, in *services.AccessRequestV3, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateAccessRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+>>>>>>> d227402b9 (Database access)
+}
+
+func (c *authServiceClient) DeleteAccessRequest(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAccessRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) SetAccessRequestState(ctx context.Context, in *RequestStateSetter, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/SetAccessRequestState", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+<<<<<<< HEAD
 func _AuthService_GetAccessCapabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(types.AccessCapabilitiesRequest)
 	if err := dec(in); err != nil {
@@ -4033,80 +4740,72 @@ func _AuthService_UpdatePluginData_Handler(srv interface{}, ctx context.Context,
 		return srv.(AuthServiceServer).UpdatePluginData(ctx, req.(*types.PluginDataUpdateParams))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingRequest)
-	if err := dec(in); err != nil {
+=======
+func (c *authServiceClient) GetAccessCapabilities(ctx context.Context, in *services.AccessCapabilitiesRequest, opts ...grpc.CallOption) (*services.AccessCapabilities, error) {
+	out := new(services.AccessCapabilities)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAccessCapabilities", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).Ping(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/Ping",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).Ping(ctx, req.(*PingRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
-func _AuthService_RotateResetPasswordTokenSecrets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RotateResetPasswordTokenSecretsRequest)
-	if err := dec(in); err != nil {
+func (c *authServiceClient) GetPluginData(ctx context.Context, in *services.PluginDataFilter, opts ...grpc.CallOption) (*PluginDataSeq, error) {
+	out := new(PluginDataSeq)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetPluginData", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).RotateResetPasswordTokenSecrets(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/RotateResetPasswordTokenSecrets",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).RotateResetPasswordTokenSecrets(ctx, req.(*RotateResetPasswordTokenSecretsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
-func _AuthService_GetResetPasswordToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetResetPasswordTokenRequest)
-	if err := dec(in); err != nil {
+func (c *authServiceClient) UpdatePluginData(ctx context.Context, in *services.PluginDataUpdateParams, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdatePluginData", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).GetResetPasswordToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/GetResetPasswordToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).GetResetPasswordToken(ctx, req.(*GetResetPasswordTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
+>>>>>>> d227402b9 (Database access)
 }
 
-func _AuthService_CreateResetPasswordToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateResetPasswordTokenRequest)
-	if err := dec(in); err != nil {
+func (c *authServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/Ping", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).CreateResetPasswordToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/CreateResetPasswordToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).CreateResetPasswordToken(ctx, req.(*CreateResetPasswordTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
+func (c *authServiceClient) RotateResetPasswordTokenSecrets(ctx context.Context, in *RotateResetPasswordTokenSecretsRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenSecretsV3, error) {
+	out := new(services.ResetPasswordTokenSecretsV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/RotateResetPasswordTokenSecrets", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetResetPasswordToken(ctx context.Context, in *GetResetPasswordTokenRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenV3, error) {
+	out := new(services.ResetPasswordTokenV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetResetPasswordToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CreateResetPasswordToken(ctx context.Context, in *CreateResetPasswordTokenRequest, opts ...grpc.CallOption) (*services.ResetPasswordTokenV3, error) {
+	out := new(services.ResetPasswordTokenV3)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateResetPasswordToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+<<<<<<< HEAD
 func _AuthService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(types.UserV2)
 	if err := dec(in); err != nil {
@@ -4141,26 +4840,36 @@ func _AuthService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec f
 		return srv.(AuthServiceServer).UpdateUser(ctx, req.(*types.UserV2))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserRequest)
-	if err := dec(in); err != nil {
+=======
+func (c *authServiceClient) CreateUser(ctx context.Context, in *services.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateUser", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).DeleteUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.AuthService/DeleteUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
+func (c *authServiceClient) UpdateUser(ctx context.Context, in *services.UserV2, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+>>>>>>> d227402b9 (Database access)
+}
+
+func (c *authServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+<<<<<<< HEAD
 func _AuthService_AcquireSemaphore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(types.AcquireSemaphoreRequest)
 	if err := dec(in); err != nil {
@@ -4247,6 +4956,874 @@ func _AuthService_DeleteSemaphore_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).DeleteSemaphore(ctx, req.(*types.SemaphoreFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+=======
+func (c *authServiceClient) AcquireSemaphore(ctx context.Context, in *services.AcquireSemaphoreRequest, opts ...grpc.CallOption) (*services.SemaphoreLease, error) {
+	out := new(services.SemaphoreLease)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/AcquireSemaphore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) KeepAliveSemaphoreLease(ctx context.Context, in *services.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/KeepAliveSemaphoreLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CancelSemaphoreLease(ctx context.Context, in *services.SemaphoreLease, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CancelSemaphoreLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetSemaphores(ctx context.Context, in *services.SemaphoreFilter, opts ...grpc.CallOption) (*Semaphores, error) {
+	out := new(Semaphores)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetSemaphores", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteSemaphore(ctx context.Context, in *services.SemaphoreFilter, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteSemaphore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+>>>>>>> d227402b9 (Database access)
+}
+
+func (c *authServiceClient) EmitAuditEvent(ctx context.Context, in *events.OneOf, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/EmitAuditEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CreateAuditStream(ctx context.Context, opts ...grpc.CallOption) (AuthService_CreateAuditStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_AuthService_serviceDesc.Streams[3], "/proto.AuthService/CreateAuditStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &authServiceCreateAuditStreamClient{stream}
+	return x, nil
+}
+
+type AuthService_CreateAuditStreamClient interface {
+	Send(*AuditStreamRequest) error
+	Recv() (*events.StreamStatus, error)
+	grpc.ClientStream
+}
+
+type authServiceCreateAuditStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *authServiceCreateAuditStreamClient) Send(m *AuditStreamRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *authServiceCreateAuditStreamClient) Recv() (*events.StreamStatus, error) {
+	m := new(events.StreamStatus)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *authServiceClient) GetAppServers(ctx context.Context, in *GetAppServersRequest, opts ...grpc.CallOption) (*GetAppServersResponse, error) {
+	out := new(GetAppServersResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppServers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) UpsertAppServer(ctx context.Context, in *UpsertAppServerRequest, opts ...grpc.CallOption) (*services.KeepAlive, error) {
+	out := new(services.KeepAlive)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertAppServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAppServer(ctx context.Context, in *DeleteAppServerRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAppServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAllAppServers(ctx context.Context, in *DeleteAllAppServersRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllAppServers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GenerateAppToken(ctx context.Context, in *GenerateAppTokenRequest, opts ...grpc.CallOption) (*GenerateAppTokenResponse, error) {
+	out := new(GenerateAppTokenResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GenerateAppToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetAppSession(ctx context.Context, in *GetAppSessionRequest, opts ...grpc.CallOption) (*GetAppSessionResponse, error) {
+	out := new(GetAppSessionResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppSession", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetAppSessionsResponse, error) {
+	out := new(GetAppSessionsResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetAppSessions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) CreateAppSession(ctx context.Context, in *CreateAppSessionRequest, opts ...grpc.CallOption) (*CreateAppSessionResponse, error) {
+	out := new(CreateAppSessionResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/CreateAppSession", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAppSession(ctx context.Context, in *DeleteAppSessionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAppSession", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAllAppSessions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllAppSessions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+<<<<<<< HEAD
+func _AuthService_UpdateRemoteCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(types.RemoteClusterV3)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpdateRemoteCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpdateRemoteCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpdateRemoteCluster(ctx, req.(*types.RemoteClusterV3))
+	}
+	return interceptor(ctx, in, info, handler)
+=======
+func (c *authServiceClient) UpdateRemoteCluster(ctx context.Context, in *services.RemoteClusterV3, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpdateRemoteCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+>>>>>>> d227402b9 (Database access)
+}
+
+func (c *authServiceClient) GetKubeServices(ctx context.Context, in *GetKubeServicesRequest, opts ...grpc.CallOption) (*GetKubeServicesResponse, error) {
+	out := new(GetKubeServicesResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetKubeServices", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) UpsertKubeService(ctx context.Context, in *UpsertKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertKubeService", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteKubeService(ctx context.Context, in *DeleteKubeServiceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteKubeService", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAllKubeServices(ctx context.Context, in *DeleteAllKubeServicesRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllKubeServices", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetDatabaseServers(ctx context.Context, in *GetDatabaseServersRequest, opts ...grpc.CallOption) (*GetDatabaseServersResponse, error) {
+	out := new(GetDatabaseServersResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GetDatabaseServers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) UpsertDatabaseServer(ctx context.Context, in *UpsertDatabaseServerRequest, opts ...grpc.CallOption) (*services.KeepAlive, error) {
+	out := new(services.KeepAlive)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/UpsertDatabaseServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteDatabaseServer(ctx context.Context, in *DeleteDatabaseServerRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteDatabaseServer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) DeleteAllDatabaseServers(ctx context.Context, in *DeleteAllDatabaseServersRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/DeleteAllDatabaseServers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) SignDatabaseCSR(ctx context.Context, in *DatabaseCSRRequest, opts ...grpc.CallOption) (*DatabaseCSRResponse, error) {
+	out := new(DatabaseCSRResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/SignDatabaseCSR", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GenerateDatabaseCert(ctx context.Context, in *DatabaseCertRequest, opts ...grpc.CallOption) (*DatabaseCertResponse, error) {
+	out := new(DatabaseCertResponse)
+	err := c.cc.Invoke(ctx, "/proto.AuthService/GenerateDatabaseCert", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for AuthService service
+
+type AuthServiceServer interface {
+	// SendKeepAlives allows node to send a stream of keep alive requests
+	SendKeepAlives(AuthService_SendKeepAlivesServer) error
+	// WatchEvents returns a new stream of cluster events
+	WatchEvents(*Watch, AuthService_WatchEventsServer) error
+	// UpsertNode upserts node
+	UpsertNode(context.Context, *services.ServerV2) (*services.KeepAlive, error)
+	// GenerateUserCerts generates a set of user certificates for use by `tctl
+	// auth sign`.
+	GenerateUserCerts(context.Context, *UserCertsRequest) (*Certs, error)
+	// GetUser gets a user resource by name.
+	GetUser(context.Context, *GetUserRequest) (*services.UserV2, error)
+	// GetUsers gets all current user resources.
+	GetUsers(*GetUsersRequest, AuthService_GetUsersServer) error
+	// GetAccessRequests gets all pending access requests.
+	GetAccessRequests(context.Context, *services.AccessRequestFilter) (*AccessRequests, error)
+	// CreateAccessRequest creates a new access request.
+	CreateAccessRequest(context.Context, *services.AccessRequestV3) (*empty.Empty, error)
+	// DeleteAccessRequest deletes an access request.
+	DeleteAccessRequest(context.Context, *RequestID) (*empty.Empty, error)
+	// SetAccessRequestState sets the state of an access request.
+	SetAccessRequestState(context.Context, *RequestStateSetter) (*empty.Empty, error)
+	// GetAccessCapabilities requests the access capabilites of a user.
+	GetAccessCapabilities(context.Context, *services.AccessCapabilitiesRequest) (*services.AccessCapabilities, error)
+	// GetPluginData gets all plugin data matching the supplied filter.
+	GetPluginData(context.Context, *services.PluginDataFilter) (*PluginDataSeq, error)
+	// UpdatePluginData updates a plugin's resource-specific datastore.
+	UpdatePluginData(context.Context, *services.PluginDataUpdateParams) (*empty.Empty, error)
+	// Ping gets basic info about the auth server. This method is intended
+	// to mimic the behavior of the proxy's Ping method, and may be used by
+	// clients for verification or configuration on startup.
+	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	// RotateResetPasswordTokenSecrets rotates token secrets for a given tokenID.
+	RotateResetPasswordTokenSecrets(context.Context, *RotateResetPasswordTokenSecretsRequest) (*services.ResetPasswordTokenSecretsV3, error)
+	// GetResetPasswordToken returns a token.
+	GetResetPasswordToken(context.Context, *GetResetPasswordTokenRequest) (*services.ResetPasswordTokenV3, error)
+	// CreateResetPasswordToken creates ResetPasswordToken.
+	CreateResetPasswordToken(context.Context, *CreateResetPasswordTokenRequest) (*services.ResetPasswordTokenV3, error)
+	// CreateUser inserts a new user entry to a backend.
+	CreateUser(context.Context, *services.UserV2) (*empty.Empty, error)
+	// UpdateUser updates an existing user in a backend.
+	UpdateUser(context.Context, *services.UserV2) (*empty.Empty, error)
+	// DeleteUser deletes an existing user in a backend by username.
+	DeleteUser(context.Context, *DeleteUserRequest) (*empty.Empty, error)
+	// AcquireSemaphore acquires lease with requested resources from semaphore.
+	AcquireSemaphore(context.Context, *services.AcquireSemaphoreRequest) (*services.SemaphoreLease, error)
+	// KeepAliveSemaphoreLease updates semaphore lease.
+	KeepAliveSemaphoreLease(context.Context, *services.SemaphoreLease) (*empty.Empty, error)
+	// CancelSemaphoreLease cancels semaphore lease early.
+	CancelSemaphoreLease(context.Context, *services.SemaphoreLease) (*empty.Empty, error)
+	// GetSemaphores returns a list of all semaphores matching the supplied filter.
+	GetSemaphores(context.Context, *services.SemaphoreFilter) (*Semaphores, error)
+	// DeleteSemaphore deletes a semaphore matching the supplied filter.
+	DeleteSemaphore(context.Context, *services.SemaphoreFilter) (*empty.Empty, error)
+	// EmitAuditEvent emits audit event
+	EmitAuditEvent(context.Context, *events.OneOf) (*empty.Empty, error)
+	// CreateAuditStream creates or resumes audit events streams
+	CreateAuditStream(AuthService_CreateAuditStreamServer) error
+	// GetAppServers gets all application servers.
+	GetAppServers(context.Context, *GetAppServersRequest) (*GetAppServersResponse, error)
+	// UpsertAppServer adds an application server.
+	UpsertAppServer(context.Context, *UpsertAppServerRequest) (*services.KeepAlive, error)
+	// DeleteAppServer removes an application server.
+	DeleteAppServer(context.Context, *DeleteAppServerRequest) (*empty.Empty, error)
+	// DeleteAllAppServers removes all application servers.
+	DeleteAllAppServers(context.Context, *DeleteAllAppServersRequest) (*empty.Empty, error)
+	// GenerateAppToken will generate a JWT token for application access.
+	GenerateAppToken(context.Context, *GenerateAppTokenRequest) (*GenerateAppTokenResponse, error)
+	// GetAppSession gets an application web session.
+	GetAppSession(context.Context, *GetAppSessionRequest) (*GetAppSessionResponse, error)
+	// GetAppSessions gets all application web sessions.
+	GetAppSessions(context.Context, *empty.Empty) (*GetAppSessionsResponse, error)
+	// CreateAppSession creates an application web session. Application web
+	// sessions represent a browser session the client holds.
+	CreateAppSession(context.Context, *CreateAppSessionRequest) (*CreateAppSessionResponse, error)
+	// DeleteAppSession removes an application web session.
+	DeleteAppSession(context.Context, *DeleteAppSessionRequest) (*empty.Empty, error)
+	// DeleteAllAppSessions removes all application web sessions.
+	DeleteAllAppSessions(context.Context, *empty.Empty) (*empty.Empty, error)
+	// UpdateRemoteCluster updates remote cluster
+	UpdateRemoteCluster(context.Context, *services.RemoteClusterV3) (*empty.Empty, error)
+	// GetKubeServices gets all kubernetes services.
+	GetKubeServices(context.Context, *GetKubeServicesRequest) (*GetKubeServicesResponse, error)
+	// UpsertKubeService adds or updates a kubernetes service.
+	UpsertKubeService(context.Context, *UpsertKubeServiceRequest) (*empty.Empty, error)
+	// DeleteKubeService removes a kubernetes service.
+	DeleteKubeService(context.Context, *DeleteKubeServiceRequest) (*empty.Empty, error)
+	// DeleteAllKubeServices removes all kubernetes services.
+	DeleteAllKubeServices(context.Context, *DeleteAllKubeServicesRequest) (*empty.Empty, error)
+	// GetDatabaseServers returns all registered database proxy servers.
+	GetDatabaseServers(context.Context, *GetDatabaseServersRequest) (*GetDatabaseServersResponse, error)
+	// UpsertDatabaseServer registers a new database proxy server.
+	UpsertDatabaseServer(context.Context, *UpsertDatabaseServerRequest) (*services.KeepAlive, error)
+	// DeleteDatabaseServer removes the specified database proxy server.
+	DeleteDatabaseServer(context.Context, *DeleteDatabaseServerRequest) (*empty.Empty, error)
+	// DeleteAllDatabaseServers removes all registered database proxy servers.
+	DeleteAllDatabaseServers(context.Context, *DeleteAllDatabaseServersRequest) (*empty.Empty, error)
+	// SignDatabaseCSR generates client certificate used by proxy to
+	// authenticate with a remote database service.
+	SignDatabaseCSR(context.Context, *DatabaseCSRRequest) (*DatabaseCSRResponse, error)
+	// GenerateDatabaseCert generates client certificate used by a database
+	// service to authenticate with the database instance.
+	GenerateDatabaseCert(context.Context, *DatabaseCertRequest) (*DatabaseCertResponse, error)
+}
+
+func RegisterAuthServiceServer(s *grpc.Server, srv AuthServiceServer) {
+	s.RegisterService(&_AuthService_serviceDesc, srv)
+}
+
+func _AuthService_SendKeepAlives_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(AuthServiceServer).SendKeepAlives(&authServiceSendKeepAlivesServer{stream})
+}
+
+type AuthService_SendKeepAlivesServer interface {
+	SendAndClose(*empty.Empty) error
+	Recv() (*services.KeepAlive, error)
+	grpc.ServerStream
+}
+
+type authServiceSendKeepAlivesServer struct {
+	grpc.ServerStream
+}
+
+func (x *authServiceSendKeepAlivesServer) SendAndClose(m *empty.Empty) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *authServiceSendKeepAlivesServer) Recv() (*services.KeepAlive, error) {
+	m := new(services.KeepAlive)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _AuthService_WatchEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Watch)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AuthServiceServer).WatchEvents(m, &authServiceWatchEventsServer{stream})
+}
+
+type AuthService_WatchEventsServer interface {
+	Send(*Event) error
+	grpc.ServerStream
+}
+
+type authServiceWatchEventsServer struct {
+	grpc.ServerStream
+}
+
+func (x *authServiceWatchEventsServer) Send(m *Event) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _AuthService_UpsertNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.ServerV2)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpsertNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpsertNode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpsertNode(ctx, req.(*services.ServerV2))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GenerateUserCerts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserCertsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GenerateUserCerts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GenerateUserCerts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GenerateUserCerts(ctx, req.(*UserCertsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetUsersRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AuthServiceServer).GetUsers(m, &authServiceGetUsersServer{stream})
+}
+
+type AuthService_GetUsersServer interface {
+	Send(*services.UserV2) error
+	grpc.ServerStream
+}
+
+type authServiceGetUsersServer struct {
+	grpc.ServerStream
+}
+
+func (x *authServiceGetUsersServer) Send(m *services.UserV2) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _AuthService_GetAccessRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.AccessRequestFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetAccessRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetAccessRequests",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetAccessRequests(ctx, req.(*services.AccessRequestFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_CreateAccessRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.AccessRequestV3)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).CreateAccessRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/CreateAccessRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).CreateAccessRequest(ctx, req.(*services.AccessRequestV3))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_DeleteAccessRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).DeleteAccessRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/DeleteAccessRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).DeleteAccessRequest(ctx, req.(*RequestID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_SetAccessRequestState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestStateSetter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).SetAccessRequestState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/SetAccessRequestState",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).SetAccessRequestState(ctx, req.(*RequestStateSetter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetAccessCapabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.AccessCapabilitiesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetAccessCapabilities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetAccessCapabilities",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetAccessCapabilities(ctx, req.(*services.AccessCapabilitiesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetPluginData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.PluginDataFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetPluginData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetPluginData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetPluginData(ctx, req.(*services.PluginDataFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_UpdatePluginData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.PluginDataUpdateParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpdatePluginData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpdatePluginData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpdatePluginData(ctx, req.(*services.PluginDataUpdateParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).Ping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/Ping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_RotateResetPasswordTokenSecrets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RotateResetPasswordTokenSecretsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).RotateResetPasswordTokenSecrets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/RotateResetPasswordTokenSecrets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).RotateResetPasswordTokenSecrets(ctx, req.(*RotateResetPasswordTokenSecretsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetResetPasswordToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetResetPasswordTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetResetPasswordToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetResetPasswordToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetResetPasswordToken(ctx, req.(*GetResetPasswordTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_CreateResetPasswordToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateResetPasswordTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).CreateResetPasswordToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/CreateResetPasswordToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).CreateResetPasswordToken(ctx, req.(*CreateResetPasswordTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.UserV2)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).CreateUser(ctx, req.(*services.UserV2))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.UserV2)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpdateUser(ctx, req.(*services.UserV2))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_AcquireSemaphore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.AcquireSemaphoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).AcquireSemaphore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/AcquireSemaphore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).AcquireSemaphore(ctx, req.(*services.AcquireSemaphoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_KeepAliveSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.SemaphoreLease)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).KeepAliveSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/KeepAliveSemaphoreLease",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).KeepAliveSemaphoreLease(ctx, req.(*services.SemaphoreLease))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_CancelSemaphoreLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.SemaphoreLease)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).CancelSemaphoreLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/CancelSemaphoreLease",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).CancelSemaphoreLease(ctx, req.(*services.SemaphoreLease))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetSemaphores_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.SemaphoreFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetSemaphores(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetSemaphores",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetSemaphores(ctx, req.(*services.SemaphoreFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_DeleteSemaphore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(services.SemaphoreFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).DeleteSemaphore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/DeleteSemaphore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).DeleteSemaphore(ctx, req.(*services.SemaphoreFilter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4476,7 +6053,7 @@ func _AuthService_DeleteAllAppSessions_Handler(srv interface{}, ctx context.Cont
 }
 
 func _AuthService_UpdateRemoteCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(types.RemoteClusterV3)
+	in := new(services.RemoteClusterV3)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -4488,7 +6065,7 @@ func _AuthService_UpdateRemoteCluster_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/proto.AuthService/UpdateRemoteCluster",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).UpdateRemoteCluster(ctx, req.(*types.RemoteClusterV3))
+		return srv.(AuthServiceServer).UpdateRemoteCluster(ctx, req.(*services.RemoteClusterV3))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4561,6 +6138,114 @@ func _AuthService_DeleteAllKubeServices_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).DeleteAllKubeServices(ctx, req.(*DeleteAllKubeServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetDatabaseServers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDatabaseServersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetDatabaseServers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GetDatabaseServers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetDatabaseServers(ctx, req.(*GetDatabaseServersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_UpsertDatabaseServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertDatabaseServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).UpsertDatabaseServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/UpsertDatabaseServer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).UpsertDatabaseServer(ctx, req.(*UpsertDatabaseServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_DeleteDatabaseServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDatabaseServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).DeleteDatabaseServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/DeleteDatabaseServer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).DeleteDatabaseServer(ctx, req.(*DeleteDatabaseServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_DeleteAllDatabaseServers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAllDatabaseServersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).DeleteAllDatabaseServers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/DeleteAllDatabaseServers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).DeleteAllDatabaseServers(ctx, req.(*DeleteAllDatabaseServersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_SignDatabaseCSR_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DatabaseCSRRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).SignDatabaseCSR(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/SignDatabaseCSR",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).SignDatabaseCSR(ctx, req.(*DatabaseCSRRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GenerateDatabaseCert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DatabaseCertRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GenerateDatabaseCert(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AuthService/GenerateDatabaseCert",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GenerateDatabaseCert(ctx, req.(*DatabaseCertRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4720,6 +6405,30 @@ var _AuthService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAllKubeServices",
 			Handler:    _AuthService_DeleteAllKubeServices_Handler,
+		},
+		{
+			MethodName: "GetDatabaseServers",
+			Handler:    _AuthService_GetDatabaseServers_Handler,
+		},
+		{
+			MethodName: "UpsertDatabaseServer",
+			Handler:    _AuthService_UpsertDatabaseServer_Handler,
+		},
+		{
+			MethodName: "DeleteDatabaseServer",
+			Handler:    _AuthService_DeleteDatabaseServer_Handler,
+		},
+		{
+			MethodName: "DeleteAllDatabaseServers",
+			Handler:    _AuthService_DeleteAllDatabaseServers_Handler,
+		},
+		{
+			MethodName: "SignDatabaseCSR",
+			Handler:    _AuthService_SignDatabaseCSR_Handler,
+		},
+		{
+			MethodName: "GenerateDatabaseCert",
+			Handler:    _AuthService_GenerateDatabaseCert_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
@@ -4993,6 +6702,22 @@ func (m *Event_RemoteCluster) MarshalTo(dAtA []byte) (int, error) {
 	}
 	return i, nil
 }
+func (m *Event_DatabaseServer) MarshalTo(dAtA []byte) (int, error) {
+	i := 0
+	if m.DatabaseServer != nil {
+		dAtA[i] = 0x8a
+		i++
+		dAtA[i] = 0x1
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(m.DatabaseServer.Size()))
+		n17, err := m.DatabaseServer.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n17
+	}
+	return i, nil
+}
 func (m *Watch) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -5149,11 +6874,11 @@ func (m *UserCertsRequest) MarshalTo(dAtA []byte) (int, error) {
 	dAtA[i] = 0x1a
 	i++
 	i = encodeVarintAuthservice(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.Expires)))
-	n17, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Expires, dAtA[i:])
+	n18, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Expires, dAtA[i:])
 	if err != nil {
 		return 0, err
 	}
-	i += n17
+	i += n18
 	if len(m.Format) > 0 {
 		dAtA[i] = 0x22
 		i++
@@ -5186,6 +6911,59 @@ func (m *UserCertsRequest) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.KubernetesCluster)))
 		i += copy(dAtA[i:], m.KubernetesCluster)
+	}
+	dAtA[i] = 0x42
+	i++
+	i = encodeVarintAuthservice(dAtA, i, uint64(m.RouteToDatabase.Size()))
+	n19, err := m.RouteToDatabase.MarshalTo(dAtA[i:])
+	if err != nil {
+		return 0, err
+	}
+	i += n19
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *RouteToDatabase) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RouteToDatabase) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.ServiceName) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.ServiceName)))
+		i += copy(dAtA[i:], m.ServiceName)
+	}
+	if len(m.Protocol) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Protocol)))
+		i += copy(dAtA[i:], m.Protocol)
+	}
+	if len(m.Username) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Username)))
+		i += copy(dAtA[i:], m.Username)
+	}
+	if len(m.Database) > 0 {
+		dAtA[i] = 0x22
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Database)))
+		i += copy(dAtA[i:], m.Database)
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -5368,11 +7146,11 @@ func (m *RequestStateSetter) MarshalTo(dAtA []byte) (int, error) {
 	dAtA[i] = 0x2a
 	i++
 	i = encodeVarintAuthservice(dAtA, i, uint64(m.Annotations.Size()))
-	n18, err := m.Annotations.MarshalTo(dAtA[i:])
+	n20, err := m.Annotations.MarshalTo(dAtA[i:])
 	if err != nil {
 		return 0, err
 	}
-	i += n18
+	i += n20
 	if len(m.Roles) > 0 {
 		for _, s := range m.Roles {
 			dAtA[i] = 0x32
@@ -5643,11 +7421,11 @@ func (m *AuditStreamRequest) MarshalTo(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if m.Request != nil {
-		nn19, err := m.Request.MarshalTo(dAtA[i:])
+		nn21, err := m.Request.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += nn19
+		i += nn21
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -5661,11 +7439,11 @@ func (m *AuditStreamRequest_CreateStream) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0xa
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.CreateStream.Size()))
-		n20, err := m.CreateStream.MarshalTo(dAtA[i:])
+		n22, err := m.CreateStream.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n20
+		i += n22
 	}
 	return i, nil
 }
@@ -5675,11 +7453,11 @@ func (m *AuditStreamRequest_ResumeStream) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0x12
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.ResumeStream.Size()))
-		n21, err := m.ResumeStream.MarshalTo(dAtA[i:])
+		n23, err := m.ResumeStream.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n21
+		i += n23
 	}
 	return i, nil
 }
@@ -5689,11 +7467,11 @@ func (m *AuditStreamRequest_CompleteStream) MarshalTo(dAtA []byte) (int, error) 
 		dAtA[i] = 0x1a
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.CompleteStream.Size()))
-		n22, err := m.CompleteStream.MarshalTo(dAtA[i:])
+		n24, err := m.CompleteStream.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n22
+		i += n24
 	}
 	return i, nil
 }
@@ -5703,11 +7481,11 @@ func (m *AuditStreamRequest_FlushAndCloseStream) MarshalTo(dAtA []byte) (int, er
 		dAtA[i] = 0x22
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.FlushAndCloseStream.Size()))
-		n23, err := m.FlushAndCloseStream.MarshalTo(dAtA[i:])
+		n25, err := m.FlushAndCloseStream.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n23
+		i += n25
 	}
 	return i, nil
 }
@@ -5717,11 +7495,11 @@ func (m *AuditStreamRequest_Event) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0x2a
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.Event.Size()))
-		n24, err := m.Event.MarshalTo(dAtA[i:])
+		n26, err := m.Event.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n24
+		i += n26
 	}
 	return i, nil
 }
@@ -5943,11 +7721,11 @@ func (m *UpsertAppServerRequest) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0xa
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.Server.Size()))
-		n25, err := m.Server.MarshalTo(dAtA[i:])
+		n27, err := m.Server.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n25
+		i += n27
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -6060,11 +7838,11 @@ func (m *GenerateAppTokenRequest) MarshalTo(dAtA []byte) (int, error) {
 	dAtA[i] = 0x22
 	i++
 	i = encodeVarintAuthservice(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.Expires)))
-	n26, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Expires, dAtA[i:])
+	n28, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Expires, dAtA[i:])
 	if err != nil {
 		return 0, err
 	}
-	i += n26
+	i += n28
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
@@ -6144,11 +7922,11 @@ func (m *GetAppSessionResponse) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0xa
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.Session.Size()))
-		n27, err := m.Session.MarshalTo(dAtA[i:])
+		n29, err := m.Session.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n27
+		i += n29
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -6253,11 +8031,11 @@ func (m *CreateAppSessionResponse) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0xa
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.Session.Size()))
-		n28, err := m.Session.MarshalTo(dAtA[i:])
+		n30, err := m.Session.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n28
+		i += n30
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -6365,11 +8143,11 @@ func (m *UpsertKubeServiceRequest) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0xa
 		i++
 		i = encodeVarintAuthservice(dAtA, i, uint64(m.Server.Size()))
-		n29, err := m.Server.MarshalTo(dAtA[i:])
+		n31, err := m.Server.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n29
+		i += n31
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -6419,6 +8197,314 @@ func (m *DeleteAllKubeServicesRequest) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *GetDatabaseServersRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetDatabaseServersRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Namespace) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Namespace)))
+		i += copy(dAtA[i:], m.Namespace)
+	}
+	if m.SkipValidation {
+		dAtA[i] = 0x10
+		i++
+		if m.SkipValidation {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i++
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *GetDatabaseServersResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetDatabaseServersResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Servers) > 0 {
+		for _, msg := range m.Servers {
+			dAtA[i] = 0xa
+			i++
+			i = encodeVarintAuthservice(dAtA, i, uint64(msg.Size()))
+			n, err := msg.MarshalTo(dAtA[i:])
+			if err != nil {
+				return 0, err
+			}
+			i += n
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *UpsertDatabaseServerRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *UpsertDatabaseServerRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Server != nil {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(m.Server.Size()))
+		n32, err := m.Server.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n32
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DeleteDatabaseServerRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteDatabaseServerRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Namespace) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Namespace)))
+		i += copy(dAtA[i:], m.Namespace)
+	}
+	if len(m.HostID) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.HostID)))
+		i += copy(dAtA[i:], m.HostID)
+	}
+	if len(m.Name) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Name)))
+		i += copy(dAtA[i:], m.Name)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DeleteAllDatabaseServersRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DeleteAllDatabaseServersRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Namespace) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Namespace)))
+		i += copy(dAtA[i:], m.Namespace)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DatabaseCSRRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DatabaseCSRRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.CSR) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.CSR)))
+		i += copy(dAtA[i:], m.CSR)
+	}
+	if len(m.ClusterName) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.ClusterName)))
+		i += copy(dAtA[i:], m.ClusterName)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DatabaseCSRResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DatabaseCSRResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Cert) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Cert)))
+		i += copy(dAtA[i:], m.Cert)
+	}
+	if len(m.CACerts) > 0 {
+		for _, b := range m.CACerts {
+			dAtA[i] = 0x12
+			i++
+			i = encodeVarintAuthservice(dAtA, i, uint64(len(b)))
+			i += copy(dAtA[i:], b)
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DatabaseCertRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DatabaseCertRequest) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.CSR) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.CSR)))
+		i += copy(dAtA[i:], m.CSR)
+	}
+	if len(m.ServerName) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.ServerName)))
+		i += copy(dAtA[i:], m.ServerName)
+	}
+	if m.TTL != 0 {
+		dAtA[i] = 0x18
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(m.TTL))
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *DatabaseCertResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DatabaseCertResponse) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if len(m.Cert) > 0 {
+		dAtA[i] = 0xa
+		i++
+		i = encodeVarintAuthservice(dAtA, i, uint64(len(m.Cert)))
+		i += copy(dAtA[i:], m.Cert)
+	}
+	if len(m.CACerts) > 0 {
+		for _, b := range m.CACerts {
+			dAtA[i] = 0x12
+			i++
+			i = encodeVarintAuthservice(dAtA, i, uint64(len(b)))
+			i += copy(dAtA[i:], b)
+		}
+	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
@@ -6584,6 +8670,15 @@ func (m *Event_RemoteCluster) Size() (n int) {
 	}
 	return n
 }
+func (m *Event_DatabaseServer) Size() (n int) {
+	var l int
+	_ = l
+	if m.DatabaseServer != nil {
+		l = m.DatabaseServer.Size()
+		n += 2 + l + sovAuthservice(uint64(l))
+	}
+	return n
+}
 func (m *Watch) Size() (n int) {
 	var l int
 	_ = l
@@ -6672,6 +8767,33 @@ func (m *UserCertsRequest) Size() (n int) {
 		}
 	}
 	l = len(m.KubernetesCluster)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = m.RouteToDatabase.Size()
+	n += 1 + l + sovAuthservice(uint64(l))
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *RouteToDatabase) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.ServiceName)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.Protocol)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.Username)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.Database)
 	if l > 0 {
 		n += 1 + l + sovAuthservice(uint64(l))
 	}
@@ -7265,6 +9387,159 @@ func (m *DeleteAllKubeServicesRequest) Size() (n int) {
 	return n
 }
 
+func (m *GetDatabaseServersRequest) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.SkipValidation {
+		n += 2
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *GetDatabaseServersResponse) Size() (n int) {
+	var l int
+	_ = l
+	if len(m.Servers) > 0 {
+		for _, e := range m.Servers {
+			l = e.Size()
+			n += 1 + l + sovAuthservice(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *UpsertDatabaseServerRequest) Size() (n int) {
+	var l int
+	_ = l
+	if m.Server != nil {
+		l = m.Server.Size()
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DeleteDatabaseServerRequest) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.HostID)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DeleteAllDatabaseServersRequest) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DatabaseCSRRequest) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.CSR)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.ClusterName)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DatabaseCSRResponse) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Cert)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if len(m.CACerts) > 0 {
+		for _, b := range m.CACerts {
+			l = len(b)
+			n += 1 + l + sovAuthservice(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DatabaseCertRequest) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.CSR)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	l = len(m.ServerName)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if m.TTL != 0 {
+		n += 1 + sovAuthservice(uint64(m.TTL))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *DatabaseCertResponse) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.Cert)
+	if l > 0 {
+		n += 1 + l + sovAuthservice(uint64(l))
+	}
+	if len(m.CACerts) > 0 {
+		for _, b := range m.CACerts {
+			l = len(b)
+			n += 1 + l + sovAuthservice(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
 func sovAuthservice(x uint64) (n int) {
 	for {
 		n++
@@ -7352,7 +9627,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ResourceHeader{}
+			v := &services.ResourceHeader{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7384,7 +9659,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.CertAuthorityV2{}
+			v := &services.CertAuthorityV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7416,7 +9691,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.StaticTokensV2{}
+			v := &services.StaticTokensV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7448,7 +9723,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ProvisionTokenV2{}
+			v := &services.ProvisionTokenV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7480,7 +9755,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ClusterNameV2{}
+			v := &services.ClusterNameV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7512,7 +9787,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ClusterConfigV3{}
+			v := &services.ClusterConfigV3{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7544,7 +9819,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.UserV2{}
+			v := &services.UserV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7576,7 +9851,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.RoleV3{}
+			v := &services.RoleV3{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7608,7 +9883,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.Namespace{}
+			v := &services.Namespace{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7640,7 +9915,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ServerV2{}
+			v := &services.ServerV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7672,7 +9947,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.ReverseTunnelV2{}
+			v := &services.ReverseTunnelV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7704,7 +9979,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.TunnelConnectionV2{}
+			v := &services.TunnelConnectionV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7736,7 +10011,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.AccessRequestV3{}
+			v := &services.AccessRequestV3{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7768,7 +10043,7 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.WebSessionV2{}
+			v := &services.WebSessionV2{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -7800,11 +10075,43 @@ func (m *Event) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &types.RemoteClusterV3{}
+			v := &services.RemoteClusterV3{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			m.Resource = &Event_RemoteCluster{v}
+			iNdEx = postIndex
+		case 17:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DatabaseServer", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &services.DatabaseServerV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_DatabaseServer{v}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -8243,9 +10550,15 @@ func (m *Certs) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.ResourceHeader{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+=======
 			m.TLS = append(m.TLS[:0], dAtA[iNdEx:postIndex]...)
 			if m.TLS == nil {
 				m.TLS = []byte{}
+>>>>>>> d227402b9 (Database access)
 			}
 			iNdEx = postIndex
 		default:
@@ -8325,9 +10638,15 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.CertAuthorityV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+=======
 			m.PublicKey = append(m.PublicKey[:0], dAtA[iNdEx:postIndex]...)
 			if m.PublicKey == nil {
 				m.PublicKey = []byte{}
+>>>>>>> d227402b9 (Database access)
 			}
 			iNdEx = postIndex
 		case 2:
@@ -8357,7 +10676,15 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.StaticTokensV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_StaticTokens{v}
+=======
 			m.Username = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -8385,7 +10712,12 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.ProvisionTokenV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
 			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.Expires, dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
 				return err
 			}
 			iNdEx = postIndex
@@ -8412,9 +10744,19 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if intStringLen < 0 {
 				return ErrInvalidLengthAuthservice
 			}
+<<<<<<< HEAD
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &types.ClusterNameV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+=======
 			postIndex := iNdEx + intStringLen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
+>>>>>>> d227402b9 (Database access)
 			}
 			m.Format = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
@@ -8445,7 +10787,15 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.ClusterConfigV3{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_ClusterConfig{v}
+=======
 			m.RouteToCluster = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
@@ -8474,7 +10824,15 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.UserV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_User{v}
+=======
 			m.AccessRequests = append(m.AccessRequests, string(dAtA[iNdEx:postIndex]))
+>>>>>>> d227402b9 (Database access)
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
@@ -8503,12 +10861,251 @@ func (m *UserCertsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.RoleV3{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_Role{v}
+=======
 			m.KubernetesCluster = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RouteToDatabase", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			v := &types.Namespace{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
+			if err := m.RouteToDatabase.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipAuthservice(dAtA[iNdEx:])
 			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RouteToDatabase) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RouteToDatabase: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RouteToDatabase: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ServiceName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			v := &types.ServerV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_Server{v}
+=======
+			m.ServiceName = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Protocol", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			v := &types.ReverseTunnelV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_ReverseTunnel{v}
+=======
+			m.Protocol = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Username", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			v := &types.TunnelConnectionV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_TunnelConnection{v}
+=======
+			m.Username = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Database", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			v := &types.AccessRequestV3{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
+			m.Database = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+>>>>>>> d227402b9 (Database access)
 				return err
 			}
 			if skippy < 0 {
@@ -8583,11 +11180,23 @@ func (m *GetUserRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			v := &types.WebSessionV2{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_AppSession{v}
+			iNdEx = postIndex
+		case 16:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RemoteCluster", wireType)
+=======
 			m.Name = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field WithSecrets", wireType)
+>>>>>>> d227402b9 (Database access)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -8604,7 +11213,23 @@ func (m *GetUserRequest) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+<<<<<<< HEAD
+			if msglen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &types.RemoteClusterV3{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Resource = &Event_RemoteCluster{v}
+			iNdEx = postIndex
+=======
 			m.WithSecrets = bool(v != 0)
+>>>>>>> d227402b9 (Database access)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipAuthservice(dAtA[iNdEx:])
@@ -8753,7 +11378,7 @@ func (m *AccessRequests) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.AccessRequests = append(m.AccessRequests, &types.AccessRequestV3{})
+			m.AccessRequests = append(m.AccessRequests, &services.AccessRequestV3{})
 			if err := m.AccessRequests[len(m.AccessRequests)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -8835,7 +11460,7 @@ func (m *PluginDataSeq) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PluginData = append(m.PluginData, &types.PluginDataV3{})
+			m.PluginData = append(m.PluginData, &services.PluginDataV3{})
 			if err := m.PluginData[len(m.PluginData)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -8934,7 +11559,7 @@ func (m *RequestStateSetter) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.State |= (types.RequestState(b) & 0x7F) << shift
+				m.State |= (services.RequestState(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -9661,6 +12286,13 @@ func (m *DeleteUserRequest) Unmarshal(dAtA []byte) error {
 			postIndex := iNdEx + intStringLen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
+<<<<<<< HEAD
+			}
+			m.AccessRequests = append(m.AccessRequests, &types.AccessRequestV3{})
+			if err := m.AccessRequests[len(m.AccessRequests)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+=======
+>>>>>>> d227402b9 (Database access)
 			}
 			m.Name = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
@@ -9741,8 +12373,13 @@ func (m *Semaphores) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Semaphores = append(m.Semaphores, &types.SemaphoreV3{})
+<<<<<<< HEAD
+			m.PluginData = append(m.PluginData, &types.PluginDataV3{})
+			if err := m.PluginData[len(m.PluginData)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
+			m.Semaphores = append(m.Semaphores, &services.SemaphoreV3{})
 			if err := m.Semaphores[len(m.Semaphores)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
 				return err
 			}
 			iNdEx = postIndex
@@ -9843,7 +12480,11 @@ func (m *AuditStreamRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
+<<<<<<< HEAD
+				m.State |= (types.RequestState(b) & 0x7F) << shift
+=======
 				msglen |= (int(b) & 0x7F) << shift
+>>>>>>> d227402b9 (Database access)
 				if b < 0x80 {
 					break
 				}
@@ -10505,7 +13146,7 @@ func (m *GetAppServersResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Servers = append(m.Servers, &types.ServerV2{})
+			m.Servers = append(m.Servers, &services.ServerV2{})
 			if err := m.Servers[len(m.Servers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -10588,7 +13229,7 @@ func (m *UpsertAppServerRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Server == nil {
-				m.Server = &types.ServerV2{}
+				m.Server = &services.ServerV2{}
 			}
 			if err := m.Server.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -10781,7 +13422,14 @@ func (m *DeleteAllAppServersRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			m.Semaphores = append(m.Semaphores, &types.SemaphoreV3{})
+			if err := m.Semaphores[len(m.Semaphores)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+=======
 			m.Namespace = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -11189,7 +13837,7 @@ func (m *GetAppSessionResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Session == nil {
-				m.Session = &types.WebSessionV2{}
+				m.Session = &services.WebSessionV2{}
 			}
 			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -11272,7 +13920,7 @@ func (m *GetAppSessionsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Sessions = append(m.Sessions, &types.WebSessionV2{})
+			m.Sessions = append(m.Sessions, &services.WebSessionV2{})
 			if err := m.Sessions[len(m.Sessions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -11521,10 +14169,15 @@ func (m *CreateAppSessionResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			m.Servers = append(m.Servers, &types.ServerV2{})
+			if err := m.Servers[len(m.Servers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
 			if m.Session == nil {
-				m.Session = &types.WebSessionV2{}
+				m.Session = &services.WebSessionV2{}
 			}
 			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
 				return err
 			}
 			iNdEx = postIndex
@@ -11606,7 +14259,16 @@ func (m *DeleteAppSessionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
+<<<<<<< HEAD
+			if m.Server == nil {
+				m.Server = &types.ServerV2{}
+			}
+			if err := m.Server.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+=======
 			m.SessionID = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -11736,7 +14398,7 @@ func (m *GetKubeServicesResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Servers = append(m.Servers, &types.ServerV2{})
+			m.Servers = append(m.Servers, &services.ServerV2{})
 			if err := m.Servers[len(m.Servers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -11819,7 +14481,7 @@ func (m *UpsertKubeServiceRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Server == nil {
-				m.Server = &types.ServerV2{}
+				m.Server = &services.ServerV2{}
 			}
 			if err := m.Server.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -11978,6 +14640,986 @@ func (m *DeleteAllKubeServicesRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *GetDatabaseServersRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetDatabaseServersRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetDatabaseServersRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SkipValidation", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.SkipValidation = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetDatabaseServersResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetDatabaseServersResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetDatabaseServersResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Servers", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			if m.Session == nil {
+				m.Session = &types.WebSessionV2{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
+			m.Servers = append(m.Servers, &services.DatabaseServerV2{})
+			if err := m.Servers[len(m.Servers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *UpsertDatabaseServerRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: UpsertDatabaseServerRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: UpsertDatabaseServerRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Server", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			m.Sessions = append(m.Sessions, &types.WebSessionV2{})
+			if err := m.Sessions[len(m.Sessions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+=======
+			if m.Server == nil {
+				m.Server = &services.DatabaseServerV2{}
+			}
+			if err := m.Server.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+>>>>>>> d227402b9 (Database access)
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteDatabaseServerRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteDatabaseServerRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteDatabaseServerRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HostID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.HostID = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			if m.Session == nil {
+				m.Session = &types.WebSessionV2{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+=======
+			m.Name = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DeleteAllDatabaseServersRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DeleteAllDatabaseServersRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DeleteAllDatabaseServersRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DatabaseCSRRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DatabaseCSRRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DatabaseCSRRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CSR", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CSR = append(m.CSR[:0], dAtA[iNdEx:postIndex]...)
+			if m.CSR == nil {
+				m.CSR = []byte{}
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClusterName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			m.Servers = append(m.Servers, &types.ServerV2{})
+			if err := m.Servers[len(m.Servers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+=======
+			m.ClusterName = string(dAtA[iNdEx:postIndex])
+>>>>>>> d227402b9 (Database access)
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DatabaseCSRResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DatabaseCSRResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DatabaseCSRResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cert", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+<<<<<<< HEAD
+			if m.Server == nil {
+				m.Server = &types.ServerV2{}
+=======
+			m.Cert = append(m.Cert[:0], dAtA[iNdEx:postIndex]...)
+			if m.Cert == nil {
+				m.Cert = []byte{}
+>>>>>>> d227402b9 (Database access)
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CACerts", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CACerts = append(m.CACerts, make([]byte, postIndex-iNdEx))
+			copy(m.CACerts[len(m.CACerts)-1], dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DatabaseCertRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DatabaseCertRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DatabaseCertRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CSR", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CSR = append(m.CSR[:0], dAtA[iNdEx:postIndex]...)
+			if m.CSR == nil {
+				m.CSR = []byte{}
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ServerName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ServerName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TTL", wireType)
+			}
+			m.TTL = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TTL |= (Duration(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *DatabaseCertResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowAuthservice
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DatabaseCertResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DatabaseCertResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cert", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cert = append(m.Cert[:0], dAtA[iNdEx:postIndex]...)
+			if m.Cert == nil {
+				m.Cert = []byte{}
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CACerts", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowAuthservice
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CACerts = append(m.CACerts, make([]byte, postIndex-iNdEx))
+			copy(m.CACerts[len(m.CACerts)-1], dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipAuthservice(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthAuthservice
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func skipAuthservice(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12083,6 +15725,7 @@ var (
 	ErrIntOverflowAuthservice   = fmt.Errorf("proto: integer overflow")
 )
 
+<<<<<<< HEAD
 func init() { proto.RegisterFile("authservice.proto", fileDescriptor_authservice_6c8980d4b35c01c1) }
 
 var fileDescriptor_authservice_6c8980d4b35c01c1 = []byte{
@@ -12269,4 +15912,219 @@ var fileDescriptor_authservice_6c8980d4b35c01c1 = []byte{
 	0xa8, 0xd5, 0xa5, 0x97, 0xff, 0x5c, 0xcb, 0xbd, 0x7c, 0xb5, 0x96, 0xfb, 0xeb, 0xab, 0xb5, 0xdc,
 	0x3f, 0x5e, 0xad, 0xe5, 0xfe, 0xf0, 0xaf, 0xb5, 0x6b, 0xa7, 0x93, 0x7c, 0xd4, 0xd6, 0x7f, 0x02,
 	0x00, 0x00, 0xff, 0xff, 0x7b, 0x16, 0x77, 0xd8, 0xc4, 0x23, 0x00, 0x00,
+=======
+func init() { proto.RegisterFile("authservice.proto", fileDescriptor_authservice_efe5d119e73e6fed) }
+
+var fileDescriptor_authservice_efe5d119e73e6fed = []byte{
+	// 3332 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x5a, 0x5b, 0x6f, 0x1b, 0xc9,
+	0xb1, 0xf6, 0xe8, 0xce, 0xd2, 0x8d, 0x6a, 0xc9, 0x12, 0x45, 0xc9, 0x1a, 0xef, 0x18, 0xbb, 0xf0,
+	0xd9, 0xf5, 0x91, 0xf6, 0xd0, 0x58, 0xaf, 0xed, 0x3d, 0xbb, 0x7b, 0x44, 0x49, 0x96, 0x64, 0xeb,
+	0xd8, 0xca, 0x90, 0xa6, 0xb3, 0x97, 0x80, 0x18, 0x91, 0x6d, 0x69, 0x20, 0x92, 0x33, 0x3b, 0xd3,
+	0x94, 0x63, 0x20, 0x0f, 0x41, 0x90, 0x20, 0x79, 0x09, 0x92, 0xc7, 0xfc, 0x8f, 0xfc, 0x89, 0x45,
+	0x80, 0x00, 0x79, 0x0b, 0xb0, 0x0f, 0x4c, 0xe2, 0xbc, 0xf1, 0x27, 0x04, 0x79, 0x08, 0xfa, 0x36,
+	0xd3, 0x3d, 0x9c, 0xa1, 0xe5, 0x78, 0x81, 0x3c, 0x49, 0x53, 0xd5, 0xf5, 0x75, 0x77, 0x75, 0x55,
+	0x75, 0x7f, 0x25, 0xc1, 0x82, 0xd3, 0x25, 0x67, 0x21, 0x0e, 0x2e, 0xdc, 0x06, 0xde, 0xf4, 0x03,
+	0x8f, 0x78, 0x68, 0x9c, 0xfd, 0x28, 0x2e, 0x9d, 0x7a, 0xa7, 0x1e, 0xfb, 0x75, 0x8b, 0xfe, 0xc6,
+	0x95, 0xc5, 0xb5, 0x53, 0xcf, 0x3b, 0x6d, 0xe1, 0x2d, 0xf6, 0x75, 0xd2, 0x7d, 0xbe, 0x85, 0xdb,
+	0x3e, 0x79, 0x29, 0x94, 0x66, 0x52, 0x49, 0xdc, 0x36, 0x0e, 0x89, 0xd3, 0xf6, 0xc5, 0x80, 0xfb,
+	0xa7, 0x2e, 0x39, 0xeb, 0x9e, 0x6c, 0x36, 0xbc, 0xf6, 0xd6, 0x69, 0xe0, 0x5c, 0xb8, 0xc4, 0x21,
+	0xae, 0xd7, 0x71, 0x5a, 0x5b, 0x04, 0xb7, 0xb0, 0xef, 0x05, 0x64, 0xab, 0xe5, 0x9e, 0x6c, 0x89,
+	0xf5, 0x84, 0x5b, 0xe4, 0xa5, 0x8f, 0x43, 0x61, 0x7b, 0xef, 0x72, 0xb6, 0xf8, 0x02, 0x77, 0x48,
+	0x28, 0x7e, 0x08, 0xd3, 0x4f, 0x2f, 0x67, 0xfa, 0x22, 0x70, 0x7c, 0x1f, 0x07, 0x61, 0xf4, 0x0b,
+	0x37, 0xb7, 0xbe, 0x9b, 0x86, 0xf1, 0x3d, 0x8a, 0x87, 0xee, 0xc2, 0x58, 0xf5, 0xa5, 0x8f, 0x0b,
+	0xc6, 0x75, 0xe3, 0xe6, 0x5c, 0x29, 0xcf, 0xf5, 0x9b, 0x4f, 0x7c, 0x1c, 0x30, 0xc0, 0x32, 0xea,
+	0xf7, 0xcc, 0x39, 0xba, 0xe8, 0x5b, 0x5e, 0xdb, 0x25, 0xcc, 0x35, 0x36, 0xb3, 0x40, 0x5f, 0xc2,
+	0x9c, 0x8d, 0x43, 0xaf, 0x1b, 0x34, 0xf0, 0x01, 0x76, 0x9a, 0x38, 0x28, 0x8c, 0x5c, 0x37, 0x6e,
+	0x4e, 0x97, 0x0a, 0x9b, 0x72, 0xb3, 0x9b, 0xba, 0xbe, 0xbc, 0xdc, 0xef, 0x99, 0x28, 0x10, 0xb2,
+	0x18, 0xef, 0xe0, 0x8a, 0x9d, 0x40, 0x42, 0x75, 0x98, 0xdd, 0xc1, 0x01, 0xd9, 0xee, 0x92, 0x33,
+	0x2f, 0x70, 0xc9, 0xcb, 0xc2, 0x28, 0x83, 0x5e, 0x8d, 0xa1, 0x35, 0x75, 0xad, 0x54, 0x5e, 0xef,
+	0xf7, 0xcc, 0x42, 0x03, 0x07, 0xa4, 0xee, 0x48, 0xa9, 0x36, 0x83, 0x8e, 0x87, 0xbe, 0x82, 0x99,
+	0x0a, 0x75, 0x59, 0xa3, 0xea, 0x9d, 0xe3, 0x4e, 0x58, 0x18, 0x4b, 0x2e, 0x5d, 0xd5, 0xd6, 0x4a,
+	0xe5, 0xb5, 0x7e, 0xcf, 0x5c, 0x09, 0x99, 0xac, 0x4e, 0x98, 0x50, 0x43, 0xd7, 0xc0, 0x50, 0x03,
+	0xe6, 0x8e, 0x03, 0xef, 0xc2, 0x0d, 0x5d, 0xaf, 0xc3, 0x44, 0x85, 0x71, 0x06, 0x5f, 0x8c, 0xe1,
+	0x75, 0x7d, 0xad, 0x54, 0xbe, 0xd6, 0xef, 0x99, 0xab, 0xbe, 0x94, 0xf2, 0x39, 0x74, 0x17, 0xe9,
+	0x26, 0xe8, 0x19, 0x4c, 0xef, 0xb4, 0xba, 0x21, 0xc1, 0xc1, 0x63, 0xa7, 0x8d, 0x0b, 0x13, 0x6c,
+	0x86, 0x15, 0xc5, 0x41, 0xb1, 0xb2, 0x56, 0x2a, 0x17, 0xfb, 0x3d, 0x73, 0xb9, 0xc1, 0x45, 0xf5,
+	0x8e, 0xd3, 0xd6, 0xdd, 0xaf, 0x22, 0x31, 0xdf, 0xf3, 0xcf, 0x1d, 0xaf, 0xf3, 0xdc, 0x3d, 0x2d,
+	0x4c, 0x0e, 0xf8, 0x5e, 0x55, 0xd7, 0x6e, 0x0b, 0xdf, 0x0b, 0xf0, 0x06, 0x93, 0x26, 0x7c, 0xaf,
+	0x1a, 0xa0, 0xfb, 0x30, 0xf6, 0x34, 0xc4, 0x41, 0x61, 0x8a, 0xe1, 0xe6, 0x63, 0x5c, 0x2a, 0xad,
+	0x95, 0x78, 0xc8, 0x75, 0x43, 0x1c, 0x68, 0x20, 0xcc, 0x86, 0xda, 0xda, 0x5e, 0x0b, 0x17, 0x72,
+	0x49, 0x5b, 0x2a, 0xad, 0xdd, 0xe6, 0xb6, 0x81, 0xd7, 0xd2, 0xf7, 0xc7, 0x6c, 0xd0, 0x11, 0xe4,
+	0xe8, 0x06, 0x43, 0xdf, 0x69, 0xe0, 0x02, 0x30, 0x80, 0xc5, 0x18, 0x20, 0x52, 0x95, 0x57, 0xfa,
+	0x3d, 0x73, 0xb1, 0x23, 0x3f, 0x35, 0xa0, 0x18, 0x00, 0x95, 0x61, 0xa2, 0x82, 0x83, 0x0b, 0x1c,
+	0x14, 0xa6, 0x19, 0x14, 0x52, 0x62, 0x87, 0xc9, 0x6b, 0xa5, 0xf2, 0x52, 0xbf, 0x67, 0xe6, 0x43,
+	0xf6, 0xa5, 0xc1, 0x08, 0x4b, 0xea, 0x6a, 0x1b, 0x5f, 0xe0, 0x20, 0xc4, 0xd5, 0x6e, 0xa7, 0x83,
+	0x5b, 0x85, 0x99, 0xa4, 0xab, 0x35, 0xb5, 0x0c, 0xf3, 0x80, 0x0b, 0xeb, 0x84, 0x49, 0x75, 0x57,
+	0x6b, 0x06, 0xe8, 0x1c, 0xf2, 0xfc, 0xb7, 0x1d, 0xaf, 0xd3, 0xc1, 0x0d, 0x9a, 0xd1, 0x85, 0x59,
+	0x36, 0xc7, 0x7a, 0x3c, 0x47, 0x72, 0x44, 0xad, 0x54, 0x36, 0xfb, 0x3d, 0x73, 0x8d, 0xc3, 0xd3,
+	0x03, 0x15, 0x0a, 0x6d, 0xa6, 0x01, 0x60, 0xba, 0x9b, 0xed, 0x46, 0x03, 0x87, 0xa1, 0x8d, 0xbf,
+	0xe9, 0xe2, 0x90, 0x14, 0xe6, 0x92, 0xbb, 0xd1, 0xd4, 0x32, 0x70, 0x1c, 0x26, 0xac, 0x07, 0x5c,
+	0xaa, 0xef, 0x46, 0x33, 0x40, 0x15, 0x80, 0x6d, 0xdf, 0xaf, 0xe0, 0x90, 0x66, 0x41, 0x61, 0x9e,
+	0xa1, 0x2f, 0xc7, 0xe8, 0xcf, 0xf0, 0x89, 0xd0, 0xd5, 0x4a, 0xe5, 0xd5, 0x7e, 0xcf, 0xbc, 0xea,
+	0xf8, 0x7e, 0x3d, 0xe4, 0x22, 0x0d, 0x57, 0x81, 0xe1, 0x67, 0xd0, 0xf6, 0x08, 0x16, 0x41, 0x5a,
+	0xc8, 0x0f, 0x9e, 0x81, 0xa2, 0x96, 0xab, 0x0e, 0x98, 0xb0, 0x2e, 0xa2, 0x3e, 0x79, 0x06, 0x8a,
+	0x01, 0xad, 0x06, 0xbb, 0x0e, 0x71, 0x4e, 0x9c, 0x10, 0x8b, 0x80, 0x59, 0x48, 0x56, 0x03, 0x5d,
+	0x2f, 0xab, 0x41, 0x53, 0x48, 0xeb, 0x29, 0x11, 0x94, 0x80, 0x2c, 0x03, 0x4c, 0xc9, 0x12, 0x6a,
+	0x1d, 0xc0, 0xf8, 0x33, 0x87, 0x34, 0xce, 0xd0, 0xe7, 0x30, 0xfe, 0xc8, 0xed, 0x34, 0xc3, 0x82,
+	0x71, 0x7d, 0x94, 0x65, 0x0b, 0x2f, 0xee, 0x4c, 0x49, 0x15, 0xe5, 0x95, 0x6f, 0x7b, 0xe6, 0x95,
+	0x7e, 0xcf, 0x9c, 0x3f, 0xa7, 0xc3, 0x94, 0x0a, 0xcf, 0xed, 0xac, 0x9f, 0x8d, 0x40, 0x2e, 0x1a,
+	0x8d, 0xd6, 0x61, 0x8c, 0xfe, 0x64, 0x57, 0x45, 0xae, 0x3c, 0xd5, 0xef, 0x99, 0x63, 0xd4, 0xce,
+	0x66, 0x52, 0x54, 0x82, 0xe9, 0x23, 0xcf, 0x69, 0x56, 0x70, 0x23, 0xc0, 0x24, 0x64, 0x77, 0xc1,
+	0x54, 0x39, 0xdf, 0xef, 0x99, 0x33, 0x2d, 0xcf, 0x69, 0xd6, 0x43, 0x2e, 0xb7, 0xd5, 0x41, 0x14,
+	0x91, 0x15, 0xaf, 0xd1, 0x18, 0x91, 0xe6, 0x9d, 0xcd, 0xa4, 0xe8, 0x21, 0x4c, 0x3c, 0x70, 0x5b,
+	0xf4, 0x48, 0xc6, 0xd8, 0xfa, 0xd7, 0x93, 0xeb, 0xdf, 0xe4, 0xea, 0xbd, 0x0e, 0x09, 0x5e, 0xf2,
+	0x5c, 0x7b, 0xce, 0x04, 0xca, 0x46, 0x04, 0x42, 0xf1, 0x1e, 0x4c, 0x2b, 0x83, 0x51, 0x1e, 0x46,
+	0xcf, 0xf1, 0x4b, 0xbe, 0x13, 0x9b, 0xfe, 0x8a, 0x96, 0x60, 0xfc, 0xc2, 0x69, 0x75, 0x31, 0x5b,
+	0x78, 0xce, 0xe6, 0x1f, 0xf7, 0x47, 0xee, 0x1a, 0xd6, 0x0f, 0x60, 0x9c, 0xde, 0x1d, 0x21, 0xba,
+	0x01, 0xa3, 0x95, 0xca, 0x01, 0x33, 0x9a, 0x29, 0x2f, 0xf4, 0x7b, 0xe6, 0x6c, 0x18, 0x9e, 0x29,
+	0x73, 0x51, 0x2d, 0x1d, 0x54, 0x3d, 0xaa, 0x30, 0x14, 0x31, 0x88, 0xb4, 0x54, 0xcf, 0x52, 0xad,
+	0xf5, 0xfb, 0x31, 0xc8, 0xd3, 0x72, 0xc6, 0x70, 0x65, 0x74, 0xdf, 0x82, 0xdc, 0x71, 0xf7, 0xa4,
+	0xe5, 0x36, 0x1e, 0x89, 0x95, 0xcd, 0x94, 0xe7, 0xfa, 0x3d, 0x13, 0x7c, 0x26, 0xac, 0x9f, 0xe3,
+	0x97, 0x76, 0x3c, 0x00, 0xdd, 0x84, 0x29, 0x8a, 0x40, 0xdd, 0xc5, 0x97, 0x5c, 0x9e, 0xe9, 0xf7,
+	0xcc, 0xa9, 0xae, 0x90, 0xd9, 0x91, 0x16, 0x55, 0x60, 0x72, 0xef, 0xc7, 0xbe, 0x1b, 0xe0, 0x50,
+	0xdc, 0xa2, 0xc5, 0x4d, 0xfe, 0xa8, 0xd9, 0x94, 0x8f, 0x9a, 0xcd, 0xaa, 0x7c, 0xd4, 0x94, 0xaf,
+	0x89, 0x88, 0x58, 0xc0, 0xdc, 0x24, 0x5e, 0xf9, 0x6f, 0xff, 0x62, 0x1a, 0xb6, 0x44, 0x42, 0xb7,
+	0x60, 0xe2, 0x81, 0x17, 0xb4, 0x1d, 0xc2, 0x6e, 0xce, 0x9c, 0xf0, 0x3e, 0x93, 0x68, 0xde, 0x67,
+	0x12, 0xf4, 0x00, 0xe6, 0x6c, 0xaf, 0x4b, 0x70, 0xd5, 0x93, 0x49, 0x36, 0xce, 0xac, 0x36, 0xfa,
+	0x3d, 0xb3, 0x18, 0x50, 0x4d, 0x9d, 0x78, 0x83, 0xb9, 0x64, 0x27, 0xac, 0xd0, 0x1e, 0xcc, 0x69,
+	0x15, 0x21, 0x2c, 0x4c, 0x5c, 0x1f, 0xbd, 0x99, 0xe3, 0xe9, 0xa2, 0xd7, 0x11, 0xd5, 0xe7, 0x09,
+	0x23, 0xf4, 0x18, 0x16, 0x1e, 0x75, 0x4f, 0x70, 0xd0, 0xc1, 0x04, 0x87, 0x72, 0x45, 0x93, 0x6c,
+	0x45, 0xd7, 0xfb, 0x3d, 0x73, 0xfd, 0x3c, 0x52, 0xa6, 0xac, 0x69, 0xd0, 0x14, 0x61, 0x98, 0x17,
+	0x0b, 0x95, 0x59, 0x29, 0xee, 0xb6, 0x65, 0x11, 0xb1, 0x09, 0x6d, 0xf9, 0x86, 0xf0, 0xf2, 0x5a,
+	0xb4, 0x77, 0x99, 0xeb, 0xca, 0x44, 0x49, 0x4c, 0xeb, 0xcf, 0xc6, 0xc0, 0x3c, 0x34, 0xeb, 0x2a,
+	0xbc, 0x8a, 0xb0, 0x44, 0xe2, 0xa9, 0xc9, 0xb2, 0x4e, 0x14, 0x17, 0x76, 0xd9, 0xdb, 0xea, 0x20,
+	0x1a, 0x3a, 0xc7, 0x74, 0x59, 0x0d, 0xaf, 0xa5, 0x86, 0x8e, 0x2f, 0x64, 0x76, 0xa4, 0x45, 0x25,
+	0x25, 0xc8, 0x78, 0x8e, 0xb2, 0x27, 0x9c, 0x0c, 0x32, 0x65, 0xb1, 0x71, 0xb8, 0x95, 0x60, 0x2a,
+	0xf2, 0xc2, 0x58, 0x6c, 0x93, 0xb2, 0xc1, 0x68, 0x9c, 0xd5, 0x82, 0xb9, 0x7d, 0x4c, 0x28, 0x84,
+	0x4c, 0x06, 0x59, 0x19, 0x8c, 0xd4, 0xca, 0xf0, 0xbf, 0x30, 0xfd, 0xcc, 0x25, 0x67, 0x7a, 0xad,
+	0x61, 0x4f, 0x9c, 0x17, 0x2e, 0x39, 0x93, 0xb5, 0x46, 0x99, 0x4a, 0x1d, 0x6e, 0xed, 0xc1, 0xbc,
+	0x98, 0x2d, 0xca, 0xbd, 0x92, 0x0e, 0x68, 0xc4, 0xc5, 0x4b, 0x05, 0xd4, 0x61, 0xce, 0x92, 0xc1,
+	0x88, 0x6a, 0x03, 0xe1, 0xc9, 0x0b, 0xef, 0x90, 0x1b, 0x70, 0x91, 0x56, 0xdf, 0x44, 0xe4, 0x26,
+	0xe3, 0xd5, 0xfa, 0x21, 0xcc, 0x1e, 0xb7, 0xba, 0xa7, 0x6e, 0x87, 0x3a, 0xac, 0x82, 0xbf, 0x41,
+	0xfb, 0x00, 0xb1, 0x40, 0x4c, 0xa2, 0x5c, 0x84, 0xb1, 0xae, 0x76, 0xbb, 0x3c, 0xdf, 0xef, 0x99,
+	0xd3, 0x3e, 0x93, 0xb0, 0x28, 0xb3, 0x15, 0x53, 0xeb, 0x97, 0xa3, 0x80, 0xc4, 0x34, 0xf4, 0x05,
+	0x8b, 0x2b, 0x98, 0xd0, 0x80, 0x5e, 0x86, 0x91, 0xc3, 0x5d, 0xe1, 0xfb, 0x89, 0x7e, 0xcf, 0x1c,
+	0x71, 0x9b, 0xf6, 0xc8, 0xe1, 0x2e, 0xfa, 0x18, 0xc6, 0xd9, 0x30, 0xe6, 0xf1, 0x39, 0x75, 0x4a,
+	0x15, 0xa4, 0x9c, 0xeb, 0xf7, 0xcc, 0x71, 0xfa, 0x58, 0xc6, 0x36, 0x1f, 0x8f, 0x3e, 0x82, 0xdc,
+	0x2e, 0x6e, 0xe1, 0x53, 0x87, 0x78, 0x81, 0x88, 0x24, 0xf6, 0xca, 0x6a, 0x4a, 0xa1, 0x72, 0x56,
+	0xf1, 0x48, 0x5a, 0x65, 0x6c, 0xec, 0x84, 0x5e, 0x47, 0xad, 0x32, 0x01, 0x93, 0xa8, 0x55, 0x86,
+	0x8f, 0x41, 0xbf, 0x31, 0x60, 0x7a, 0xbb, 0xd3, 0xf1, 0x38, 0x15, 0x0a, 0xc5, 0xa3, 0xfb, 0xea,
+	0x66, 0xc4, 0x7d, 0x8e, 0x9c, 0x13, 0xdc, 0xaa, 0xd1, 0xc2, 0x1e, 0x96, 0x6b, 0x34, 0x05, 0xbf,
+	0xeb, 0x99, 0x1f, 0xbd, 0x19, 0x91, 0xda, 0xac, 0x06, 0x8e, 0x4b, 0x42, 0xf6, 0xb8, 0x88, 0xa7,
+	0x52, 0x23, 0x4d, 0x59, 0x01, 0xfa, 0x2f, 0x18, 0xa7, 0x2f, 0x4f, 0x59, 0xa6, 0xd8, 0x61, 0xd3,
+	0xc7, 0xa9, 0x76, 0xd5, 0xb2, 0x11, 0xd6, 0x0d, 0xc8, 0x09, 0x1f, 0x1e, 0xee, 0x66, 0xf9, 0xdf,
+	0xfa, 0x7f, 0x78, 0xcf, 0xf6, 0x98, 0x5f, 0x71, 0x88, 0xc9, 0xb1, 0x13, 0x86, 0x2f, 0xbc, 0xa0,
+	0xc9, 0xf8, 0x80, 0x88, 0x4a, 0x19, 0xd0, 0x37, 0x60, 0x92, 0x89, 0x23, 0x18, 0x76, 0x26, 0x8c,
+	0x55, 0xd8, 0x52, 0x63, 0xed, 0xc0, 0xfa, 0x3e, 0x26, 0x83, 0x58, 0x6f, 0x04, 0xf2, 0x73, 0x03,
+	0xcc, 0x9d, 0x00, 0xa7, 0x2e, 0xea, 0x72, 0xd9, 0xbc, 0x2e, 0x28, 0xe8, 0x48, 0xac, 0xa5, 0x84,
+	0x53, 0xd0, 0xcc, 0x77, 0x61, 0xb4, 0x5a, 0x3d, 0x62, 0x41, 0x33, 0xca, 0x3c, 0x38, 0x4a, 0x48,
+	0xeb, 0x1f, 0x3d, 0x73, 0x6a, 0xb7, 0xcb, 0x29, 0xaa, 0x4d, 0xf5, 0xd6, 0x2c, 0x4c, 0x1f, 0xbb,
+	0x9d, 0x53, 0x31, 0xa3, 0xf5, 0x13, 0x98, 0xe1, 0x9f, 0xa1, 0xef, 0x75, 0x78, 0x9d, 0x54, 0xd9,
+	0x92, 0x52, 0x27, 0x55, 0x52, 0xa4, 0x13, 0xa1, 0xbb, 0x30, 0x2b, 0x1e, 0x64, 0x38, 0x60, 0x2f,
+	0x4e, 0xbe, 0x40, 0x46, 0x31, 0xf8, 0x93, 0xac, 0x7e, 0xc1, 0x35, 0xb6, 0x3e, 0xd0, 0xfa, 0x1f,
+	0x58, 0xa0, 0x41, 0x4c, 0xf0, 0xa5, 0x4b, 0x9a, 0x55, 0x01, 0xa8, 0xe0, 0xb6, 0xe3, 0x9f, 0x79,
+	0xf4, 0x7a, 0xdd, 0x53, 0xbf, 0x44, 0x82, 0x5f, 0x55, 0x09, 0x86, 0xd0, 0xd5, 0x6e, 0xf3, 0x37,
+	0x42, 0x18, 0x0d, 0xb6, 0x15, 0x43, 0xeb, 0x8f, 0x23, 0x80, 0xb6, 0xbb, 0x4d, 0x97, 0x54, 0x48,
+	0x80, 0x9d, 0xb6, 0x5c, 0xc9, 0x3d, 0x98, 0xe1, 0x27, 0xc6, 0xc5, 0x6c, 0x45, 0x94, 0x0b, 0xf1,
+	0xcb, 0x4a, 0x55, 0x51, 0x6a, 0xab, 0x7e, 0x53, 0x53, 0x1b, 0x87, 0xdd, 0xb6, 0x34, 0x1d, 0xd1,
+	0x4c, 0x55, 0x15, 0x35, 0x55, 0xbf, 0xd1, 0xe7, 0x30, 0xb7, 0xe3, 0xb5, 0x7d, 0xea, 0x16, 0x61,
+	0x3c, 0x2a, 0x12, 0x54, 0xcc, 0xab, 0x29, 0xe9, 0x1b, 0x57, 0x97, 0xa0, 0xc7, 0xb0, 0xf8, 0xa0,
+	0xd5, 0x0d, 0xcf, 0xb6, 0x3b, 0xcd, 0x9d, 0x96, 0x17, 0x4a, 0x94, 0x31, 0xf1, 0xa8, 0xe1, 0x28,
+	0x29, 0x23, 0x0e, 0xae, 0xd8, 0x69, 0x86, 0xe8, 0x5d, 0xd1, 0x03, 0x11, 0x85, 0x62, 0x76, 0x53,
+	0x74, 0x58, 0x9e, 0x74, 0xf0, 0x93, 0xe7, 0x07, 0x57, 0x6c, 0xae, 0x2d, 0xe7, 0x60, 0x52, 0x46,
+	0xd5, 0x16, 0x2c, 0x28, 0xee, 0xa4, 0xa5, 0xad, 0x1b, 0xa2, 0x22, 0x4c, 0x3d, 0xf5, 0xe9, 0x1b,
+	0x57, 0xa6, 0x89, 0x1d, 0x7d, 0x5b, 0xb7, 0x74, 0x4f, 0xa3, 0x75, 0xc8, 0x09, 0xde, 0x11, 0x0d,
+	0x8e, 0x05, 0xd6, 0x81, 0xee, 0xdc, 0xe1, 0xa3, 0xb5, 0x79, 0x47, 0x12, 0xf3, 0xe6, 0x93, 0xbe,
+	0xb6, 0xae, 0xa6, 0x3a, 0xcf, 0xfa, 0xa9, 0x01, 0x4b, 0xfb, 0x98, 0x30, 0x3e, 0x44, 0x23, 0x38,
+	0x2a, 0x20, 0x1f, 0xa8, 0x64, 0x99, 0x87, 0xec, 0x6c, 0xbf, 0x67, 0xe6, 0x22, 0x5e, 0xac, 0x72,
+	0xe1, 0x4f, 0x60, 0xae, 0x72, 0xee, 0xfa, 0x35, 0xa7, 0xe5, 0x36, 0x59, 0x4e, 0x8a, 0x2b, 0x99,
+	0x15, 0xbc, 0xf0, 0xdc, 0xf5, 0xeb, 0x17, 0x91, 0xca, 0x4e, 0x0c, 0xb5, 0x6c, 0xb8, 0x9a, 0x58,
+	0x81, 0xc8, 0xd9, 0x7b, 0x30, 0x29, 0x44, 0x22, 0x03, 0xd2, 0x28, 0xf6, 0x74, 0xbf, 0x67, 0x4e,
+	0x86, 0xc2, 0x52, 0x8e, 0xb7, 0x8e, 0x61, 0xf9, 0xa9, 0x1f, 0xe2, 0x20, 0x86, 0x95, 0xfb, 0xba,
+	0x13, 0xd1, 0x76, 0x23, 0x93, 0xb6, 0x43, 0xbf, 0x67, 0x4e, 0x70, 0x4c, 0x49, 0xd5, 0xad, 0x06,
+	0x2c, 0xf3, 0x94, 0x1e, 0x40, 0x7c, 0x23, 0x4f, 0xc9, 0x22, 0x30, 0x92, 0x5a, 0x04, 0x0e, 0xa1,
+	0x28, 0x26, 0x69, 0xb5, 0xde, 0xee, 0x48, 0xac, 0x3f, 0x18, 0xb0, 0xb2, 0x8f, 0x3b, 0x38, 0x70,
+	0xd8, 0x92, 0xb5, 0x72, 0xac, 0x72, 0x07, 0x63, 0x28, 0x77, 0x30, 0xe5, 0x05, 0x36, 0xc2, 0x2e,
+	0x30, 0x56, 0xff, 0xd9, 0x05, 0x26, 0xae, 0x2d, 0xb4, 0x0a, 0xa3, 0x4f, 0xed, 0x43, 0x71, 0xa5,
+	0x4f, 0xd2, 0xea, 0xdc, 0x0d, 0x5c, 0x9b, 0xca, 0xd0, 0x61, 0xcc, 0x3b, 0xc6, 0x5e, 0xcb, 0x3b,
+	0x16, 0xc5, 0x8b, 0x78, 0x52, 0xf0, 0x0e, 0x8d, 0x6d, 0x58, 0x9f, 0x40, 0x61, 0x70, 0x2f, 0x22,
+	0x4a, 0x4c, 0x18, 0xe7, 0x3d, 0xb6, 0x81, 0x2b, 0x8a, 0xcb, 0xad, 0xdd, 0x38, 0xc2, 0x59, 0xea,
+	0x28, 0x7c, 0x2b, 0x91, 0x5d, 0xb2, 0x96, 0x32, 0x61, 0xdd, 0x6d, 0xaa, 0xb9, 0x59, 0x8b, 0xa3,
+	0x54, 0xa0, 0x88, 0xf9, 0x3f, 0xa5, 0x51, 0xca, 0x3b, 0x12, 0xc6, 0xd0, 0x8e, 0x84, 0x88, 0x54,
+	0x6e, 0x2d, 0x6d, 0xac, 0x2f, 0x61, 0x59, 0xc3, 0x8d, 0xc3, 0xff, 0xff, 0x60, 0x4a, 0xca, 0x06,
+	0x9f, 0x78, 0x1a, 0x32, 0x3b, 0xbd, 0x50, 0xda, 0x47, 0x56, 0xd6, 0x2b, 0x03, 0x56, 0x78, 0xf9,
+	0x19, 0xdc, 0xfd, 0xe5, 0x63, 0xe0, 0x2e, 0xcc, 0x1e, 0x3b, 0x01, 0xee, 0x10, 0xb9, 0x4d, 0xe5,
+	0x1a, 0xf4, 0x99, 0x42, 0xf6, 0x58, 0x6c, 0x7d, 0x20, 0xda, 0x02, 0xe0, 0x84, 0x75, 0xbb, 0xd9,
+	0x94, 0xcf, 0x3e, 0xfe, 0x1c, 0xe5, 0x94, 0xd6, 0x69, 0x36, 0x03, 0x5b, 0x19, 0x92, 0xbc, 0xa5,
+	0xc7, 0x2e, 0x71, 0x4b, 0x5b, 0x5f, 0x40, 0x61, 0x70, 0x8f, 0xdf, 0xcf, 0xd9, 0xec, 0xc3, 0x8a,
+	0x92, 0xf3, 0x6f, 0x11, 0x3c, 0x05, 0x76, 0xc8, 0x94, 0x38, 0x0a, 0x1e, 0x26, 0x73, 0xda, 0xaa,
+	0xd2, 0x2c, 0x4d, 0x68, 0xde, 0xbe, 0xfc, 0xd9, 0x50, 0xe0, 0xe5, 0x4f, 0x01, 0x7e, 0xdb, 0x02,
+	0x78, 0x17, 0x0a, 0xdc, 0x19, 0x29, 0x98, 0xc3, 0xab, 0xda, 0x06, 0xac, 0x47, 0x55, 0x2d, 0xcd,
+	0x07, 0xbf, 0x30, 0x60, 0x75, 0x1f, 0x13, 0xbd, 0xa3, 0xf5, 0x1f, 0xb8, 0x88, 0xea, 0x50, 0x4c,
+	0x5b, 0x86, 0x38, 0x8e, 0xed, 0xe4, 0x71, 0x0c, 0xeb, 0xdf, 0xa5, 0x1f, 0xcb, 0x8f, 0x60, 0x8d,
+	0x1f, 0x8b, 0x3e, 0x5e, 0xee, 0xf4, 0xb3, 0xc4, 0xc9, 0x0c, 0x9b, 0x20, 0xed, 0x84, 0x7e, 0x6d,
+	0xc0, 0x1a, 0x77, 0x74, 0x3a, 0xfe, 0x1b, 0x79, 0xf2, 0x06, 0x4c, 0x1c, 0x78, 0x94, 0x8c, 0x88,
+	0x43, 0x65, 0x3b, 0x3a, 0xf3, 0x42, 0x42, 0x43, 0x5b, 0xa8, 0x86, 0xf7, 0xef, 0xac, 0xc7, 0x60,
+	0x46, 0xe7, 0xfe, 0x3d, 0x1c, 0xae, 0xd5, 0x00, 0x24, 0x61, 0x76, 0x2a, 0xb6, 0x84, 0x58, 0x85,
+	0xd1, 0x9d, 0x8a, 0x2d, 0x1a, 0x66, 0xec, 0x06, 0x6a, 0x84, 0x81, 0x4d, 0x65, 0xc9, 0x72, 0x32,
+	0x72, 0x99, 0x72, 0xf2, 0x15, 0x2c, 0x6a, 0x93, 0x88, 0xd3, 0x5f, 0x87, 0xb1, 0x1d, 0x1c, 0x10,
+	0x31, 0x0d, 0xdb, 0x69, 0x03, 0x07, 0xc4, 0x66, 0x52, 0xf4, 0x1e, 0x4c, 0xee, 0x6c, 0xb3, 0x66,
+	0x1e, 0xbb, 0x28, 0x67, 0x78, 0x2d, 0x6d, 0x38, 0xf5, 0x06, 0x6b, 0xf0, 0x49, 0xa5, 0xf5, 0x2b,
+	0x43, 0x41, 0xa7, 0xe6, 0xaf, 0xdf, 0xc3, 0x16, 0x65, 0x02, 0xd4, 0x67, 0xca, 0x16, 0x58, 0x0d,
+	0x15, 0x0c, 0x84, 0xed, 0x40, 0x19, 0x72, 0x59, 0xbe, 0xf4, 0x35, 0x2c, 0xe9, 0x2b, 0xf9, 0x3e,
+	0x37, 0xfa, 0xfe, 0xfb, 0x90, 0x8b, 0xfe, 0x84, 0x88, 0xa6, 0x60, 0xec, 0xf0, 0xf1, 0x61, 0x35,
+	0x7f, 0x05, 0x4d, 0xc2, 0xe8, 0xf1, 0xd3, 0x6a, 0xde, 0x40, 0x00, 0x13, 0xbb, 0x7b, 0x47, 0x7b,
+	0xd5, 0xbd, 0xfc, 0x48, 0xe9, 0x9f, 0x6b, 0x30, 0xbd, 0xdd, 0x25, 0x67, 0xa2, 0x2c, 0x50, 0x9e,
+	0x50, 0xc1, 0x9d, 0xe6, 0x23, 0x8c, 0xfd, 0xed, 0x96, 0x7b, 0x81, 0x43, 0xa4, 0xfc, 0x95, 0x26,
+	0x92, 0x16, 0x97, 0x07, 0x5e, 0x13, 0x7b, 0x94, 0x4f, 0xdf, 0x34, 0xd0, 0x07, 0x30, 0xcd, 0x5a,
+	0xc4, 0xec, 0xf9, 0x1e, 0xa2, 0x19, 0xb5, 0x6d, 0x5c, 0x94, 0x5f, 0x4c, 0xf9, 0xa1, 0x81, 0x3e,
+	0x02, 0xe0, 0x39, 0xf9, 0xd8, 0x6b, 0x62, 0x94, 0x52, 0x0c, 0x8b, 0x69, 0xb3, 0xa3, 0xfb, 0xb0,
+	0x20, 0x5f, 0x24, 0x51, 0x23, 0x17, 0xad, 0x08, 0xec, 0x64, 0x6b, 0x37, 0x9a, 0x94, 0x0f, 0x2b,
+	0xc1, 0xa4, 0xe8, 0x3f, 0x21, 0xc9, 0x7d, 0xf4, 0xee, 0x57, 0x71, 0xe0, 0x6f, 0x62, 0xe8, 0x0e,
+	0x4c, 0xc9, 0x9e, 0x15, 0x5a, 0xd6, 0x8d, 0xc2, 0x4c, 0xab, 0x0f, 0x0d, 0x74, 0x48, 0xd7, 0x49,
+	0x12, 0x7d, 0xaa, 0x6b, 0x19, 0xfd, 0x28, 0xd1, 0x2b, 0x97, 0x8b, 0x4a, 0x58, 0x1d, 0xc0, 0xa2,
+	0xb8, 0x68, 0xb5, 0x3f, 0xca, 0x64, 0x37, 0xb7, 0xb2, 0x8e, 0x08, 0x7d, 0x0e, 0x8b, 0xa2, 0x30,
+	0x68, 0x48, 0xf9, 0x88, 0x45, 0x8a, 0x3e, 0x48, 0x26, 0xc0, 0x43, 0xb8, 0x5a, 0x49, 0xec, 0x8a,
+	0xf7, 0x99, 0x56, 0x75, 0x08, 0xa5, 0xa7, 0x95, 0x89, 0xf5, 0x25, 0x7f, 0xd8, 0x31, 0xac, 0x1d,
+	0xc7, 0x77, 0x4e, 0xdc, 0x96, 0x4b, 0x5c, 0x1c, 0xa2, 0x1b, 0xc9, 0x8d, 0xa9, 0x5a, 0xe9, 0xf3,
+	0xf5, 0x61, 0x83, 0xd0, 0x36, 0xcc, 0xee, 0x63, 0x12, 0xf7, 0xdb, 0x50, 0x31, 0xad, 0x49, 0x27,
+	0xdc, 0xbe, 0x24, 0xd6, 0xae, 0xb7, 0xfa, 0x8e, 0x20, 0xff, 0xd4, 0x6f, 0x3a, 0x04, 0x2b, 0x28,
+	0xd7, 0xd3, 0x50, 0xc4, 0x28, 0x27, 0x70, 0xda, 0x61, 0xe6, 0x66, 0xb7, 0x60, 0xec, 0xd8, 0xed,
+	0x9c, 0x22, 0x24, 0xe7, 0x8a, 0x5b, 0x26, 0xc5, 0x45, 0x4d, 0x26, 0xca, 0xc1, 0x0b, 0x30, 0x5f,
+	0xd3, 0x71, 0x42, 0xff, 0x1d, 0x35, 0xb9, 0x2f, 0xd3, 0x99, 0x2a, 0xbe, 0xab, 0xfd, 0x7b, 0x40,
+	0xfa, 0xd8, 0xda, 0x6d, 0xf4, 0x35, 0x3b, 0x96, 0xc1, 0x11, 0xe8, 0x46, 0x1c, 0xfd, 0x99, 0x0d,
+	0xa7, 0xe2, 0xc6, 0xb0, 0x49, 0x6a, 0xb7, 0xd1, 0x89, 0x7c, 0x34, 0xa6, 0x4c, 0xf0, 0x9e, 0xd6,
+	0x07, 0xf9, 0xf7, 0xe7, 0xb8, 0x03, 0xc0, 0x21, 0x58, 0xa6, 0x0f, 0x24, 0x67, 0xe6, 0x19, 0xdd,
+	0xa1, 0x15, 0xa9, 0xf9, 0xe6, 0x76, 0x9f, 0x01, 0xc4, 0x4d, 0x27, 0x54, 0x10, 0xbb, 0x18, 0xe8,
+	0x43, 0x65, 0xda, 0x3f, 0x81, 0xfc, 0x76, 0xe3, 0x9b, 0xae, 0x1b, 0xe0, 0xa8, 0x83, 0x84, 0xde,
+	0x51, 0xc3, 0x5b, 0xd7, 0x49, 0xb8, 0x42, 0x4a, 0x5b, 0xea, 0x08, 0x3b, 0x21, 0x46, 0x8f, 0x60,
+	0x25, 0x2a, 0x98, 0x09, 0x55, 0xa6, 0x51, 0xe6, 0xea, 0x0e, 0x60, 0x69, 0xc7, 0xe9, 0x34, 0x70,
+	0xeb, 0xad, 0x91, 0x3e, 0x65, 0x49, 0xa9, 0x34, 0xdb, 0x56, 0x53, 0x20, 0x44, 0x4e, 0x2e, 0x08,
+	0x2f, 0x2a, 0xa3, 0x77, 0x61, 0x9e, 0xfb, 0x34, 0xf6, 0xd2, 0x10, 0x80, 0xac, 0x45, 0x7c, 0x0c,
+	0x73, 0x7b, 0x6d, 0x97, 0xb0, 0x6e, 0x12, 0xff, 0x47, 0x1c, 0xbd, 0xfd, 0x34, 0xc4, 0x0f, 0x0b,
+	0xa2, 0x0a, 0xc7, 0x8d, 0xa8, 0xa8, 0xec, 0x0d, 0xf6, 0xfa, 0x8a, 0x4b, 0x12, 0x56, 0xed, 0x59,
+	0xdd, 0x34, 0x3e, 0x34, 0xd0, 0x43, 0xe6, 0x87, 0xb8, 0xcd, 0x80, 0xd6, 0xe2, 0xcc, 0x1a, 0x68,
+	0x3e, 0x14, 0xd7, 0xd3, 0x95, 0xa2, 0x4c, 0xec, 0xc1, 0x7c, 0xa2, 0xdf, 0x82, 0xae, 0xc9, 0xcb,
+	0x30, 0xb5, 0x0f, 0x93, 0x7e, 0xab, 0x1e, 0x48, 0xdf, 0x0e, 0xc2, 0xa4, 0x37, 0x5f, 0x32, 0xdd,
+	0x74, 0x1c, 0x5d, 0x31, 0x6a, 0x27, 0x05, 0xbd, 0xa3, 0xa3, 0xa5, 0x74, 0x59, 0x32, 0x11, 0x2b,
+	0x90, 0x4f, 0xf6, 0x20, 0xd0, 0x46, 0xe4, 0x94, 0xd4, 0x46, 0x4b, 0xd1, 0xcc, 0xd4, 0x0b, 0xbf,
+	0x29, 0x67, 0xc0, 0x29, 0x73, 0xf2, 0x0c, 0x54, 0xd2, 0x39, 0x70, 0x06, 0x3a, 0xd9, 0xdd, 0x67,
+	0x7f, 0x44, 0x53, 0x3a, 0x09, 0x28, 0x63, 0x2b, 0xc5, 0x6b, 0x69, 0x38, 0xf1, 0x61, 0x56, 0x20,
+	0x9f, 0x64, 0xd4, 0xd1, 0x4e, 0x33, 0xda, 0x09, 0xd1, 0x4e, 0x33, 0xa9, 0xf8, 0x43, 0xc8, 0x27,
+	0xb9, 0x74, 0x04, 0x9a, 0x41, 0xb2, 0x33, 0x8f, 0xe2, 0x01, 0x2c, 0xe9, 0x07, 0xf8, 0x9a, 0xfd,
+	0x66, 0xe7, 0xd2, 0x22, 0xaf, 0xb4, 0xfa, 0x3f, 0x6c, 0x64, 0xff, 0xeb, 0xc7, 0x90, 0x70, 0x9b,
+	0x4f, 0xd0, 0x78, 0xa4, 0x38, 0x39, 0x85, 0xf4, 0x16, 0x37, 0xb2, 0xd4, 0xc2, 0x5f, 0x47, 0xb0,
+	0x30, 0x40, 0xe1, 0x91, 0xa9, 0xe5, 0xd4, 0x20, 0x11, 0xcf, 0x5c, 0xdf, 0x91, 0xfc, 0x83, 0x44,
+	0x1a, 0x5a, 0x16, 0xad, 0xcf, 0x44, 0xab, 0xc2, 0xd5, 0x54, 0x42, 0x1f, 0xdd, 0xcd, 0xc3, 0xe8,
+	0x7e, 0x26, 0xea, 0x17, 0x80, 0x06, 0xe9, 0x37, 0xba, 0x1e, 0xfb, 0x29, 0x9d, 0x43, 0x16, 0xdf,
+	0x19, 0x32, 0x42, 0x38, 0xf3, 0x09, 0x2c, 0xa5, 0x11, 0x6f, 0x64, 0x69, 0xfe, 0x4c, 0x65, 0xcd,
+	0xe9, 0x85, 0xca, 0x96, 0x11, 0x98, 0x01, 0x38, 0x84, 0x86, 0x0f, 0x79, 0x88, 0x16, 0xb2, 0xe8,
+	0x72, 0xf4, 0x26, 0x79, 0x0d, 0x9f, 0x1e, 0x12, 0xe9, 0xf3, 0x15, 0xf7, 0xb4, 0xa3, 0x30, 0xdb,
+	0xe8, 0xce, 0x18, 0xa4, 0xd4, 0xc5, 0x62, 0x9a, 0x2a, 0x76, 0xa5, 0xac, 0x66, 0x2a, 0x7f, 0x44,
+	0x03, 0x36, 0x31, 0xbd, 0x2d, 0xae, 0xa5, 0xea, 0x38, 0x60, 0x79, 0xe9, 0xdb, 0xbf, 0x6d, 0x18,
+	0xdf, 0xbe, 0xda, 0x30, 0xfe, 0xf4, 0x6a, 0xc3, 0xf8, 0xeb, 0xab, 0x0d, 0xe3, 0x77, 0x7f, 0xdf,
+	0xb8, 0x72, 0x32, 0xc1, 0x2c, 0x6e, 0xff, 0x2b, 0x00, 0x00, 0xff, 0xff, 0x13, 0x72, 0xa2, 0x2a,
+	0xcd, 0x2b, 0x00, 0x00,
+>>>>>>> d227402b9 (Database access)
 }
