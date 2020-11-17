@@ -1635,37 +1635,42 @@ func (set RoleSet) CheckKubeGroupsAndUsers(ttl time.Duration, overrideTTL bool) 
 // CheckLoginDuration checks if role set can login up to given duration and
 // returns a combined list of allowed logins.
 func (set RoleSet) CheckLoginDuration(ttl time.Duration) ([]string, error) {
-	logins := make(map[string]bool)
-	var matchedTTL bool
+	logins, matchedTTL := set.GetLoginsForTTL(ttl)
+	if !matchedTTL {
+		return nil, trace.AccessDenied("this user cannot request a certificate for %v", ttl)
+	}
+
+	if len(logins) == 0 && !set.hasPossibleLogins() {
+		// user was deliberately configured to have no login capability,
+		// but ssh certificates must contain at least one valid principal.
+		// we add a single distinctive value which should be unique, and
+		// will never be a valid unix login (due to leading '-').
+		logins = []string{"-teleport-nologin-" + uuid.New()}
+	}
+
+	if len(logins) == 0 {
+		return nil, trace.AccessDenied("this user cannot create SSH sessions, has no allowed logins")
+	}
+
+	return logins, nil
+}
+
+// GetLoginsForTTL collects all logins that are valid for the given TTL.  The matchedTTL
+// value indicates whether the TTL is within scope of *any* role.  This helps to distinguish
+// between TTLs which are catagorically invalid, and TTLs which are theoretically valid
+// but happen to grant no logins.
+func (set RoleSet) GetLoginsForTTL(ttl time.Duration) (logins []string, matchedTTL bool) {
 	for _, role := range set {
 		maxSessionTTL := role.GetOptions().MaxSessionTTL.Value()
 		if ttl <= maxSessionTTL && maxSessionTTL != 0 {
 			matchedTTL = true
 
 			for _, login := range role.GetLogins(Allow) {
-				logins[login] = true
+				logins = append(logins, login)
 			}
 		}
 	}
-	if !matchedTTL {
-		return nil, trace.AccessDenied("this user cannot request a certificate for %v", ttl)
-	}
-	if len(logins) == 0 && !set.hasPossibleLogins() {
-		// user was deliberately configured to have no login capability,
-		// but ssh certificates must contain at least one valid principal.
-		// we add a single distinctive value which should be unique, and
-		// will never be a valid unix login (due to leading '-').
-		logins["-teleport-nologin-"+uuid.New()] = true
-	}
-
-	if len(logins) == 0 {
-		return nil, trace.AccessDenied("this user cannot create SSH sessions, has no allowed logins")
-	}
-	out := make([]string, 0, len(logins))
-	for login := range logins {
-		out = append(out, login)
-	}
-	return out, nil
+	return utils.Deduplicate(logins), matchedTTL
 }
 
 // CheckAccessToRemoteCluster checks if a role has access to remote cluster. Deny rules are
