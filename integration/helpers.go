@@ -169,9 +169,6 @@ type InstanceConfig struct {
 	// DataDir specifies the root directory for all state information
 	// used by the instance  during a single test
 	DataDir string
-
-	// log specifies the logger
-	log utils.Logger
 }
 
 // NewInstance creates a new Teleport process instance.
@@ -1186,12 +1183,7 @@ func (i *TeleInstance) StopAuth(t testingInterface, removeData bool) {
 		}
 	}
 	if i.Process == nil {
-		return nil
-	}
-	t.Log("Asking Teleport to stop.")
-	err := i.Process.Close()
-	if err != nil {
-		t.Error("Failed to close auth service: %v.", err)
+		return
 	}
 	t.Log("Asking Teleport to stop.")
 	err := i.Process.Close()
