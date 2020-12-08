@@ -76,6 +76,7 @@ type SrvSuite struct {
 	nodeID      string
 	adminClient *auth.Client
 	testServer  *auth.TestAuthServer
+	log         *logrus.Entry
 }
 
 // teleportTestUser is additional user used for tests
@@ -161,6 +162,7 @@ func (s *SrvSuite) SetUpTest(c *C) {
 	c.Assert(err, IsNil)
 
 	nodeDir := c.MkDir()
+	s.log = logrus.WithField("test", c.TestName())
 	srv, err := New(
 		utils.NetAddr{AddrNetwork: "tcp", Addr: "127.0.0.1:0"},
 		s.server.ClusterName(),
@@ -184,6 +186,7 @@ func (s *SrvSuite) SetUpTest(c *C) {
 			},
 		),
 		SetBPF(&bpf.NOP{}),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	s.srv = srv
@@ -736,6 +739,7 @@ func (s *SrvSuite) TestProxyReverseTunnel(c *C) {
 		SetNamespace(defaults.Namespace),
 		SetPAMConfig(&pam.Config{Enabled: false}),
 		SetBPF(&bpf.NOP{}),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	c.Assert(proxy.Start(), IsNil)
@@ -813,6 +817,7 @@ func (s *SrvSuite) TestProxyReverseTunnel(c *C) {
 		SetPAMConfig(&pam.Config{Enabled: false}),
 		SetBPF(&bpf.NOP{}),
 		SetEmitter(s.nodeClient),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	c.Assert(err, IsNil)
@@ -903,6 +908,7 @@ func (s *SrvSuite) TestProxyRoundRobin(c *C) {
 		SetNamespace(defaults.Namespace),
 		SetPAMConfig(&pam.Config{Enabled: false}),
 		SetBPF(&bpf.NOP{}),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	c.Assert(proxy.Start(), IsNil)
@@ -1008,6 +1014,7 @@ func (s *SrvSuite) TestProxyDirectAccess(c *C) {
 		SetNamespace(defaults.Namespace),
 		SetPAMConfig(&pam.Config{Enabled: false}),
 		SetBPF(&bpf.NOP{}),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	c.Assert(proxy.Start(), IsNil)
@@ -1087,12 +1094,12 @@ func (s *SrvSuite) TestLimiter(c *C) {
 		limiter.Config{
 			MaxConnections: 2,
 			Rates: []limiter.Rate{
-				limiter.Rate{
+				{
 					Period:  10 * time.Second,
 					Average: 1,
 					Burst:   3,
 				},
-				limiter.Rate{
+				{
 					Period:  40 * time.Millisecond,
 					Average: 10,
 					Burst:   30,
@@ -1118,6 +1125,7 @@ func (s *SrvSuite) TestLimiter(c *C) {
 		SetNamespace(defaults.Namespace),
 		SetPAMConfig(&pam.Config{Enabled: false}),
 		SetBPF(&bpf.NOP{}),
+		SetLogger(s.log),
 	)
 	c.Assert(err, IsNil)
 	c.Assert(srv.Start(), IsNil)
