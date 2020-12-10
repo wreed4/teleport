@@ -57,7 +57,7 @@ func ForAuth(cfg Config) Config {
 		{Kind: services.KindTunnelConnection},
 		{Kind: services.KindAccessRequest},
 		{Kind: services.KindAppServer},
-		{Kind: services.KindWebSession},
+		{Kind: services.KindWebSession, SubKind: services.KindAppSession},
 		{Kind: services.KindRemoteCluster},
 		{Kind: services.KindKubeService},
 	}
@@ -81,7 +81,8 @@ func ForProxy(cfg Config) Config {
 		{Kind: services.KindReverseTunnel},
 		{Kind: services.KindTunnelConnection},
 		{Kind: services.KindAppServer},
-		{Kind: services.KindWebSession},
+		{Kind: services.KindWebSession, SubKind: services.KindAppSession},
+		{Kind: services.KindWebSession, SubKind: services.KindWebSession},
 		{Kind: services.KindRemoteCluster},
 		{Kind: services.KindKubeService},
 	}
@@ -238,8 +239,8 @@ type Cache struct {
 	// cancel triggers exit context closure
 	cancel context.CancelFunc
 
-	// collections is a map of registered collections by resource Kind
-	collections map[string]collection
+	// collections is a map of registered collections by resource Kind/SubKind
+	collections map[resourceKind]collection
 
 	trustCache         services.Trust
 	clusterConfigCache services.ClusterConfiguration
@@ -249,6 +250,7 @@ type Cache struct {
 	dynamicAccessCache services.DynamicAccessExt
 	presenceCache      services.Presence
 	appSessionCache    services.AppSession
+	webSessionCache    services.WebSessionInterface
 	eventsFanout       *services.Fanout
 
 	// closed indicates that the cache has been closed
@@ -297,6 +299,7 @@ func (c *Cache) read() (readGuard, error) {
 			dynamicAccess: c.dynamicAccessCache,
 			presence:      c.presenceCache,
 			appSession:    c.appSessionCache,
+			webSession:    c.webSessionCache,
 			release:       c.rw.RUnlock,
 		}, nil
 	}
@@ -310,6 +313,7 @@ func (c *Cache) read() (readGuard, error) {
 		dynamicAccess: c.Config.DynamicAccess,
 		presence:      c.Config.Presence,
 		appSession:    c.Config.AppSession,
+		webSession:    c.Config.WebSession,
 		release:       nil,
 	}, nil
 }
@@ -327,6 +331,7 @@ type readGuard struct {
 	dynamicAccess services.DynamicAccess
 	presence      services.Presence
 	appSession    services.AppSession
+	webSession    services.WebSessionInterface
 	release       func()
 	released      bool
 }
@@ -374,6 +379,8 @@ type Config struct {
 	Presence services.Presence
 	// AppSession holds application sessions.
 	AppSession services.AppSession
+	// WebSession holds regular web sessions.
+	WebSession services.WebSessionInterface
 	// Backend is a backend for local cache
 	Backend backend.Backend
 	// RetryPeriod is a period between cache retries on failures
@@ -516,6 +523,7 @@ func New(config Config) (*Cache, error) {
 		dynamicAccessCache: local.NewDynamicAccessService(wrapper),
 		presenceCache:      local.NewPresenceService(wrapper),
 		appSessionCache:    local.NewIdentityService(wrapper),
+		webSessionCache:    local.NewIdentityService(wrapper),
 		eventsFanout:       services.NewFanout(),
 		Entry: log.WithFields(log.Fields{
 			trace.Component: config.Component,
@@ -869,7 +877,8 @@ func (c *Cache) fetch(ctx context.Context) (apply func(ctx context.Context) erro
 }
 
 func (c *Cache) processEvent(ctx context.Context, event services.Event) error {
-	collection, ok := c.collections[event.Resource.GetKind()]
+	resourceKind := resourceKind{kind: event.Resource.GetKind(), subkind: event.Resource.GetSubKind()}
+	collection, ok := c.collections[resourceKind]
 	if !ok {
 		c.Warningf("Skipping unsupported event %v.", event.Resource.GetKind())
 		return nil
@@ -1173,4 +1182,14 @@ func (c *Cache) GetAppSession(ctx context.Context, req services.GetAppSessionReq
 	}
 	defer rg.Release()
 	return rg.appSession.GetAppSession(ctx, req)
+}
+
+// GetWebSession gets a regular web session.
+func (c *Cache) GetWebSession(ctx context.Context, req services.GetWebSessionRequest) (services.WebSession, error) {
+	rg, err := c.read()
+	if err != nil {
+		return nil, trace.Wrap(err)
+	}
+	defer rg.Release()
+	return rg.webSession.GetWebSession(ctx, req)
 }
