@@ -74,6 +74,7 @@ type testPack struct {
 	dynamicAccessS services.DynamicAccess
 	presenceS      services.Presence
 	appSessionS    services.AppSession
+	webSessionS    services.WebSessionInterface
 }
 
 func (t *testPack) Close() {
@@ -132,6 +133,7 @@ func (s *CacheSuite) newPackWithoutCache(c *check.C, setupConfig SetupConfigFn) 
 	p.accessS = local.NewAccessService(p.backend)
 	p.dynamicAccessS = local.NewDynamicAccessService(p.backend)
 	p.appSessionS = local.NewIdentityService(p.backend)
+	p.webSessionS = local.NewIdentityService(p.backend).WebSessions()
 
 	return p
 }
@@ -152,6 +154,7 @@ func (s *CacheSuite) newPack(c *check.C, setupConfig func(c Config) Config) *tes
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 	}))
