@@ -68,6 +68,8 @@ message Event {
         // RemoteCluster is a resource for remote clusters
         types.RemoteClusterV3 RemoteCluster = 16
             [ (gogoproto.jsontag) = "remote_cluster,omitempty" ];
+        // WebSession is a regular web session.
+        types.WebSessionV2 WebSession = 17 [ (gogoproto.jsontag) = "web_session,omitempty" ];
     }
 }
 
