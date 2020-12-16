@@ -104,7 +104,7 @@ func (e *EventsService) NewWatcher(ctx context.Context, watch services.Watch) (s
 		case services.KindKubeService:
 			parser = newKubeServiceParser()
 		default:
-			return nil, trace.BadParameter("watcher on object kind %q is not supported", kind)
+			return nil, trace.BadParameter("watcher on object kind %q is not supported", kind.Kind)
 		}
 		prefixes = append(prefixes, parser.prefix())
 		parsers = append(parsers, parser)

@@ -138,8 +138,6 @@ const (
 	ComponentWebProxy = "web"
 
 	// ComponentDiagnostic is a diagnostic service
-
-	// ComponentDiagnostic is a diagnostic service
 	ComponentDiagnostic = "diag"
 
 	// ComponentClient is a client

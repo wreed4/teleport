@@ -220,6 +220,7 @@ func (s *CacheSuite) TestOnlyRecentInit(c *check.C) {
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 	}))
@@ -433,6 +434,7 @@ func (s *CacheSuite) TestCompletenessInit(c *check.C) {
 			DynamicAccess: p.dynamicAccessS,
 			Presence:      p.presenceS,
 			AppSession:    p.appSessionS,
+			WebSession:    p.webSessionS,
 			RetryPeriod:   200 * time.Millisecond,
 			EventsC:       p.eventsC,
 			PreferRecent: PreferRecent{
@@ -487,6 +489,7 @@ func (s *CacheSuite) TestCompletenessReset(c *check.C) {
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 		PreferRecent: PreferRecent{
@@ -546,6 +549,7 @@ func (s *CacheSuite) TestTombstones(c *check.C) {
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 		PreferRecent: PreferRecent{
@@ -578,6 +582,7 @@ func (s *CacheSuite) TestTombstones(c *check.C) {
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 		PreferRecent: PreferRecent{
@@ -621,6 +626,7 @@ func (s *CacheSuite) preferRecent(c *check.C) {
 		DynamicAccess: p.dynamicAccessS,
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
+		WebSession:    p.webSessionS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 		PreferRecent: PreferRecent{
