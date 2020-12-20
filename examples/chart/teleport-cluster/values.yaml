@@ -1,0 +1,44 @@
+##################################################
+# Values that must always be provided by the user.
+##################################################
+
+# clusterName is a unique cluster name,
+# FQDN that does not change, for example
+# teleport.example.com
+clusterName: 
+
+##################################################
+# Values that you may need to change.
+##################################################
+
+# Version of teleport image, if different from appVersion in Chart.yaml.
+teleportVersionOverride: ""
+
+# ACME is a protocol for getting certificates
+# acme enables acme protocol
+acme: false
+acmeEmail: ""
+acmeURI: ""
+
+# Set enterprise to true to use enterprise image
+enterprise: false
+
+# If true, create & use Pod Security Policy resources
+# https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+podSecurityPolicy:
+  enabled: true
+
+# Set customConfig to true to use a custom config. Create
+# a config resource, name it as release name and place it the chart namespace.
+customConfig: false
+
+##################################################
+# Values that you shouldn't need to change.
+##################################################
+
+# Container image for the agent.
+image: quay.io/gravitational/teleport
+# Enterprise version of the image
+enterpriseImage: quay.io/gravitational/teleport-ent
+# Number of replicas for the agent deployment.
+replicaCount: 1
