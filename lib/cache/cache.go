@@ -17,7 +17,9 @@ limitations under the License.
 package cache
 
 import (
+	"bytes"
 	"context"
+	"fmt"
 	"sync"
 	"time"
 
@@ -252,6 +254,7 @@ type Cache struct {
 	presenceCache      services.Presence
 	appSessionCache    services.AppSession
 	webSessionCache    services.WebSessionInterface
+	webTokenCache      services.WebTokenInterface
 	eventsFanout       *services.Fanout
 
 	// closed indicates that the cache has been closed
@@ -301,6 +304,7 @@ func (c *Cache) read() (readGuard, error) {
 			presence:      c.presenceCache,
 			appSession:    c.appSessionCache,
 			webSession:    c.webSessionCache,
+			webToken:      c.webTokenCache,
 			release:       c.rw.RUnlock,
 		}, nil
 	}
@@ -315,6 +319,7 @@ func (c *Cache) read() (readGuard, error) {
 		presence:      c.Config.Presence,
 		appSession:    c.Config.AppSession,
 		webSession:    c.Config.WebSession,
+		webToken:      c.Config.WebToken,
 		release:       nil,
 	}, nil
 }
@@ -333,6 +338,7 @@ type readGuard struct {
 	presence      services.Presence
 	appSession    services.AppSession
 	webSession    services.WebSessionInterface
+	webToken      services.WebTokenInterface
 	release       func()
 	released      bool
 }
@@ -382,6 +388,8 @@ type Config struct {
 	AppSession services.AppSession
 	// WebSession holds regular web sessions.
 	WebSession services.WebSessionInterface
+	// WebToken holds regular web sessions.
+	WebToken services.WebTokenInterface
 	// Backend is a backend for local cache
 	Backend backend.Backend
 	// RetryPeriod is a period between cache retries on failures
@@ -525,6 +533,7 @@ func New(config Config) (*Cache, error) {
 		presenceCache:      local.NewPresenceService(wrapper),
 		appSessionCache:    local.NewIdentityService(wrapper),
 		webSessionCache:    local.NewIdentityService(wrapper).WebSessions(),
+		webTokenCache:      local.NewIdentityService(wrapper).WebTokens(),
 		eventsFanout:       services.NewFanout(),
 		Entry: log.WithFields(log.Fields{
 			trace.Component: config.Component,
@@ -817,12 +826,23 @@ func (c *Cache) fetchAndWatch(ctx context.Context, retry utils.Retry, timer *tim
 			return trace.ConnectionProblem(c.ctx.Err(), "context is closing")
 		case event := <-watcher.Events():
 			err = c.processEvent(ctx, event)
+			c.WithError(err).WithField("event", describeEvent(event)).Info("New cache event.")
 			if err != nil {
 				return trace.Wrap(err)
 			}
 			c.notify(c.ctx, Event{Event: event, Type: EventProcessed})
 		}
 	}
+}
+
+func describeEvent(event services.Event) string {
+	var buf bytes.Buffer
+	fmt.Fprint(&buf, "event(type=", event.Type)
+	if event.Resource != nil {
+		fmt.Fprintf(&buf, ",resource=%v/%v", event.Resource.GetKind(), event.Resource.GetSubKind())
+	}
+	fmt.Fprint(&buf, ")")
+	return buf.String()
 }
 
 func (c *Cache) watchKinds() []services.WatchKind {
