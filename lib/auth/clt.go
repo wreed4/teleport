@@ -2397,6 +2397,7 @@ type ClientI interface {
 	session.Service
 	services.ClusterConfiguration
 	services.Events
+
 	services.WebSessionsGetter
 	services.WebTokensGetter
 
