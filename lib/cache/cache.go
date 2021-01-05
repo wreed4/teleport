@@ -61,6 +61,7 @@ func ForAuth(cfg Config) Config {
 		{Kind: services.KindAppServer},
 		{Kind: services.KindWebSession, SubKind: services.KindAppSession},
 		{Kind: services.KindWebSession, SubKind: services.KindWebSession},
+		{Kind: services.KindWebToken},
 		{Kind: services.KindRemoteCluster},
 		{Kind: services.KindKubeService},
 	}
@@ -86,6 +87,7 @@ func ForProxy(cfg Config) Config {
 		{Kind: services.KindAppServer},
 		{Kind: services.KindWebSession, SubKind: services.KindAppSession},
 		{Kind: services.KindWebSession, SubKind: services.KindWebSession},
+		{Kind: services.KindWebToken},
 		{Kind: services.KindRemoteCluster},
 		{Kind: services.KindKubeService},
 	}

@@ -157,6 +157,7 @@ func (s *CacheSuite) newPack(c *check.C, setupConfig func(c Config) Config) *tes
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
 		WebSession:    p.webSessionS,
+		WebToken:      p.webTokenS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 	}))
@@ -223,7 +224,7 @@ func (s *CacheSuite) TestOnlyRecentInit(c *check.C) {
 		Presence:      p.presenceS,
 		AppSession:    p.appSessionS,
 		WebSession:    p.webSessionS,
-		WebToken:      p.weboTokenS,
+		WebToken:      p.webTokenS,
 		RetryPeriod:   200 * time.Millisecond,
 		EventsC:       p.eventsC,
 	}))
