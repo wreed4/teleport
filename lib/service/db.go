@@ -18,11 +18,11 @@ package service
 
 import (
 	"github.com/gravitational/teleport"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/auth"
 	"github.com/gravitational/teleport/lib/cache"
 	"github.com/gravitational/teleport/lib/events"
 	"github.com/gravitational/teleport/lib/reversetunnel"
-	"github.com/gravitational/teleport/lib/services"
 	"github.com/gravitational/teleport/lib/srv/db"
 	"github.com/gravitational/teleport/lib/utils"
 
@@ -82,18 +82,18 @@ func (process *TeleportProcess) initDatabaseService() (retErr error) {
 	}
 
 	// Create database server for each of the proxied databases.
-	var databaseServers []services.DatabaseServer
+	var databaseServers []types.DatabaseServer
 	for _, db := range process.Config.Databases.Databases {
-		databaseServers = append(databaseServers, services.NewDatabaseServerV2(
+		databaseServers = append(databaseServers, types.NewDatabaseServerV2(
 			db.Name,
 			db.StaticLabels,
-			services.DatabaseServerSpecV2{
+			types.DatabaseServerSpecV2{
 				Description:   db.Description,
 				Protocol:      db.Protocol,
 				URI:           db.URI,
 				CACert:        db.CACert,
-				AWS:           services.AWS{Region: db.AWS.Region},
-				DynamicLabels: services.LabelsToV2(db.DynamicLabels),
+				AWS:           types.AWS{Region: db.AWS.Region},
+				DynamicLabels: types.LabelsToV2(db.DynamicLabels),
 				Version:       teleport.Version,
 				Hostname:      process.Config.Hostname,
 				HostID:        process.Config.HostUUID,

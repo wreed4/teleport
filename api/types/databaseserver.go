@@ -335,7 +335,7 @@ func MarshalDatabaseServer(s DatabaseServer, opts ...MarshalOption) ([]byte, err
 	if err := s.CheckAndSetDefaults(); err != nil {
 		return nil, trace.Wrap(err)
 	}
-	cfg, err := collectOptions(opts)
+	cfg, err := CollectOptions(opts)
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
@@ -356,7 +356,7 @@ func UnmarshalDatabaseServer(data []byte, opts ...MarshalOption) (DatabaseServer
 	if len(data) == 0 {
 		return nil, trace.BadParameter("missing database server data")
 	}
-	cfg, err := collectOptions(opts)
+	cfg, err := CollectOptions(opts)
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}

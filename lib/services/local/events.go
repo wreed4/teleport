@@ -21,6 +21,7 @@ import (
 	"context"
 	"sort"
 
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/backend"
 	"github.com/gravitational/teleport/lib/defaults"
 	"github.com/gravitational/teleport/lib/services"
@@ -750,7 +751,7 @@ func (p *databaseServerParser) parse(event backend.Event) (services.Resource, er
 			},
 		}, nil
 	case backend.OpPut:
-		return services.UnmarshalDatabaseServer(
+		return types.UnmarshalDatabaseServer(
 			event.Item.Value,
 			services.WithResourceID(event.Item.ID),
 			services.WithExpires(event.Item.Expires),

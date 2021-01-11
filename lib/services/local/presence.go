@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/gravitational/teleport"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/backend"
 	"github.com/gravitational/teleport/lib/services"
 	"github.com/gravitational/teleport/lib/utils"
@@ -1045,7 +1046,7 @@ func (s *PresenceService) GetDatabaseServers(ctx context.Context, namespace stri
 	}
 	servers := make([]services.DatabaseServer, len(result.Items))
 	for i, item := range result.Items {
-		server, err := services.UnmarshalDatabaseServer(
+		server, err := types.UnmarshalDatabaseServer(
 			item.Value,
 			services.AddOptions(opts,
 				services.WithResourceID(item.ID),
@@ -1063,7 +1064,7 @@ func (s *PresenceService) UpsertDatabaseServer(ctx context.Context, server servi
 	if err := server.CheckAndSetDefaults(); err != nil {
 		return nil, trace.Wrap(err)
 	}
-	value, err := services.MarshalDatabaseServer(server)
+	value, err := types.MarshalDatabaseServer(server)
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
@@ -1086,7 +1087,7 @@ func (s *PresenceService) UpsertDatabaseServer(ctx context.Context, server servi
 		return &services.KeepAlive{}, nil
 	}
 	return &services.KeepAlive{
-		Type:      services.KeepAlive_DATABASE,
+		Type:      types.KeepAlive_DATABASE,
 		LeaseID:   lease.ID,
 		Name:      server.GetName(),
 		Namespace: server.GetNamespace(),

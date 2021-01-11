@@ -100,7 +100,7 @@ func EventToGRPC(in types.Event) (*proto.Event, error) {
 		out.Resource = &proto.Event_RemoteCluster{
 			RemoteCluster: r,
 		}
-	case *services.DatabaseServerV2:
+	case *types.DatabaseServerV2:
 		out.Resource = &proto.Event_DatabaseServer{
 			DatabaseServer: r,
 		}
