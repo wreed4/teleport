@@ -308,7 +308,7 @@ func (s *Server) HandleConnection(conn net.Conn) {
 	}
 	// Now that the handshake has completed and the client has sent us a
 	// certificate, extract identity information from it.
-	ctx, err := s.middleware.WrapContext(s.closeContext, tlsConn)
+	ctx, err := s.middleware.WrapContextWithUser(s.closeContext, tlsConn)
 	if err != nil {
 		log.WithError(err).Error("Failed to extract identity from connection.")
 		return

@@ -750,9 +750,8 @@ func (p *databaseServerParser) parse(event backend.Event) (services.Resource, er
 			},
 		}, nil
 	case backend.OpPut:
-		return services.GetDatabaseServerMarshaler().UnmarshalDatabaseServer(
+		return services.UnmarshalDatabaseServer(
 			event.Item.Value,
-			services.KindDatabaseServer,
 			services.WithResourceID(event.Item.ID),
 			services.WithExpires(event.Item.Expires),
 			services.SkipValidation())

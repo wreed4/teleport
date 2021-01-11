@@ -65,7 +65,12 @@ func onDatabaseLogin(cf *CLIConf) {
 	}
 	var servers []services.DatabaseServer
 	err = client.RetryWithRelogin(cf.Context, tc, func() error {
-		servers, err = tc.ListDatabaseServersFor(cf.Context, cf.DatabaseService)
+		allServers, err := tc.ListDatabaseServers(cf.Context)
+		for _, server := range allServers {
+			if server.GetName() == cf.DatabaseService {
+				servers = append(servers, server)
+			}
+		}
 		return trace.Wrap(err)
 	})
 	if err != nil {

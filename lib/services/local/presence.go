@@ -1045,9 +1045,8 @@ func (s *PresenceService) GetDatabaseServers(ctx context.Context, namespace stri
 	}
 	servers := make([]services.DatabaseServer, len(result.Items))
 	for i, item := range result.Items {
-		server, err := services.GetDatabaseServerMarshaler().UnmarshalDatabaseServer(
+		server, err := services.UnmarshalDatabaseServer(
 			item.Value,
-			services.KindDatabaseServer,
 			services.AddOptions(opts,
 				services.WithResourceID(item.ID),
 				services.WithExpires(item.Expires))...)
@@ -1064,7 +1063,7 @@ func (s *PresenceService) UpsertDatabaseServer(ctx context.Context, server servi
 	if err := server.CheckAndSetDefaults(); err != nil {
 		return nil, trace.Wrap(err)
 	}
-	value, err := services.GetDatabaseServerMarshaler().MarshalDatabaseServer(server)
+	value, err := services.MarshalDatabaseServer(server)
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}

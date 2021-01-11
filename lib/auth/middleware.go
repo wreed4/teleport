@@ -529,9 +529,9 @@ func (a *Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	a.Handler.ServeHTTP(w, requestWithContext)
 }
 
-// WrapContext enriches the provided context with the identity information
+// WrapContextWithUser enriches the provided context with the identity information
 // extracted from the provided TLS connection.
-func (a *Middleware) WrapContext(ctx context.Context, conn *tls.Conn) (context.Context, error) {
+func (a *Middleware) WrapContextWithUser(ctx context.Context, conn *tls.Conn) (context.Context, error) {
 	user, err := a.GetUser(conn.ConnectionState())
 	if err != nil {
 		return nil, trace.Wrap(err)

@@ -60,7 +60,7 @@ func (p *Proxy) HandleConnection(ctx context.Context, clientConn net.Conn) (err 
 			}
 		}
 	}()
-	ctx, err = p.Middleware.WrapContext(ctx, tlsConn)
+	ctx, err = p.Middleware.WrapContextWithUser(ctx, tlsConn)
 	if err != nil {
 		return trace.Wrap(err)
 	}

@@ -115,7 +115,7 @@ func ForRemoteProxy(cfg Config) Config {
 	return cfg
 }
 
-// DELETE IN: 5.1
+// DELETE IN: 7.0
 //
 // ForOldRemoteProxy sets up watch configuration for older remote proxies.
 func ForOldRemoteProxy(cfg Config) Config {
@@ -132,6 +132,9 @@ func ForOldRemoteProxy(cfg Config) Config {
 		{Kind: services.KindAuthServer},
 		{Kind: services.KindReverseTunnel},
 		{Kind: services.KindTunnelConnection},
+		{Kind: services.KindAppServer},
+		{Kind: services.KindRemoteCluster},
+		{Kind: services.KindKubeService},
 	}
 	cfg.QueueSize = defaults.ProxyQueueSize
 	return cfg

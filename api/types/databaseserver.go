@@ -330,84 +330,8 @@ func GetDatabaseServerSchema() string {
 	return fmt.Sprintf(V2SchemaTemplate, MetadataSchema, fmt.Sprintf(DatabaseServerSpecV2Schema, RotationSchema), DefaultDefinitions)
 }
 
-// UnmarshalDatabaseServerResource unmarshals database server resource.
-func UnmarshalDatabaseServerResource(data []byte, kind string, cfg *MarshalConfig) (DatabaseServer, error) {
-	if len(data) == 0 {
-		return nil, trace.BadParameter("missing database server data")
-	}
-	var h ResourceHeader
-	if err := utils.FastUnmarshal(data, &h); err != nil {
-		return nil, trace.Wrap(err)
-	}
-	switch h.Version {
-	case V2:
-		var s DatabaseServerV2
-		if cfg.SkipValidation {
-			if err := utils.FastUnmarshal(data, &s); err != nil {
-				return nil, trace.BadParameter(err.Error())
-			}
-		} else {
-			if err := utils.UnmarshalWithSchema(GetDatabaseServerSchema(), &s, data); err != nil {
-				return nil, trace.BadParameter(err.Error())
-			}
-		}
-		s.Kind = kind
-		if err := s.CheckAndSetDefaults(); err != nil {
-			return nil, trace.Wrap(err)
-		}
-		if cfg.ID != 0 {
-			s.SetResourceID(cfg.ID)
-		}
-		if !cfg.Expires.IsZero() {
-			s.SetExpiry(cfg.Expires)
-		}
-		return &s, nil
-	}
-	return nil, trace.BadParameter("database server resource version %q is not supported", h.Version)
-}
-
-var databaseServerMarshaler DatabaseServerMarshaler = &DatabaseServerMarshalerImpl{}
-
-// SetDatabaseServerMarshaler sets the database server resource marshaler.
-func SetDatabaseServerMarshaler(m DatabaseServerMarshaler) {
-	marshalerMutex.Lock()
-	defer marshalerMutex.Unlock()
-	databaseServerMarshaler = m
-}
-
-// GetDatabaseServerMarshaler returns the database server resource marshaler.
-func GetDatabaseServerMarshaler() DatabaseServerMarshaler {
-	marshalerMutex.Lock()
-	defer marshalerMutex.Unlock()
-	return databaseServerMarshaler
-}
-
-// DatabaseServerMarshaler implements marshal/unmarshal of database servers.
-type DatabaseServerMarshaler interface {
-	// UnmarshalDatabaseServer from binary representation.
-	UnmarshalDatabaseServer(bytes []byte, kind string, opts ...MarshalOption) (DatabaseServer, error)
-	// MarshalDatabaseServer to binary representation.
-	MarshalDatabaseServer(DatabaseServer, ...MarshalOption) ([]byte, error)
-	// UnmarshalDatabaseServers unmarshals multiple database servers.
-	UnmarshalDatabaseServers(bytes []byte) ([]DatabaseServer, error)
-	// MarshalDatabaseServers marshals multiple database servers.
-	MarshalDatabaseServers([]DatabaseServer) ([]byte, error)
-}
-
-// DatabaseServerMarshalerImpl implements DatabaseServerMarshaler interface.
-type DatabaseServerMarshalerImpl struct{}
-
-// UnmarshalDatabaseServer unmarshals database server.
-func (*DatabaseServerMarshalerImpl) UnmarshalDatabaseServer(bytes []byte, kind string, opts ...MarshalOption) (DatabaseServer, error) {
-	cfg, err := collectOptions(opts)
-	if err != nil {
-		return nil, trace.Wrap(err)
-	}
-	return UnmarshalDatabaseServerResource(bytes, kind, cfg)
-}
-
-// MarshalDatabaseServer marshals database server.
-func (*DatabaseServerMarshalerImpl) MarshalDatabaseServer(s DatabaseServer, opts ...MarshalOption) ([]byte, error) {
+// MarshalDatabaseServer marshals the database server resource.
+func MarshalDatabaseServer(s DatabaseServer, opts ...MarshalOption) ([]byte, error) {
 	if err := s.CheckAndSetDefaults(); err != nil {
 		return nil, trace.Wrap(err)
 	}
@@ -427,24 +351,41 @@ func (*DatabaseServerMarshalerImpl) MarshalDatabaseServer(s DatabaseServer, opts
 	return nil, trace.BadParameter("unrecognized database server version %[1]T %[1]v", s)
 }
 
-// UnmarshalDatabaseServers unmarshals multiple database servers.
-func (*DatabaseServerMarshalerImpl) UnmarshalDatabaseServers(bytes []byte) ([]DatabaseServer, error) {
-	var servers []DatabaseServerV2
-	if err := utils.FastUnmarshal(bytes, &servers); err != nil {
-		return nil, trace.Wrap(err)
+// UnmarshalDatabaseServer unmarshals the database server resource.
+func UnmarshalDatabaseServer(data []byte, opts ...MarshalOption) (DatabaseServer, error) {
+	if len(data) == 0 {
+		return nil, trace.BadParameter("missing database server data")
 	}
-	out := make([]DatabaseServer, len(servers))
-	for i, v := range servers {
-		out[i] = DatabaseServer(&v)
-	}
-	return out, nil
-}
-
-// MarshalDatabaseServers marshals multiple database servers.
-func (*DatabaseServerMarshalerImpl) MarshalDatabaseServers(s []DatabaseServer) ([]byte, error) {
-	bytes, err := utils.FastMarshal(s)
+	cfg, err := collectOptions(opts)
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
-	return bytes, nil
+	var h ResourceHeader
+	if err := utils.FastUnmarshal(data, &h); err != nil {
+		return nil, trace.Wrap(err)
+	}
+	switch h.Version {
+	case V2:
+		var s DatabaseServerV2
+		if cfg.SkipValidation {
+			if err := utils.FastUnmarshal(data, &s); err != nil {
+				return nil, trace.BadParameter(err.Error())
+			}
+		} else {
+			if err := utils.UnmarshalWithSchema(GetDatabaseServerSchema(), &s, data); err != nil {
+				return nil, trace.BadParameter(err.Error())
+			}
+		}
+		if err := s.CheckAndSetDefaults(); err != nil {
+			return nil, trace.Wrap(err)
+		}
+		if cfg.ID != 0 {
+			s.SetResourceID(cfg.ID)
+		}
+		if !cfg.Expires.IsZero() {
+			s.SetExpiry(cfg.Expires)
+		}
+		return &s, nil
+	}
+	return nil, trace.BadParameter("database server resource version %q is not supported", h.Version)
 }

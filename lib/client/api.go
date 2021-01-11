@@ -1597,16 +1597,6 @@ func (tc *TeleportClient) ListDatabaseServers(ctx context.Context) ([]services.D
 	return proxyClient.GetDatabaseServers(ctx, tc.Namespace)
 }
 
-// ListDatabaseServersFor returns all servers that proxy the specified database.
-func (tc *TeleportClient) ListDatabaseServersFor(ctx context.Context, dbName string) ([]services.DatabaseServer, error) {
-	proxyClient, err := tc.ConnectToProxy(ctx)
-	if err != nil {
-		return nil, trace.Wrap(err)
-	}
-	defer proxyClient.Close()
-	return proxyClient.GetDatabaseServersFor(ctx, tc.Namespace, dbName)
-}
-
 // ListAllNodes is the same as ListNodes except that it ignores labels.
 func (tc *TeleportClient) ListAllNodes(ctx context.Context) ([]services.Server, error) {
 	proxyClient, err := tc.ConnectToProxy(ctx)
