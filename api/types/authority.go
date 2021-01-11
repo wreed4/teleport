@@ -32,7 +32,6 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/gravitational/trace"
-	"github.com/jonboulle/clockwork"
 )
 
 // CertAuthority is a host or user certificate authority that
@@ -256,7 +255,7 @@ func (ca *CertAuthorityV2) Expiry() time.Time {
 }
 
 // SetTTL sets Expires header using realtime clock
-func (ca *CertAuthorityV2) SetTTL(clock clockwork.Clock, ttl time.Duration) {
+func (ca *CertAuthorityV2) SetTTL(clock TTLClock, ttl time.Duration) {
 	ca.Metadata.SetTTL(clock, ttl)
 }
 
@@ -665,7 +664,7 @@ func (r *Rotation) String() string {
 }
 
 // CheckAndSetDefaults checks and sets default rotation parameters.
-func (r *Rotation) CheckAndSetDefaults(clock clockwork.Clock) error {
+func (r *Rotation) CheckAndSetDefaults(clock TTLClock) error {
 	switch r.Phase {
 	case "", RotationPhaseRollback, RotationPhaseUpdateClients, RotationPhaseUpdateServers:
 	default:
@@ -714,7 +713,7 @@ func (r *Rotation) Merge(src proto.Message) {
 
 // GenerateSchedule generates schedule based on the time period, using
 // even time periods between rotation phases.
-func GenerateSchedule(clock clockwork.Clock, gracePeriod time.Duration) (*RotationSchedule, error) {
+func GenerateSchedule(clock TTLClock, gracePeriod time.Duration) (*RotationSchedule, error) {
 	if gracePeriod <= 0 {
 		return nil, trace.BadParameter("invalid grace period %q, provide value > 0", gracePeriod)
 	}
@@ -726,7 +725,7 @@ func GenerateSchedule(clock clockwork.Clock, gracePeriod time.Duration) (*Rotati
 }
 
 // CheckAndSetDefaults checks and sets default values of the rotation schedule.
-func (s *RotationSchedule) CheckAndSetDefaults(clock clockwork.Clock) error {
+func (s *RotationSchedule) CheckAndSetDefaults(clock TTLClock) error {
 	if s.UpdateServers.IsZero() {
 		return trace.BadParameter("phase %q has no time switch scheduled", RotationPhaseUpdateServers)
 	}
