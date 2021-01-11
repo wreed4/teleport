@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/gravitational/teleport"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/backend"
 	"github.com/gravitational/teleport/lib/backend/lite"
 	"github.com/gravitational/teleport/lib/backend/memory"
@@ -1583,8 +1584,8 @@ func TestDatabaseServers(t *testing.T) {
 	ctx := context.Background()
 
 	// Upsert database server into backend.
-	server := services.NewDatabaseServerV2("foo", nil,
-		services.DatabaseServerSpecV2{
+	server := types.NewDatabaseServerV2("foo", nil,
+		types.DatabaseServerSpecV2{
 			Protocol: defaults.ProtocolPostgres,
 			URI:      "localhost:5432",
 			Hostname: "localhost",
@@ -1596,8 +1597,8 @@ func TestDatabaseServers(t *testing.T) {
 	// Check that the database server is now in the backend.
 	out, err := p.presenceS.GetDatabaseServers(context.Background(), defaults.Namespace)
 	require.NoError(t, err)
-	require.Empty(t, cmp.Diff([]services.DatabaseServer{server}, out,
-		cmpopts.IgnoreFields(services.Metadata{}, "ID")))
+	require.Empty(t, cmp.Diff([]types.DatabaseServer{server}, out,
+		cmpopts.IgnoreFields(types.Metadata{}, "ID")))
 
 	// Wait until the information has been replicated to the cache.
 	select {
@@ -1610,8 +1611,8 @@ func TestDatabaseServers(t *testing.T) {
 	// Make sure the cache has a single database server in it.
 	out, err = p.cache.GetDatabaseServers(context.Background(), defaults.Namespace)
 	require.NoError(t, err)
-	require.Empty(t, cmp.Diff([]services.DatabaseServer{server}, out,
-		cmpopts.IgnoreFields(services.Metadata{}, "ID")))
+	require.Empty(t, cmp.Diff([]types.DatabaseServer{server}, out,
+		cmpopts.IgnoreFields(types.Metadata{}, "ID")))
 
 	// Update the server and upsert it into the backend again.
 	server.SetExpiry(time.Now().Add(30 * time.Minute).UTC())
@@ -1622,8 +1623,8 @@ func TestDatabaseServers(t *testing.T) {
 	// update occurred).
 	out, err = p.presenceS.GetDatabaseServers(context.Background(), defaults.Namespace)
 	require.NoError(t, err)
-	require.Empty(t, cmp.Diff([]services.DatabaseServer{server}, out,
-		cmpopts.IgnoreFields(services.Metadata{}, "ID")))
+	require.Empty(t, cmp.Diff([]types.DatabaseServer{server}, out,
+		cmpopts.IgnoreFields(types.Metadata{}, "ID")))
 
 	// Check that information has been replicated to the cache.
 	select {
@@ -1636,8 +1637,8 @@ func TestDatabaseServers(t *testing.T) {
 	// Make sure the cache has a single database server in it.
 	out, err = p.cache.GetDatabaseServers(context.Background(), defaults.Namespace)
 	require.NoError(t, err)
-	require.Empty(t, cmp.Diff([]services.DatabaseServer{server}, out,
-		cmpopts.IgnoreFields(services.Metadata{}, "ID")))
+	require.Empty(t, cmp.Diff([]types.DatabaseServer{server}, out,
+		cmpopts.IgnoreFields(types.Metadata{}, "ID")))
 
 	// Remove all database servers from the backend.
 	err = p.presenceS.DeleteAllDatabaseServers(context.Background(), defaults.Namespace)

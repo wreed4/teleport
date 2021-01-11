@@ -22,6 +22,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/backend"
 	"github.com/gravitational/teleport/lib/backend/lite"
 	"github.com/gravitational/teleport/lib/defaults"
@@ -125,8 +126,8 @@ func TestDatabaseServersCRUD(t *testing.T) {
 	presence := NewPresenceService(backend)
 
 	// Create a database server.
-	server := services.NewDatabaseServerV2("foo", nil,
-		services.DatabaseServerSpecV2{
+	server := types.NewDatabaseServerV2("foo", nil,
+		types.DatabaseServerSpecV2{
 			Protocol: defaults.ProtocolPostgres,
 			URI:      "localhost:5432",
 			Hostname: "localhost",
@@ -141,13 +142,13 @@ func TestDatabaseServersCRUD(t *testing.T) {
 	// Upsert server.
 	lease, err := presence.UpsertDatabaseServer(ctx, server)
 	require.NoError(t, err)
-	require.Equal(t, &services.KeepAlive{}, lease)
+	require.Equal(t, &types.KeepAlive{}, lease)
 
 	// Check again, expect a single server to be found.
 	out, err = presence.GetDatabaseServers(ctx, server.GetNamespace())
 	require.NoError(t, err)
 	server.SetResourceID(out[0].GetResourceID())
-	require.EqualValues(t, []services.DatabaseServer{server}, out)
+	require.EqualValues(t, []types.DatabaseServer{server}, out)
 
 	// Make sure can't delete with empty namespace or host ID or name.
 	err = presence.DeleteDatabaseServer(ctx, server.GetNamespace(), server.GetHostID(), "")
@@ -173,8 +174,8 @@ func TestDatabaseServersCRUD(t *testing.T) {
 	server.SetTTL(clock, time.Hour)
 	lease, err = presence.UpsertDatabaseServer(ctx, server)
 	require.NoError(t, err)
-	require.Equal(t, &services.KeepAlive{
-		Type:      services.KeepAlive_DATABASE,
+	require.Equal(t, &types.KeepAlive{
+		Type:      types.KeepAlive_DATABASE,
 		LeaseID:   lease.LeaseID,
 		Name:      server.GetName(),
 		Namespace: server.GetNamespace(),

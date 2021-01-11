@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/gravitational/teleport"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/auth"
 	"github.com/gravitational/teleport/lib/defaults"
 	"github.com/gravitational/teleport/lib/multiplexer"
@@ -71,8 +72,8 @@ func TestDatabaseAccess(t *testing.T) {
 			desc:         "has access to all database names and users",
 			user:         "alice",
 			role:         "admin",
-			allowDbNames: []string{services.Wildcard},
-			allowDbUsers: []string{services.Wildcard},
+			allowDbNames: []string{types.Wildcard},
+			allowDbUsers: []string{types.Wildcard},
 			dbName:       "postgres",
 			dbUser:       "postgres",
 		},
@@ -91,7 +92,7 @@ func TestDatabaseAccess(t *testing.T) {
 			user:         "alice",
 			role:         "admin",
 			allowDbNames: []string{},
-			allowDbUsers: []string{services.Wildcard},
+			allowDbUsers: []string{types.Wildcard},
 			dbName:       "postgres",
 			dbUser:       "postgres",
 			err:          "access to database denied",
@@ -100,7 +101,7 @@ func TestDatabaseAccess(t *testing.T) {
 			desc:         "no access to users",
 			user:         "alice",
 			role:         "admin",
-			allowDbNames: []string{services.Wildcard},
+			allowDbNames: []string{types.Wildcard},
 			allowDbUsers: []string{},
 			dbName:       "postgres",
 			dbUser:       "postgres",
@@ -181,7 +182,7 @@ type testContext struct {
 	mux            *multiplexer.Mux
 	proxyConn      chan (net.Conn)
 	server         *Server
-	dbServer       services.DatabaseServer
+	dbServer       types.DatabaseServer
 }
 
 // Close closes all resources associated with the test context.
@@ -220,7 +221,7 @@ func setupTestContext(ctx context.Context, t *testing.T) *testContext {
 	// Use sync recording to not involve the uploader.
 	clusterConfig, err := authServer.AuthServer.GetClusterConfig()
 	require.NoError(t, err)
-	clusterConfig.SetSessionRecording(services.RecordAtNodeSync)
+	clusterConfig.SetSessionRecording(types.RecordAtNodeSync)
 	err = authServer.AuthServer.SetClusterConfig(clusterConfig)
 	require.NoError(t, err)
 
@@ -281,9 +282,9 @@ func setupTestContext(ctx context.Context, t *testing.T) *testContext {
 		AccessPoint:   dbAuthClient,
 		StreamEmitter: dbAuthClient,
 		Authorizer:    dbAuthorizer,
-		Servers:       []services.DatabaseServer{dbServer},
+		Servers:       []types.DatabaseServer{dbServer},
 		TLSConfig:     tlsConfig,
-		GetRotation:   func(teleport.Role) (*services.Rotation, error) { return &services.Rotation{}, nil },
+		GetRotation:   func(teleport.Role) (*types.Rotation, error) { return &types.Rotation{}, nil },
 	})
 	require.NoError(t, err)
 
@@ -301,19 +302,19 @@ func setupTestContext(ctx context.Context, t *testing.T) *testContext {
 	}
 }
 
-func makeDatabaseServer(name, uri, hostID string) services.DatabaseServer {
-	return services.NewDatabaseServerV2(
+func makeDatabaseServer(name, uri, hostID string) types.DatabaseServer {
+	return types.NewDatabaseServerV2(
 		name,
 		nil,
-		services.DatabaseServerSpecV2{
+		types.DatabaseServerSpecV2{
 			Protocol: defaults.ProtocolPostgres,
 			URI:      uri,
 			Version:  teleport.Version,
 			Hostname: teleport.APIDomain,
 			HostID:   hostID,
-			DynamicLabels: services.LabelsToV2(map[string]services.CommandLabel{
-				"echo": &services.CommandLabelV2{
-					Period:  services.NewDuration(time.Second),
+			DynamicLabels: types.LabelsToV2(map[string]types.CommandLabel{
+				"echo": &types.CommandLabelV2{
+					Period:  types.NewDuration(time.Second),
 					Command: []string{"echo", "test"},
 				},
 			}),
