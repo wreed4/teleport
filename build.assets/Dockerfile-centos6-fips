@@ -7,8 +7,8 @@ ENV LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     LC_CTYPE=en_US.UTF-8
 
-RUN yum makecache fast && \
-    yum -y install gcc pam-devel glibc-devel net-tools tree git zip && \
+RUN yum -y update && \
+    yum -y install gcc git glibc-devel net-tools pam-devel tree zip && \
     yum clean all
 
 ARG UID
