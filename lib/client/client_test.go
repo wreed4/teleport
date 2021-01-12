@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"github.com/gravitational/teleport/lib/sshutils"
+	"golang.org/x/crypto/ssh"
 
 	"gopkg.in/check.v1"
 )
@@ -182,6 +183,46 @@ func (s *ClientTestSuite) TestProxyConnection(c *check.C) {
 	}
 }
 
+// TestListenAndForwardCancel verifies that the "Accept" in listenAndForward
+// unblocks when canceled.
+func (s *ClientTestSuite) TestListenAndForwardCancel(c *check.C) {
+	client := &NodeClient{
+		Client: &ssh.Client{
+			Conn: &fakeSSHConn{},
+		},
+	}
+
+	// Create a new cancelable listener.
+	ctx, cancel := context.WithCancel(context.Background())
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	c.Assert(err, check.IsNil)
+
+	// Start listenAndForward using a context to find out when "Accept" has
+	// unblocked.
+	blockContext, blockCancel := context.WithCancel(context.Background())
+	go func() {
+		client.listenAndForward(ctx, ln, "")
+		blockCancel()
+	}()
+
+	// At this point, "Accept" should still be blocking.
+	select {
+	case <-blockContext.Done():
+		c.Fatalf("Failed because Accept was unblocked.")
+	case <-time.After(250 * time.Millisecond):
+	}
+
+	// Cancel "Accept" to unblock it.
+	cancel()
+
+	// Verify that "Accept" is no longer blocking.
+	select {
+	case <-blockContext.Done():
+	case <-time.After(250 * time.Millisecond):
+		c.Fatalf("Timed out waiting for Accept to unblock.")
+	}
+}
+
 func newTestListener(c *check.C, handle func(net.Conn)) net.Listener {
 	l, err := net.Listen("tcp", "localhost:0")
 	c.Assert(err, check.IsNil)
@@ -198,4 +239,49 @@ func newTestListener(c *check.C, handle func(net.Conn)) net.Listener {
 	}()
 
 	return l
+}
+
+// fakeSSHConn is a NOP connection that implements the ssh.Conn interface.
+// Only used in tests.
+type fakeSSHConn struct {
+}
+
+func (c *fakeSSHConn) User() string {
+	return ""
+}
+
+func (c *fakeSSHConn) SessionID() []byte {
+	return nil
+}
+
+func (c *fakeSSHConn) ClientVersion() []byte {
+	return nil
+}
+
+func (c *fakeSSHConn) ServerVersion() []byte {
+	return nil
+}
+
+func (c *fakeSSHConn) RemoteAddr() net.Addr {
+	return nil
+}
+
+func (c *fakeSSHConn) LocalAddr() net.Addr {
+	return nil
+}
+
+func (c *fakeSSHConn) SendRequest(name string, wantReply bool, payload []byte) (bool, []byte, error) {
+	return false, nil, nil
+}
+
+func (c *fakeSSHConn) OpenChannel(name string, data []byte) (ssh.Channel, <-chan *ssh.Request, error) {
+	return nil, nil, nil
+}
+
+func (c *fakeSSHConn) Close() error {
+	return nil
+}
+
+func (c *fakeSSHConn) Wait() error {
+	return nil
 }
