@@ -213,7 +213,11 @@ func setupTestContext(ctx context.Context, t *testing.T) *testContext {
 	require.NoError(t, err)
 
 	// Create and start test auth server.
-	authServer, err := auth.NewTestAuthServer(auth.TestAuthServerConfig{ClusterName: clusterName, Dir: t.TempDir()})
+	authServer, err := auth.NewTestAuthServer(auth.TestAuthServerConfig{
+		Clock:       clockwork.NewFakeClockAt(time.Now()),
+		ClusterName: clusterName,
+		Dir:         t.TempDir(),
+	})
 	require.NoError(t, err)
 	tlsServer, err := authServer.NewTestTLSServer()
 	require.NoError(t, err)
