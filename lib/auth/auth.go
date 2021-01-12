@@ -36,6 +36,7 @@ import (
 
 	"github.com/gravitational/teleport"
 	"github.com/gravitational/teleport/api/client"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/backend"
 	"github.com/gravitational/teleport/lib/defaults"
 	"github.com/gravitational/teleport/lib/events"
@@ -157,13 +158,13 @@ type Services struct {
 
 // GetWebSession returns existing web session described by req.
 // Implements ReadAccessPoint
-func (r Services) GetWebSession(ctx context.Context, req services.GetWebSessionRequest) (services.WebSession, error) {
+func (r Services) GetWebSession(ctx context.Context, req types.GetWebSessionRequest) (types.WebSession, error) {
 	return r.Identity.WebSessions().Get(ctx, req)
 }
 
 // GetWebToken returns existing web token described by req.
 // Implements ReadAccessPoint
-func (r Services) GetWebToken(ctx context.Context, req services.GetWebTokenRequest) (services.WebToken, error) {
+func (r Services) GetWebToken(ctx context.Context, req types.GetWebTokenRequest) (types.WebToken, error) {
 	return r.Identity.WebTokens().Get(ctx, req)
 }
 
@@ -737,7 +738,7 @@ func (a *Server) PreAuthenticatedSignIn(user string, identity tlsca.Identity) (s
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
-	sess, err := a.NewWebSession(services.NewWebSessionRequest{
+	sess, err := a.NewWebSession(types.NewWebSessionRequest{
 		User:   user,
 		Roles:  roles,
 		Traits: traits,
@@ -830,7 +831,7 @@ func (a *Server) CheckU2FSignResponse(user string, response *u2f.SignResponse) e
 // Additional roles are appended to initial roles if there is an approved access request.
 // The new session expiration time will not exceed the expiration time of the old session.
 func (a *Server) ExtendWebSession(user, prevSessionID, accessRequestID string, identity tlsca.Identity) (services.WebSession, error) {
-	prevSession, err := a.GetWebSession(context.TODO(), services.GetWebSessionRequest{
+	prevSession, err := a.GetWebSession(context.TODO(), types.GetWebSessionRequest{
 		User:      user,
 		SessionID: prevSessionID,
 	})
@@ -867,7 +868,7 @@ func (a *Server) ExtendWebSession(user, prevSessionID, accessRequestID string, i
 	}
 
 	sessionTTL := utils.ToTTL(a.clock, expiresAt)
-	sess, err := a.NewWebSession(services.NewWebSessionRequest{
+	sess, err := a.NewWebSession(types.NewWebSessionRequest{
 		User:       user,
 		Roles:      roles,
 		Traits:     traits,
@@ -931,7 +932,7 @@ func (a *Server) CreateWebSession(user string) (services.WebSession, error) {
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
-	sess, err := a.NewWebSession(services.NewWebSessionRequest{
+	sess, err := a.NewWebSession(types.NewWebSessionRequest{
 		User:   user,
 		Roles:  u.GetRoles(),
 		Traits: u.GetTraits(),
@@ -1449,7 +1450,7 @@ func (a *Server) GetTokens(opts ...services.MarshalOption) (tokens []services.Pr
 }
 
 // NewWebSession creates and returns a new web session for the specified request
-func (a *Server) NewWebSession(req services.NewWebSessionRequest) (services.WebSession, error) {
+func (a *Server) NewWebSession(req types.NewWebSessionRequest) (services.WebSession, error) {
 	user, err := a.GetUser(req.User, false)
 	if err != nil {
 		return nil, trace.Wrap(err)
@@ -1875,7 +1876,7 @@ func (a *Server) upsertWebSession(ctx context.Context, user string, session serv
 	if err := a.WebSessions().Upsert(ctx, session); err != nil {
 		return trace.Wrap(err)
 	}
-	token := services.NewWebToken(services.WebTokenSpecV1{
+	token := types.NewWebToken(types.WebTokenSpecV1{
 		User:    session.GetUser(),
 		Token:   session.GetBearerToken(),
 		Expires: session.GetBearerTokenExpiryTime(),

@@ -26,6 +26,7 @@ import (
 	"github.com/gravitational/teleport"
 	"github.com/gravitational/teleport/api/client"
 	"github.com/gravitational/teleport/api/client/proto"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/events"
 	"github.com/gravitational/teleport/lib/httplib"
 	"github.com/gravitational/teleport/lib/jwt"
@@ -860,7 +861,7 @@ func (g GRPCServer) GenerateAppToken(ctx context.Context, req *proto.GenerateApp
 }
 
 // GetWebSession gets a web session.
-func (g *GRPCServer) GetWebSession(ctx context.Context, req *services.GetWebSessionRequest) (*proto.GetWebSessionResponse, error) {
+func (g *GRPCServer) GetWebSession(ctx context.Context, req *types.GetWebSessionRequest) (*proto.GetWebSessionResponse, error) {
 	auth, err := g.authenticate(ctx)
 	if err != nil {
 		return nil, trail.ToGRPC(err)
@@ -907,7 +908,7 @@ func (g *GRPCServer) GetWebSessions(ctx context.Context, _ *empty.Empty) (*proto
 }
 
 // DeleteWebSession removes the web session given with req.
-func (g *GRPCServer) DeleteWebSession(ctx context.Context, req *services.DeleteWebSessionRequest) (*empty.Empty, error) {
+func (g *GRPCServer) DeleteWebSession(ctx context.Context, req *types.DeleteWebSessionRequest) (*empty.Empty, error) {
 	auth, err := g.authenticate(ctx)
 	if err != nil {
 		return nil, trail.ToGRPC(err)
@@ -935,7 +936,7 @@ func (g *GRPCServer) DeleteAllWebSessions(ctx context.Context, _ *empty.Empty) (
 }
 
 // GetWebToken gets a web token.
-func (g *GRPCServer) GetWebToken(ctx context.Context, req *services.GetWebTokenRequest) (*proto.GetWebTokenResponse, error) {
+func (g *GRPCServer) GetWebToken(ctx context.Context, req *types.GetWebTokenRequest) (*proto.GetWebTokenResponse, error) {
 	auth, err := g.authenticate(ctx)
 	if err != nil {
 		return nil, trail.ToGRPC(err)
@@ -945,7 +946,7 @@ func (g *GRPCServer) GetWebToken(ctx context.Context, req *services.GetWebTokenR
 	if err != nil {
 		return nil, trail.ToGRPC(err)
 	}
-	token, ok := resp.(*services.WebTokenV1)
+	token, ok := resp.(*types.WebTokenV1)
 	if !ok {
 		return nil, trail.ToGRPC(trace.BadParameter("unexpected web token type %T", resp))
 	}
@@ -967,9 +968,9 @@ func (g *GRPCServer) GetWebTokens(ctx context.Context, _ *empty.Empty) (*proto.G
 		return nil, trail.ToGRPC(err)
 	}
 
-	var out []*services.WebTokenV1
+	var out []*types.WebTokenV1
 	for _, t := range tokens {
-		token, ok := t.(*services.WebTokenV1)
+		token, ok := t.(*types.WebTokenV1)
 		if !ok {
 			return nil, trail.ToGRPC(trace.BadParameter("unexpected type %T", t))
 		}
@@ -982,7 +983,7 @@ func (g *GRPCServer) GetWebTokens(ctx context.Context, _ *empty.Empty) (*proto.G
 }
 
 // DeleteWebToken removes the web token given with req.
-func (g *GRPCServer) DeleteWebToken(ctx context.Context, req *services.DeleteWebTokenRequest) (*empty.Empty, error) {
+func (g *GRPCServer) DeleteWebToken(ctx context.Context, req *types.DeleteWebTokenRequest) (*empty.Empty, error) {
 	auth, err := g.authenticate(ctx)
 	if err != nil {
 		return nil, trail.ToGRPC(err)
