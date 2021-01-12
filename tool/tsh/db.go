@@ -46,14 +46,19 @@ func onListDatabases(cf *CLIConf) {
 	if err != nil {
 		utils.FatalError(err)
 	}
-	sort.Slice(servers, func(i, j int) bool {
-		return servers[i].GetName() < servers[j].GetName()
-	})
+	// Refresh the creds in case user was logged into any databases.
+	err = fetchDatabaseCreds(cf, tc)
+	if err != nil {
+		utils.FatalError(err)
+	}
 	// Retrieve profile to be able to show which databases user is logged into.
 	profile, err := client.StatusCurrent("", cf.Proxy)
 	if err != nil {
 		utils.FatalError(err)
 	}
+	sort.Slice(servers, func(i, j int) bool {
+		return servers[i].GetName() < servers[j].GetName()
+	})
 	showDatabases(servers, profile.Databases, cf.Verbose)
 }
 
