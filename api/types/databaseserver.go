@@ -349,16 +349,14 @@ func MarshalDatabaseServer(s DatabaseServer, opts ...MarshalOption) ([]byte, err
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
-	switch server := s.(type) {
-	case *DatabaseServerV2:
-		if !cfg.PreserveResourceID {
-			copy := *server
-			copy.SetResourceID(0)
-			server = &copy
-		}
-		return utils.FastMarshal(server)
+	server := s
+	if !cfg.PreserveResourceID {
+		// Avoid modifying the original object to prevent unexpected
+		// data races.
+		server = s.Copy()
+		server.SetResourceID(0)
 	}
-	return nil, trace.BadParameter("unrecognized database server version %[1]T %[1]v", s)
+	return utils.FastMarshal(server)
 }
 
 // UnmarshalDatabaseServer unmarshals the database server resource.
