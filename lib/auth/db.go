@@ -97,13 +97,19 @@ func (s *Server) SignDatabaseCSR(ctx context.Context, req *proto.DatabaseCSRRequ
 		return nil, trace.Wrap(err)
 	}
 
-	// Extract the identity from the CSR, update "accepted usage" field to
-	// indicate that the certificate can only be used for database proxy
-	// server and re-encode the identity.
+	// Extract the identity from the CSR.
 	id, err := tlsca.FromSubject(csr.Subject, time.Time{})
 	if err != nil {
 		return nil, trace.Wrap(err)
 	}
+
+	// Make sure that the CSR originated from the local cluster user.
+	if clusterName.GetClusterName() != id.TeleportCluster {
+		return nil, trace.AccessDenied("can't sign database CSR for identity %v", id)
+	}
+
+	// Update "accepted usage" field to indicate that the certificate can
+	// only be used for database proxy server and re-encode the identity.
 	id.Usage = []string{teleport.UsageDatabaseOnly}
 	subject, err := id.Subject()
 	if err != nil {

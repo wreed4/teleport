@@ -350,8 +350,8 @@ func (e *Engine) getConnectConfig(ctx context.Context, sessionCtx *session.Conte
 	config.RuntimeParams = sessionCtx.StartupParameters
 	// RDS/Aurora use IAM authentication so request an auth token and
 	// use it as a password.
-	if sessionCtx.Server.IsAWS() {
-		config.Password, err = e.getAWSAuthToken(sessionCtx)
+	if sessionCtx.Server.IsRDS() {
+		config.Password, err = e.getRDSAuthToken(sessionCtx)
 		if err != nil {
 			return nil, trace.Wrap(err)
 		}
@@ -365,9 +365,9 @@ func (e *Engine) getConnectConfig(ctx context.Context, sessionCtx *session.Conte
 	return config, nil
 }
 
-// getAWSAuthToken returns authorization token that will be used as a password
+// getRDSAuthToken returns authorization token that will be used as a password
 // when connecting to RDS/Aurora databases.
-func (e *Engine) getAWSAuthToken(sessionCtx *session.Context) (string, error) {
+func (e *Engine) getRDSAuthToken(sessionCtx *session.Context) (string, error) {
 	e.Log.Debugf("Generating auth token for %s.", sessionCtx)
 	return rdsutils.BuildAuthToken(
 		sessionCtx.Server.GetURI(),
@@ -396,7 +396,7 @@ func (e *Engine) getTLSConfig(ctx context.Context, sessionCtx *session.Context) 
 		if !tlsConfig.RootCAs.AppendCertsFromPEM(sessionCtx.Server.GetCA()) {
 			return nil, trace.BadParameter("failed to append CA certificate to the pool")
 		}
-	} else if sessionCtx.Server.IsAWS() {
+	} else if sessionCtx.Server.IsRDS() {
 		if rdsCA, ok := e.RDSCACerts[sessionCtx.Server.GetRegion()]; ok {
 			if !tlsConfig.RootCAs.AppendCertsFromPEM(rdsCA) {
 				return nil, trace.BadParameter("failed to append CA certificate to the pool")
@@ -407,7 +407,7 @@ func (e *Engine) getTLSConfig(ctx context.Context, sessionCtx *session.Context) 
 	}
 	// RDS/Aurora auth is done via an auth token so don't generate a client
 	// certificate and exit here.
-	if sessionCtx.Server.IsAWS() {
+	if sessionCtx.Server.IsRDS() {
 		return tlsConfig, nil
 	}
 	// Otherwise, when connecting to an onprem database, generate a client

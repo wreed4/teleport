@@ -184,15 +184,6 @@ func (process *TeleportProcess) initDatabaseService() (retErr error) {
 		}
 	}()
 
-	process.BroadcastEvent(Event{Name: DatabasesReady, Payload: nil})
-	log.Infof("Database service has successfully started: %v.", databaseServers)
-
-	// Block and wait while the server and agent pool are running.
-	if err := dbService.Wait(); err != nil {
-		return trace.Wrap(err)
-	}
-	agentPool.Wait()
-
 	// Execute this when the process running database proxy service exits.
 	process.onExit("db.stop", func(payload interface{}) {
 		log.Info("Shutting down.")
@@ -207,6 +198,15 @@ func (process *TeleportProcess) initDatabaseService() (retErr error) {
 		}
 		log.Info("Exited.")
 	})
+
+	process.BroadcastEvent(Event{Name: DatabasesReady, Payload: nil})
+	log.Infof("Database service has successfully started: %v.", databaseServers)
+
+	// Block and wait while the server and agent pool are running.
+	if err := dbService.Wait(); err != nil {
+		return trace.Wrap(err)
+	}
+	agentPool.Wait()
 
 	return nil
 }

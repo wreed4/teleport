@@ -67,8 +67,10 @@ type DatabaseServer interface {
 	GetCA() []byte
 	// GetRegion returns the AWS region for RDS/Aurora databases.
 	GetRegion() string
-	// IsAWS returns true if this an RDS/Aurora database.
-	IsAWS() bool
+	// GetType returns the database type, self-hosted or AWS RDS.
+	GetType() string
+	// IsRDS returns true if this an RDS/Aurora database.
+	IsRDS() bool
 	// CheckAndSetDefaults checks and set default values for any missing fields.
 	CheckAndSetDefaults() error
 	// Copy returns a copy of this database server object.
@@ -237,9 +239,17 @@ func (s *DatabaseServerV2) GetRegion() string {
 	return s.Spec.AWS.Region
 }
 
-// IsAWS returns true if this database represents AWS RDS/Aurora instance.
-func (s *DatabaseServerV2) IsAWS() bool {
-	return s.Spec.AWS.Region != ""
+// IsRDS returns true if this database represents AWS RDS/Aurora instance.
+func (s *DatabaseServerV2) IsRDS() bool {
+	return s.GetType() == DatabaseTypeRDS
+}
+
+// GetType returns the database type, self-hosted or AWS RDS.
+func (s *DatabaseServerV2) GetType() string {
+	if s.Spec.AWS.Region != "" {
+		return DatabaseTypeRDS
+	}
+	return DatabaseTypeSelfHosted
 }
 
 // String returns the server string representation.
@@ -389,3 +399,10 @@ func UnmarshalDatabaseServer(data []byte, opts ...MarshalOption) (DatabaseServer
 	}
 	return nil, trace.BadParameter("database server resource version %q is not supported", h.Version)
 }
+
+const (
+	// DatabaseTypeSelfHosted is the self-hosted type of database.
+	DatabaseTypeSelfHosted = "self-hosted"
+	// DatabaseTypeRDS is AWS-hosted RDS or Aurora database.
+	DatabaseTypeRDS = "rds"
+)

@@ -23,6 +23,7 @@ import (
 	"path/filepath"
 
 	"github.com/gravitational/teleport"
+	"github.com/gravitational/teleport/api/types"
 	"github.com/gravitational/teleport/lib/services"
 	"github.com/gravitational/teleport/lib/tlsca"
 	"github.com/gravitational/teleport/lib/utils"
@@ -33,7 +34,7 @@ import (
 func (s *Server) initRDSRootCert(ctx context.Context, server services.DatabaseServer) error {
 	// If this is not an AWS database, or CA was set explicitly, or it was
 	// already loaded, then nothing to do.
-	if !server.IsAWS() || len(server.GetCA()) != 0 || len(s.rdsCACerts[server.GetRegion()]) != 0 {
+	if server.GetType() != types.DatabaseTypeRDS || len(server.GetCA()) != 0 || len(s.rdsCACerts[server.GetRegion()]) != 0 {
 		return nil
 	}
 	// This is a RDS/Aurora instance and CA certificate wasn't explicitly
