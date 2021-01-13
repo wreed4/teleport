@@ -155,10 +155,38 @@ New values for `auth_service.authentication.second_factor` for this:
   for all local users
 - `optional` (new) - users can enroll both OTP and U2F devices, and 2FA is
   required only for users with 2FA enrolled
-- `session_only` (new) - users can enroll both OTP and U2F devices, and 2FA is
-  required only for [sessions](0014-session-2fa.md) but **not** for logins
-  - this mode is for users with SSO integration that want 2FA per session, but
-    not when logging in because their SSO already performs a 2FA check
+
+#### restricted device vendors
+
+Another new option is restrictions on U2F device manufacturers. This is done
+using attestation certificates presented by the device during enrollment. See
+[FIDO
+docs](https://fidoalliance.org/specs/fido-u2f-v1.2-ps-20170411/fido-u2f-overview-v1.2-ps-20170411.html#verifying-that-a-u2f-device-is-genuine)
+about attestation.
+
+On the Teleport side, users can pass the trusted attestation CAs as so:
+
+```yaml
+# teleport.yaml
+auth_service:
+  authentication:
+    second_factor: "on" # or "u2f" or "optional"
+    u2f_device_attestation_cas:
+      - "/var/lib/teleport/u2f_ca1.pem"
+      - "/var/lib/teleport/u2f_ca2.pem"
+```
+
+For example, to restrict users to [only use
+Yubikeys](https://developers.yubico.com/U2F/Attestation_and_Metadata/), you can
+download their [attestation
+CA](https://developers.yubico.com/U2F/yubico-u2f-ca-certs.txt), write it into a
+file and set `u2f_device_attestation_cas: ["/path/to/yubikey_ca.pem"]` and
+restart the auth server.  After this, users will only be able to enroll Yubikey
+devices.
+
+Note that existing enrolled keys will remain, even if they aren't Yubikeys.
+This is to avoid storing an attestation cert of every key in our backend, which
+we would need in order to re-check existing keys when a new CA gets added.
 
 ### backend storage
 
